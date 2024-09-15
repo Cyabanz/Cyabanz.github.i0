@@ -1,0 +1,103 @@
+[
+  {
+    "img": "/img/games/subway-surfers.jpg",
+    "name": "Subway Surfers",
+    "description": "cool",
+    "id": "1",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/subway-surfers/index.html",
+    "raw_embed": true
+  },
+  {
+    "img": "https://play-lh.googleusercontent.com/V3M-ZVyu4NCOR8oxeHEQSrt5LJhu44xlDtIx-d3YnrPCMEvV-lxPJDyWoJkxsS1Soxsx",
+    "name": "Tomb of the Mask",
+    "description": "cool",
+    "id": "2",
+    "embed": "https://cdn.nate-games.xyz/tombmask/"
+  },
+  {
+    "img": "/img/games/tiny-fishing.png",
+    "name": "Tiny Fishing",
+    "description": "Lorem ipsum dolor sit amet",
+    "id": "3",
+    "embed": "https://cdn.nate-games.xyz/tiny-fishing/"
+  },
+  {
+    "img": "/img/games/10-minutes-till-dawn.png",
+    "name": "10 Minutes till Dawn",
+    "description": "10 Minutes Till Dawn is an action bullet-hell roguelite game to attack the enemies and survive for 10 minutes!",
+    "id": "4",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/10-minutes-till-dawn/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/1v1lol.png",
+    "name": "1v1.LOL",
+    "description": "cool",
+    "id": "5",
+    "embed": "/games/1v1lol/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/1.png",
+    "name": "1",
+    "description": "cool",
+    "id": "6",
+    "embed": "/games/1/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/among-us.jpeg",
+    "name": "Among Us",
+    "description": "cool",
+    "id": "7",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/among-us/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/basket-random.png",
+    "name": "Basket Random",
+    "description": "cool",
+    "id": "8",
+    "embed": "https://cdn.nate-games.xyz/basketrandom/"
+  },
+  {
+    "img": "/img/games/bitlife.png",
+    "name": "BitLife",
+    "description": "cool",
+    "id": "9",
+    "embed": "https://raw.githack.com/nate-games/nate-games.xyz/main/0/g/bitlife/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/cookie-clicker.png",
+    "name": "Cookie Clicker",
+    "description": "cool",
+    "id": "10",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/cookie-clicker/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/cluster-rush.png",
+    "name": "Cluster Rush",
+    "description": "cool",
+    "id": "11",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/cluster-rush/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/driftboss.jpeg",
+    "name": "Drift Boss",
+    "description": "cool",
+    "id": "12",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/drift-boss/",
+    "raw_embed": true
+  },
+  {
+    "img": "/img/games/monkeymart.webp",
+    "name": "Monkey Mart",
+    "description": "cool",
+    "id": "13",
+    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/MonkeyMart/",
+    "raw_embed": true
+  }
+]
