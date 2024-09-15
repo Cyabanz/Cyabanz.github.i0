@@ -1,4 +1,4 @@
-fetch("/js/json/config.json") // Assuming that your config.json file is in the "js/json" directory
+fetch("/js/config.json") // Assuming that your config.json file is in the "js/json" directory
   .then(function (response) {
     return response.json(); // Parse the JSON data
   })
