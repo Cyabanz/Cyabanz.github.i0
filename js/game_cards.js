@@ -3,7 +3,7 @@ fetch("/js/config.json")
     return response.json();
   })
   .then(function (config) {
-    fetch("/js/json/games.json").then(function (response) {
+    fetch("/js/games.json").then(function (response) {
       response.json().then(function (fusion) {
         fusion.forEach(function (game) {
           const cards = document.getElementById("card-container");
