@@ -1,4 +1,0 @@
-{
-  "fusion_embed": "",
-  "data": ""
-}
