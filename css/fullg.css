@@ -1,0 +1,102 @@
+.embed-container {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0.5vw;
+    overflow: hidden;
+    box-shadow: 0 0.208vw 0.417vw rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
+.embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    border-top-left-radius: 0.781vw;
+    border-top-right-radius: 0.781vw;
+}
+
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #1a1a1a, #333333); 
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    z-index: 10;
+    box-sizing: border-box; 
+    overflow: hidden; 
+}
+
+#overlay img {
+    width: 30.442vw;
+    height: 30.442vw; 
+    position: absolute;
+    left: 1vw; 
+    top: 50%; 
+    transform: translateY(-50%);
+    margin-left: 12vw;
+    border-radius: 1.163vw;
+    transition: transform 0.3s ease; 
+}
+
+#overlay img:hover {
+    transform: translateY(-50%) scale(1.05); 
+}
+
+#overlay .overlay-content {
+    margin-left: 18.605vw;
+    color: #fff;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#overlay .game-title {
+    font-size: 5vw; 
+    font-weight: bold;
+    margin-left: 6vw;
+}
+
+#overlay .developer-info {
+    font-size: 2.7vw; 
+    margin: 1vw 0;
+    margin-left: 6vw;
+}
+
+#play-btn {
+    position: relative;
+    color: #ffffff;
+    border: 0.2vw solid #f0d210; 
+    border-radius: 2vw;
+    font-size: 2vw;
+    padding: 1.2vw 2.8vw;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 900;
+    margin-top: 2vw;
+    background-color: rgb(30, 30, 30);
+    background: linear-gradient(45deg, rgb(30, 30, 30) 50%, #ff6f61 50%);
+    background-size: 250% 250%;
+    background-position: top left;
+    transition: background-position 0.5s ease, transform 0.5s;
+    border: 0.3vw solid #f0d210; 
+    box-shadow: 0 0 0.5vw rgba(0, 0, 0, 0.5);
+    height: 7vw;
+    width: 20vw;
+    margin-left: 6vw;
+}
+
+#play-btn:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    background-position: bottom right; 
+}
