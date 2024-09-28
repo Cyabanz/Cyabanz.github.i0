@@ -1,10 +1,10 @@
 [
   {
     "img": "/img/games/subway-surfers.jpg",
-    "name": "Subway Surfers",
+    "name": "1v1lol",
     "description": "cool",
     "id": "1",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/subway-surfers/index.html",
+    "embed": "/loading/1v1lol",
     "raw_embed": true
   },
   {
