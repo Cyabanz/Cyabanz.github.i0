@@ -13,14 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-const code = `
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="settings.html">Settings</a>
-        <a href="games.html">Games</a>
-        <a href="apps.html">Apps</a>
-        <a href="about.html">About</a>
-    </nav>
+
     <div id="cursor"></div>`;
 
 document.body.innerHTML += code;
