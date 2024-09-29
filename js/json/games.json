@@ -5,6 +5,7 @@
     "description": "cool",
     "id": "1",
     "embed": "/1v1lol.html",
+    "raw_embed": true
   },
   {
     "img": "https://play-lh.googleusercontent.com/V3M-ZVyu4NCOR8oxeHEQSrt5LJhu44xlDtIx-d3YnrPCMEvV-lxPJDyWoJkxsS1Soxsx",
@@ -100,3 +101,4 @@
     "raw_embed": true
   }
 ]
+
