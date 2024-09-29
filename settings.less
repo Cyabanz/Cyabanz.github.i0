@@ -4,22 +4,62 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
-  --text-color: #7d7d7d; /* Gray for general text */
+  --text-color: #cad3f5;
   --font-family: "JetBrains Mono", monospace;
   --fonts-classic: "Roboto", "Lato", Arial, Helvetica, sans-serif;
-  --brand-color: #ffcc00; /* Keep a color for buttons */
-  --nav-background-color: #2f3640; /* Color for the navbar */
-  --button-background-color: #2f3640; /* Color for buttons */
-  --button-hover-background: #cad3f5; /* Color for button hover */
+  --brand-color: #;
 }
 
-body,
-html {
-  background: transparent; /* No background color for body and html */
-  color: var(--text-color);
-  margin: 0;
+
+sub {
+  color: var(--surface-0);
 }
 
+.search-btn {
+  float: right;
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  background: #2f3640;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 0px 1px #1e2030;
+  transition: 0.1s;
+  cursor: pointer;
+  & i {
+    color: var(--brand-color);
+  }
+  &:active {
+    box-shadow: 0px 0px 0px 0px #1e2030;
+    transform: translateY(4px);
+  }
+}
+.search-box {
+  position: relative;
+  max-width: 288px;
+  background: #2f3640;
+  height: 50px;
+  border-radius: 50px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  & input {
+    border: none;
+    background: none;
+    font-family: var(--fonts-classic);
+    font-weight: lighter;
+    outline: none;
+    float: left;
+    flex: 1;
+    padding: 0;
+    color: white;
+    font-size: 14px;
+    padding: 24px 20px;
+    transition: 0.4s;
+    width: 300px;
+  }
+}
 * {
   color: var(--text-color);
   font-family: var(--font-family);
@@ -34,17 +74,34 @@ html {
   }
 }
 
+body,
+html {
+  background: var(--bg);
+  color: var(--text-color);
+  margin: 0;
+}
+
+.brand-color {
+  color: var(--brand-color);
+}
 nav {
-  background: var(--nav-background-color); /* Color for the navbar */
+  background: var(--mantle-bg);
   display: flex;
   flex-direction: column;
   width: max-content;
   gap: 10px;
   padding: 10px;
   border-radius: 0 10px 10px 0;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+
+  .divider {
+    border-top: 1px solid var(--surface-0);
+  }
 
   button {
-    background: var(--button-background-color); /* Color for buttons */
+    background: transparent;
     aspect-ratio: 1 / 1;
     padding: 10px;
     font-size: 10px;
@@ -53,11 +110,11 @@ nav {
 
     &:hover {
       transform: rotate(360deg);
-      background: var(--button-hover-background); /* Button hover color */
+      background: var(--surface-0);
     }
 
     &[active="true"] {
-      background: var(--button-hover-background); /* Active button color */
+      background: var(--surface-1);
     }
   }
 }
@@ -66,8 +123,36 @@ button {
   border: none;
 }
 
+main {
+  margin-left: calc(64px + 20px);
+  margin-right: 20px;
+}
+
+.card-wrapper {
+  display: inline-block;
+  position: relative;
+  transition: .2s;
+  &:hover {
+    transform: scale(0.9);
+  }
+}
+#pin_game {
+  background-color: #111;
+  border-radius: 50%;
+  border-color: transparent;
+  color: white;
+  padding: 5px;
+  z-index: 1;
+  position: absolute;
+  cursor: grab;
+  top: 45%;
+  right: 15px;
+  transform: translateY(-100%);
+  transition: 0.2s;
+}
 .card {
-  background: transparent; /* No background for card */
+  position: relative;
+  background: var(--mantle-bg);
   display: flex;
   padding: 20px;
   gap: 20px;
@@ -80,52 +165,79 @@ button {
   transition: 0.2s;
   text-decoration: none;
 
+  & > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   img {
     width: 100px;
     height: 100px;
     border-radius: 20px;
   }
-
   &:hover {
-    box-shadow: 0px 0px 0px 12px var(--text-color);
+    box-shadow: 0px 0px 0px 12px var(--surface-1);
   }
-
   .card-description {
     white-space: initial;
     text-align: left;
     font-size: 12px;
     font-family: var(--fonts-classic);
   }
-}
-
-input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--text-color);
-  background-color: transparent; /* No background for input */
-  display: flex;
-  color: var(--text-color);
-  font-family: var(--font-family);
-  font-size: 14px;
-
-  &:focus {
-    outline: none;
-    border-color: var(--button-hover-background);
+  #h3-search {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
-button[type="submit"] {
-  background-color: var(--button-background-color); /* Color for submit button */
-  color: var(--text-color);
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-family: var(--font-family);
-  font-size: 14px;
-  cursor: pointer;
+.flex-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-  &:hover {
-    background-color: var(--button-hover-background); /* Button hover color */
+/* Login and Sign-up form styles */
+.card {
+  margin-top: 40px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--surface-0);
+    background-color: var(--mantle-bg);
+    display: flex;
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--surface-1);
+    }
+  }
+
+  button[type="submit"] {
+    background-color: var(--surface-0);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-family: var(--font-family);
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--surface-1);
+    }
   }
 }
 
