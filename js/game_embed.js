@@ -3,7 +3,7 @@ if (window.location.href.startsWith(window.origin + "/#/play?")) {
   document.title = "Classes";
   const iframe = document.createElement("iframe");
   const fusion = document.getElementById("fusion");
-  docbody.style.backgroundColor = "#000";
+  docbody.style.backgroundColor = "#";
   docbody.style.height = "100%";
   docbody.style.width = "100%";
   docbody.style.position = "absolute";
