@@ -16,21 +16,21 @@ body {
 }
 
 :root { /* default */
-    --background-color: #;
+    --background-color: #B185DB;
     --cursor-color: #271066;
     --color-1: #ffffff;
     --color-2: #ffffff;
-    --selection: #;
-    --nav-background-color: #;
-    --nav-color: #;
-    --settings-background-color: #;
+    --selection: #6147aad2;
+    --nav-background-color: #b185dbec;
+    --nav-color: #fff;
+    --settings-background-color: #B185DB;
     --settings-color: #fff;
     --settings-item-background-color: #fff;
-    --settings-item-color: #;
+    --settings-item-color: #181818;
     --settings-item-shadow: 0 5px 10px rgba(255, 255, 255, 0.445);
-    --gradient-1: #;
-    --gradient-2: #;
-    --games: #;
+    --gradient-1: #684eaddc;
+    --gradient-2: #A06CD5dc;
+    --games: #a06cd5;
 }
 
 :root.dark { /* dark */
