@@ -4,6 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
+  --bg: #; /* Changed background to black */
   --text-color: #;
   --surface-0: #;
   --surface-1: #;
@@ -76,13 +77,11 @@ sub {
   }
 }
 
-body,
-html {
-  color: var(--text-color);
-  margin: 0;
+.brand-color {
+  color: var(--brand-color);
 }
-
 nav {
+  background: var(--mantle-bg);
   display: flex;
   flex-direction: column;
   width: max-content;
@@ -221,19 +220,3 @@ main {
       border-color: var(--surface-1);
     }
   }
-
-  button[type="submit"] {
-    background-color: var(--surface-0);
-    color: var(--text-color);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-family: var(--font-family);
-    font-size: 14px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--surface-1);
-    }
-  }
-}
