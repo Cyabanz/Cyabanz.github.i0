@@ -20,17 +20,17 @@ body {
     --cursor-color: #271066;
     --color-1: #ffffff;
     --color-2: #ffffff;
-    --selection: #6147aad2;
+    --selection: #;
     --nav-background-color: #;
     --nav-color: #;
     --settings-background-color: #;
     --settings-color: #fff;
     --settings-item-background-color: #fff;
-    --settings-item-color: #181818;
+    --settings-item-color: #;
     --settings-item-shadow: 0 5px 10px rgba(255, 255, 255, 0.445);
-    --gradient-1: #684eaddc;
-    --gradient-2: #A06CD5dc;
-    --games: #a06cd5;
+    --gradient-1: #;
+    --gradient-2: #;
+    --games: #;
 }
 
 :root.dark { /* dark */
