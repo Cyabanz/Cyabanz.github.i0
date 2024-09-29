@@ -1,15 +1,69 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
+  --text-color: #cad3f5;
   --font-family: "JetBrains Mono", monospace;
   --fonts-classic: "Roboto", "Lato", Arial, Helvetica, sans-serif;
+  --brand-color: #;
 }
 
+
+sub {
+  color: var(--surface-0);
+}
+
+.search-btn {
+  float: right;
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  background: #2f3640;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 0px 1px #1e2030;
+  transition: 0.1s;
+  cursor: pointer;
+  & i {
+    color: var(--brand-color);
+  }
+  &:active {
+    box-shadow: 0px 0px 0px 0px #1e2030;
+    transform: translateY(4px);
+  }
+}
+.search-box {
+  position: relative;
+  max-width: 288px;
+  background: #2f3640;
+  height: 50px;
+  border-radius: 50px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  & input {
+    border: none;
+    background: none;
+    font-family: var(--fonts-classic);
+    font-weight: lighter;
+    outline: none;
+    float: left;
+    flex: 1;
+    padding: 0;
+    color: white;
+    font-size: 14px;
+    padding: 24px 20px;
+    transition: 0.4s;
+    width: 300px;
+  }
+}
 * {
+  color: var(--text-color);
   font-family: var(--font-family);
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -20,10 +74,16 @@
   }
 }
 
-body, html {
+body,
+html {
+  background: var(--bg);
+  color: var(--text-color);
   margin: 0;
 }
 
+.brand-color {
+  color: var(--brand-color);
+}
 nav {
   background: var(--mantle-bg);
   display: flex;
@@ -40,7 +100,7 @@ nav {
     border-top: 1px solid var(--surface-0);
   }
 
-    button {
+  button {
     background: transparent;
     aspect-ratio: 1 / 1;
     padding: 10px;
@@ -76,8 +136,23 @@ main {
     transform: scale(0.9);
   }
 }
+#pin_game {
+  background-color: #111;
+  border-radius: 50%;
+  border-color: transparent;
+  color: white;
+  padding: 5px;
+  z-index: 1;
+  position: absolute;
+  cursor: grab;
+  top: 45%;
+  right: 15px;
+  transform: translateY(-100%);
+  transition: 0.2s;
+}
 .card {
   position: relative;
+  background: var(--mantle-bg);
   display: flex;
   padding: 20px;
   gap: 20px;
@@ -138,7 +213,9 @@ main {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--surface-0);
+    background-color: var(--mantle-bg);
     display: flex;
+    color: var(--text-color);
     font-family: var(--font-family);
     font-size: 14px;
 
@@ -149,16 +226,6 @@ main {
   }
 
   button[type="submit"] {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-family: var(--font-family);
-    font-size: 14px;
-    cursor: pointer;
-  }
-}
-
-button[type="submit"] {
     background-color: var(--surface-0);
     color: var(--text-color);
     padding: 10px 20px;
