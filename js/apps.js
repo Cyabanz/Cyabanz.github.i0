@@ -2,13 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
   let savedThemeTwo = localStorage.getItem('theme');
   if (savedThemeTwo) {
     let root = document.querySelector(':root');
-    let particles = document.getElementById('particles-js');
-    if (savedThemeTwo === 'default') {
-      root.className = '';
-      particles.className = '';
-    } else {
-      root.className = savedThemeTwo;
-      particles.className = savedThemeTwo;
     }
   }
 });
