@@ -1,25 +1,17 @@
 [
   {
-    "img": "/img/IMG_0097.webp",
-    "name": "1v1lol",
-    "description": "cool",
-    "id": "1",
-    "embed": "/1v1lol.html",
-    "raw_embed": true
-  },
-  {
-    "img": "https://play-lh.googleusercontent.com/V3M-ZVyu4NCOR8oxeHEQSrt5LJhu44xlDtIx-d3YnrPCMEvV-lxPJDyWoJkxsS1Soxsx",
-    "name": "Tomb of the Mask",
+    "img": "1v1lol/splash.png",
+    "name": "1v1.lol",
     "description": "cool",
     "id": "2",
-    "embed": "https://cdn.nate-games.xyz/tombmask/"
+    "embed": "/1v1lol"
   },
   {
-    "img": "/img/games/tiny-fishing.png",
-    "name": "Tiny Fishing",
+    "img": "games/bacon-may-die/splash.png",
+    "name": "Bacon May Die",
     "description": "Lorem ipsum dolor sit amet",
     "id": "3",
-    "embed": ""
+    "embed": "games/bacon-may-die/index.html"
   },
   {
     "img": "/img/games/10-minutes-till-dawn.png",
