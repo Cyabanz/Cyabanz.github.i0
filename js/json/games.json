@@ -14,11 +14,11 @@
     "embed": "games/bacon-may-die/index.html"
   },
   {
-    "img": "/img/games/10-minutes-till-dawn.png",
-    "name": "10 Minutes till Dawn",
+    "img": "games/basket-random/splash.jpeg",
+    "name": "Basket Random",
     "description": "10 Minutes Till Dawn is an action bullet-hell roguelite game to attack the enemies and survive for 10 minutes!",
     "id": "4",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/10-minutes-till-dawn/",
+    "embed": "games/basket-random/index.html",
     "raw_embed": true
   },
   {
