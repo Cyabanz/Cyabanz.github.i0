@@ -22,27 +22,27 @@
     "raw_embed": true
   },
   {
-    "img": "/img/games/1v1lol.png",
-    "name": "1v1.LOL",
+    "img": "",
+    "name": "",
     "description": "cool",
     "id": "5",
-    "embed": "/games/1v1lol/",
+    "embed": "/games/basketball-stars/index.html",
     "raw_embed": true
   },
   {
-    "img": "/img/games/1.png",
-    "name": "1",
+    "img": "games/bitlife/logo.png",
+    "name": "bitlife",
     "description": "cool",
     "id": "6",
-    "embed": "/games/1/",
+    "embed": "/games/bitlife",
     "raw_embed": true
   },
   {
     "img": "/img/games/among-us.jpeg",
-    "name": "Among Us",
+    "name": "Bob The Robber",
     "description": "cool",
     "id": "7",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/among-us/",
+    "embed": "games/bobtherobber2/index.html",
     "raw_embed": true
   },
   {
