@@ -61,11 +61,11 @@
     "raw_embed": true
   },
   {
-    "img": "/img/games/cookie-clicker.png",
-    "name": "Cookie Clicker",
+    "img": "/games/Bottleflip/favicon.ico",
+    "name": "Bottle Flip",
     "description": "cool",
     "id": "10",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/cookie-clicker/",
+    "embed": "games/Bottleflip",
     "raw_embed": true
   },
   {
