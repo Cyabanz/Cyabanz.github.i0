@@ -69,11 +69,11 @@
     "raw_embed": true
   },
   {
-    "img": "/img/games/cluster-rush.png",
-    "name": "Cluster Rush",
+    "img": "/games/core-ball/pr_source.png",
+    "name": "Core Ball",
     "description": "cool",
     "id": "11",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/cluster-rush/",
+    "embed": "games/core-ball",
     "raw_embed": true
   },
   {
