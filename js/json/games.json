@@ -46,11 +46,11 @@
     "raw_embed": true
   },
   {
-    "img": "/img/games/basket-random.png",
-    "name": "Basket Random",
+    "img": "games/basketbros-io/thumb.jpg",
+    "name": "Basket Bros",
     "description": "cool",
     "id": "8",
-    "embed": "https://cdn.nate-games.xyz/basketrandom/"
+    "embed": "games/basketbros-io"
   },
   {
     "img": "/img/games/bitlife.png",
