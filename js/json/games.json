@@ -22,8 +22,8 @@
     "raw_embed": true
   },
   {
-    "img": "",
-    "name": "",
+    "img": "games/basketball-stars/assets/images/basketball-stars.png",
+    "name": "Basketball Legends",
     "description": "cool",
     "id": "5",
     "embed": "/games/basketball-stars/index.html",
