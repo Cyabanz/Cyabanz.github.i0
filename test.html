@@ -5,14 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
-    <link rel="stylesheet/less" type="text/css" href="./style.less" />
-    <link rel="stylesheet" href="css/all.css">
-    <script src="https://cdn.jsdelivr.net/npm/less"></script>
 </head>
-
 
 <body>
     <!-- Button to open the nav -->
@@ -20,15 +14,11 @@
 
     <!-- Navigation bar -->
     <nav id="navbar" style="display: none;">
-        <!-- Cancel button to close the nav (Material Icon) -->
-        <a href="javascript:void(0);" id="nav-cancel">
-            <button class="material-icons">cancel</button>
-        </a>
         <a href="/">
             <button class="material-icons">home</button>
         </a>
         <a href="/games.html">
-            <button class="material-icons">sports_esports</button>
+            <button class="material-icons" active="true">sports_esports</button>
         </a>
         <a href="/store.html">
             <button class="material-icons">store</button>
@@ -39,6 +29,10 @@
         </a>
         <a href="/account.html">
             <button class="material-icons">account_circle</button>
+        </a>
+        <!-- Cancel button to close the nav -->
+        <a href="javascript:void(0);" id="nav-cancel">
+            <button class="material-icons">cancel</button>
         </a>
     </nav>
 
@@ -57,3 +51,5 @@
         });
     </script>
 </body>
+
+</html>
