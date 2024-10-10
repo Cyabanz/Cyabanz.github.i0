@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet/less" type="text/css" href="./style.less" />
+    <link rel="stylesheet" href="css/all.css">
+    <script src="https://cdn.jsdelivr.net/npm/less"></script>
+
+    <style>
+        #user-pic-top-right {
+            position: absolute; /* Position it absolutely */
+            top: 10px; /* Adjust the distance from the top */
+            right: 10px; /* Adjust the distance from the right */
+            width: 50px; /* Set the desired width */
+            height: 50px; /* Set the desired height */
+            border-radius: 50%; /* Makes the image circular */
+            display: none; /* Initially hidden */
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="/">
+            <button class="material-icons" active="true">home</button>
+        </a>
+        <a href="/games.html">
+            <button class="material-icons">sports_esports</button>
+        </a>
+        <a href="/leaderboard.html">
+            <button class="material-icons">diamond</button>
+        </a>
+        <div class="divider"></div>
+        <a href="/settings.html">
+            <button class="material-icons">settings</button>
+        </a>
+        <a href="/account.html">
+            <button class="material-icons">account_circle</button>
+        </a>
+    </nav>
+
+    <main id="fusion">
+        <h1 style="margin-bottom: 0;">FU<span class="brand-color">SIO</span>N</h1>
+        <sub>Officially v2</sub>
+        <h2>Home</h2>
+    </main>
+
+    <!-- Top-right profile picture -->
+    <img id="user-pic-top-right" src="" alt="Profile Picture" />
+
+    <script src="/js/game_embed.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="tester2.js"></script>
+   
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Simulate login or integrate with your authentication logic
+            // This should actually be your Firebase auth logic that updates the UI
+            simulateUserLogin();
+        });
+
+        // Function to simulate user login state
+        function simulateUserLogin() {
+            const user = {
+                displayName: "John Doe",
+                photoURL: "images/IMG_0164.jpeg" // Update with actual URL
+            };
+            displayUserInfo(user.displayName, user.photoURL, true); // Call your function to display user info
+        }
+
+        // Function to display user info and toggle buttons
+        function displayUserInfo(name, photoURL, isLoggedIn) {
+            const profilePic = document.getElementById('user-pic-top-right');
+            profilePic.src = photoURL; // Set the top-right PFP
+            profilePic.style.display = isLoggedIn ? 'block' : 'none'; // Show or hide based on login state
+        }
+    </script>
+
+    <!-- Scroll to Top functionality here... -->
+    <style>
+        #scrollToTopContainer {
+            display: none;
+            position: fixed;
+            bottom: 1.042vw;
+            right: 1.042vw;
+            z-index: 99;
+        }
+        #scrollToTop {
+            background-color: #303030;
+            padding: 0.521vw;
+            border-radius: 1.042vw;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            border: 0.104vw solid #303030; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #scrollToTop:hover {
+            background-color: #222222;
+            border-color: #f0d210; 
+        }
+        #scrollToTop img {
+            width: 2.292vw; 
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        #scrollToTop:hover img {
+            transform: translateY(-0.26vw); 
+        }
+    </style>
+    
+    <div id="scrollToTopContainer">
+        <div id="scrollToTop">
+            <img src="/images/2xuparrw.png" alt="Scroll to Top">
+        </div>
+    </div>
+
+    <script>
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            var scrollToTopContainer = document.getElementById("scrollToTopContainer");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopContainer.style.display = "block";
+            } else {
+                scrollToTopContainer.style.display = "none";
+            }
+        }
+
+        document.getElementById("scrollToTop").addEventListener("click", function() {
+            scrollToTop();
+        });
+
+        function scrollToTop() {
+            var scrollStep = -window.scrollY / (350 / 15);
+            var scrollInterval = setInterval(function() {
+                if (window.scrollY != 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 15);
+        }
+    </script>
+</body>
+</html>
