@@ -21,7 +21,7 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
 }
 
-/* Centered user name and profile picture */
+/* Centered user name and Google profile picture */
 #user-center-info {
     display: flex;
     flex-direction: column;
@@ -37,8 +37,9 @@ body {
     margin-bottom: 20px; /* Space between the name and profile picture */
 }
 
+/* Center Google profile picture */
 #user-pic-center {
-    width: 100px; /* Large profile picture in the center */
+    width: 100px; /* Larger size for the center Google profile picture */
     height: 100px;
     border-radius: 50%; /* Circular shape */
     border: 2px solid #fff; /* Optional white border */
@@ -72,3 +73,4 @@ button:hover {
     justify-content: center;
     position: relative;
 }
+
