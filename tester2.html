@@ -55,7 +55,7 @@
         // Handle logout
         document.getElementById('logout').addEventListener('click', () => {
             signOut(auth).then(() => {
-                displayUserInfo("Guest", "https://example.com/default-profile-pic.png"); // Default picture
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
             }).catch((error) => {
                 console.error('Error during sign-out:', error);
             });
