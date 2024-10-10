@@ -1,57 +1,74 @@
-/* styles.css */
-body {
-    position: relative;
-}
-
-#user-pic {
-    width: 40px; /* Small size for the profile picture */
-    height: 40px; /* Match height with width for circular shape */
-    border-radius: 50%; /* Make it a circle */
-    position: absolute; /* Positioning it in the corner */
-    top: 10px; /* Distance from the top */
-    right: 10px; /* Distance from the right */
-    border: 2px solid #fff; /* Optional: Add a border */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow */
-}
-
-#user-info {
-    padding-top: 50px; /* Space for the profile picture */
-}
-/* Vertical background gradient */
+/* Body with a vertical gradient background */
 body {
     height: 100vh; /* Full viewport height */
     margin: 0;
     background: linear-gradient(to bottom, #0f0f0f, #1a1a1a, #282828); /* Dark vertical gradient */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures space between content and button at bottom */
+    justify-content: space-between; /* Spreads content vertically */
     align-items: center; /* Center content horizontally */
 }
-/* Button styling */
-button {
-    background-color: #000; /* Black background */
-    color: #fff; /* White text */
-    border: none; /* No border */
-    padding: 10px 20px; /* Padding inside the button */
-    font-size: 16px; /* Text size */
-    font-weight: bold; /* Bold text */
-    border-radius: 10px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glowing green shadow */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for effects */
-    margin-bottom: 20px; /* Add space from the bottom */
+
+/* Top-right profile picture (small) */
+#user-pic-top-right {
+    width: 40px; /* Small size for the profile picture */
+    height: 40px;
+    border-radius: 50%; /* Makes it round */
+    position: absolute;
+    top: 10px; /* Positions it in the top right corner */
+    right: 10px;
+    border: 2px solid #fff; /* Optional white border */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
 }
 
-/* Button hover effect */
-button:hover {
-    transform: scale(1.05); /* Slightly enlarge on hover */
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8); /* Brighten the glow */
-}
-
-/* Center button at bottom */
-.button-container {
-    width: 100%; /* Full width for proper placement */
+/* Centered user name and profile picture */
+#user-center-info {
     display: flex;
-    justify-content: center; /* Center the button horizontally */
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    justify-content: center; /* Center the content vertically */
+    text-align: center;
+    color: #fff; /* White text */
+    margin-top: 100px; /* Adjust vertical position as needed */
+}
+
+#user-center-info h2 {
+    font-size: 28px; /* Large font for the user's name */
+    margin-bottom: 20px; /* Space between the name and profile picture */
+}
+
+#user-pic-center {
+    width: 100px; /* Large profile picture in the center */
+    height: 100px;
+    border-radius: 50%; /* Circular shape */
+    border: 2px solid #fff; /* Optional white border */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glowing green shadow */
+}
+
+/* Button styling at the bottom */
+button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+}
+
+/* Center button at the bottom */
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     position: relative;
 }
