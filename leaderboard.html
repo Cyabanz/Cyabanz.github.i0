@@ -562,4 +562,56 @@
     </body>
     </html>
       <!--endtscrollup -->
-                     
+        <!-- Top-right profile picture -->
+    <img id="user-pic-top-right" src="" alt="Profile Picture" />
+
+    <script src="/js/game_embed.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="tester2.js"></script>
+    
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const name = localStorage.getItem('userName') || user.displayName;
+                const photoURL = localStorage.getItem('userPhoto') || user.photoURL;
+                displayUserInfo(name, photoURL, true); // Display user info
+            } else {
+                // User is signed out
+                displayUserInfo("Guest", "images/IMG_0164.jpeg", false); // Default picture
+            }
+        });
+
+        // Function to display user info and toggle buttons
+        function displayUserInfo(name, photoURL, isLoggedIn) {
+            document.getElementById('user-pic-top-right').src = photoURL; // Set the top-right PFP
+            document.getElementById('user-pic-top-right').style.display = isLoggedIn ? 'inline' : 'none'; // Show or hide based on login state
+
+            // Additional user info handling...
+            document.getElementById('user-name').textContent = name; // Assuming you have an element for the username
+        }
+    </script>
+</body>
+</html>              
