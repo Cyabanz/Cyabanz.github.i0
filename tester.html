@@ -28,7 +28,7 @@
         const provider = new GoogleAuthProvider();
 
         // Default profile picture URL
-        const defaultPFP = "images/user.png"; // Replace with your default PFP URL
+        const defaultPFP = "images/IMG_0164.jpeg"; // Replace with your default PFP URL
 
         // Check authentication state and set user info if already signed in
         onAuthStateChanged(auth, (user) => {
@@ -38,16 +38,16 @@
                     displayName: user.displayName,
                     photoURL: user.photoURL || defaultPFP // Use user's PFP or default
                 }));
-                displayUserInfo(user.displayName, user.photoURL || defaultPFP);
+                displayUserInfo(user.displayName, user.photoURL || defaultPFP, true);
             } else {
                 // User is signed out
                 const storedUser = JSON.parse(localStorage.getItem('user'));
                 if (storedUser) {
                     // Display stored user info
-                    displayUserInfo(storedUser.displayName, storedUser.photoURL);
+                    displayUserInfo(storedUser.displayName, storedUser.photoURL, false);
                 } else {
                     // Display default info
-                    displayUserInfo("Guest", defaultPFP);
+                    displayUserInfo("Guest", defaultPFP, false);
                 }
             }
         });
@@ -57,7 +57,7 @@
             signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
-                    displayUserInfo(user.displayName, user.photoURL || defaultPFP);
+                    displayUserInfo(user.displayName, user.photoURL || defaultPFP, true);
                 })
                 .catch((error) => {
                     console.error('Error during sign-in:', error);
@@ -68,19 +68,26 @@
         document.getElementById('logout').addEventListener('click', () => {
             signOut(auth).then(() => {
                 localStorage.removeItem('user');
-                displayUserInfo("Guest", defaultPFP);
+                displayUserInfo("Guest", defaultPFP, false);
             }).catch((error) => {
                 console.error('Error during sign-out:', error);
             });
         });
 
-        // Function to display user info
-        function displayUserInfo(name, photoURL) {
+        // Function to display user info and toggle buttons
+        function displayUserInfo(name, photoURL, isLoggedIn) {
             document.getElementById('user-name').textContent = name;
             document.getElementById('user-pic').src = photoURL;
             document.getElementById('user-info').style.display = 'block';
-            document.getElementById('login').style.display = 'none';
-            document.getElementById('logout').style.display = 'inline';
+            
+            // Toggle buttons based on login state
+            if (isLoggedIn) {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('logout').style.display = 'inline';
+            } else {
+                document.getElementById('login').style.display = 'inline';
+                document.getElementById('logout').style.display = 'none';
+            }
         }
     </script>
 </head>
