@@ -17,3 +17,41 @@ body {
 #user-info {
     padding-top: 50px; /* Space for the profile picture */
 }
+/* Vertical background gradient */
+body {
+    height: 100vh; /* Full viewport height */
+    margin: 0;
+    background: linear-gradient(to bottom, #0f0f0f, #1a1a1a, #282828); /* Dark vertical gradient */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures space between content and button at bottom */
+    align-items: center; /* Center content horizontally */
+}
+/* Button styling */
+button {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Text size */
+    font-weight: bold; /* Bold text */
+    border-radius: 10px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); /* Glowing green shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for effects */
+    margin-bottom: 20px; /* Add space from the bottom */
+}
+
+/* Button hover effect */
+button:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8); /* Brighten the glow */
+}
+
+/* Center button at bottom */
+.button-container {
+    width: 100%; /* Full width for proper placement */
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    position: relative;
+}
