@@ -1,0 +1,19 @@
+/* styles.css */
+body {
+    position: relative;
+}
+
+#user-pic {
+    width: 40px; /* Small size for the profile picture */
+    height: 40px; /* Match height with width for circular shape */
+    border-radius: 50%; /* Make it a circle */
+    position: absolute; /* Positioning it in the corner */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    border: 2px solid #fff; /* Optional: Add a border */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow */
+}
+
+#user-info {
+    padding-top: 50px; /* Space for the profile picture */
+}
