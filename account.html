@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firebase Google Login with Local Storage</title>
     <link rel="stylesheet" href="tester.css"> <!-- Link to your CSS file -->
-    <script src="testee.js" defer></script>
+    <script src="tester2.js" defer></script>
     <script type="module">
         // Import Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
@@ -95,3 +95,12 @@
     </div>
 </body>
 </html>
+// After successful login
+.then((result) => {
+    const user = result.user;
+    displayUserInfo(user.displayName, user.photoURL);
+    
+    // Save user info to localStorage
+    localStorage.setItem('userName', user.displayName);
+    localStorage.setItem('userPhoto', user.photoURL);
+})
