@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="favicon.ico">
@@ -8,10 +7,22 @@
     <title>Home</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
     <link rel="stylesheet/less" type="text/css" href="./style.less" />
     <link rel="stylesheet" href="css/all.css">
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
+
+    <style>
+        #user-pic-top-right {
+            position: absolute; /* Position it absolutely */
+            top: 10px; /* Adjust the distance from the top */
+            right: 10px; /* Adjust the distance from the right */
+            width: 50px; /* Set the desired width */
+            height: 50px; /* Set the desired height */
+            border-radius: 50%; /* Makes the image circular */
+            display: none; /* Initially hidden */
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+    </style>
 </head>
 
 <body>
@@ -49,11 +60,40 @@
         <sub>Officially v2</sub>
         <h2>Home</h2>
     </main>
+
+    <!-- Top-right profile picture -->
+    <img id="user-pic-top-right" src="" alt="Profile Picture" />
+
     <script src="/js/game_embed.js"></script>
     <script src="/js/settings.js"></script>
-</body>
 
+    <script>
+        // Example function to simulate user login state
+        function simulateUserLogin() {
+            const user = {
+                displayName: "John Doe",
+                photoURL: "path/to/profile-pic.jpg" // Update with actual URL
+            };
+            displayUserInfo(user.displayName, user.photoURL, true); // Call your function to display user info
+        }
+
+        // Simulate login (you should integrate this with your authentication logic)
+        simulateUserLogin();
+
+        // Function to display user info and toggle buttons
+        function displayUserInfo(name, photoURL, isLoggedIn) {
+            document.getElementById('user-pic-top-right').src = photoURL; // Set the top-right PFP
+            document.getElementById('user-pic-top-right').style.display = isLoggedIn ? 'inline' : 'none'; // Show or hide based on login state
+
+            // Additional user info handling...
+            document.getElementById('user-name').textContent = name; // Assuming you have an element for the username
+        }
+    </script>
+
+    <!-- Scroll to Top functionality here... -->
+</body>
 </html>
+
 
 <!--strtscrollup -->
   <style>
