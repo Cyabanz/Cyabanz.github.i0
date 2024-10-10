@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Games</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
     <link rel="stylesheet/less" type="text/css" href="./style.less" />
     <link rel="stylesheet" href="css/all.css">
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
+</head>
 
-    <style>
+<style>
         #user-pic-top-right {
             position: absolute; /* Position it absolutely */
             top: 10px; /* Adjust the distance from the top */
@@ -24,22 +26,22 @@
         }
     </style>
 </head>
-
+    
 <body>
     <nav>
         <a href="/">
-            <button class="material-icons" active="true">
+            <button class="material-icons">
                 home
             </button>
         </a>
         <a href="/games.html">
-            <button class="material-icons">
+            <button class="material-icons" active="true">
                 sports_esports
             </button>
         </a>
-        <a href="/leaderboard.html">
+        <a href="/store.html">
             <button class="material-icons">
-                diamond 
+                store
             </button>
         </a>
         <div class="divider"></div>
@@ -55,13 +57,103 @@
         </a>
     </nav>
 
-    <main id="fusion">
+    <main>
         <h1 style="margin-bottom: 0;">FU<span class="brand-color">SIO</span>N</h1>
         <sub>Officially v2</sub>
-        <h2>Home</h2>
+        <h2>Featured Games</h2>
+        <div class="search-box"> <input type="text" id="card-lookup" placeholder="Type to search"> <a
+                class="search-btn"> <i class="fa-solid fa-magnifying-glass"></i> </a> </div>
+        <div class="flex-list" id="pinned">
+        </div>
+        <br><br>
+        <div class="flex-list" id="card-container">
+            <!-- id (card-container) needs to load the javsacript -->
+        </div>
     </main>
+    <script src="/js/game_cards.js"></script>
+    <script src="/js/settings.js"></script>
+</body>
 
-    <!-- Top-right profile picture -->
+</html>
+
+<!--strtscrollup -->
+  <style>
+    #scrollToTopContainer {
+        display: none;
+        position: fixed;
+        bottom: 1.042vw;
+        right: 1.042vw;
+        z-index: 99;
+    }
+
+    #scrollToTop {
+        background-color: #303030;
+        padding: 0.521vw;
+        border-radius: 1.042vw;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+        border: 0.104vw solid #303030; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #scrollToTop:hover {
+        background-color: #222222;
+        border-color: #f0d210; 
+    }
+
+    #scrollToTop img {
+        width: 2.292vw; 
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+    #scrollToTop:hover img {
+        transform: translateY(-0.26vw); 
+    }
+
+</style>
+<body>
+    
+    <div id="scrollToTopContainer">
+        <div id="scrollToTop">
+            <img src="/images/2xuparrw.png" alt="Scroll to Top">
+        </div>
+    </div>
+    
+    <script>
+        window.onscroll = function() {scrollFunction()};
+    
+        function scrollFunction() {
+            var scrollToTopContainer = document.getElementById("scrollToTopContainer");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopContainer.style.display = "block";
+            } else {
+                scrollToTopContainer.style.display = "none";
+            }
+        }
+    
+        document.getElementById("scrollToTop").addEventListener("click", function() {
+            scrollToTop();
+        });
+    
+        function scrollToTop() {
+            var scrollStep = -window.scrollY / (350 / 15);
+            var scrollInterval = setInterval(function() {
+                if (window.scrollY != 0) {
+                    window.scrollBy(0, scrollStep);
+                } else {
+                    clearInterval(scrollInterval);
+                }
+            }, 15);
+        }
+    </script>
+    
+    </body>
+    </html>
+      <!--endtscrollup -->
+       <!-- Top-right profile picture -->
     <img id="user-pic-top-right" src="" alt="Profile Picture" />
 
     <script src="/js/game_embed.js"></script>
