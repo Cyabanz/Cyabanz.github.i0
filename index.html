@@ -67,19 +67,41 @@
     <script src="/js/game_embed.js"></script>
     <script src="/js/settings.js"></script>
     <script src="tester2.js"></script>
-   
-    <script>
-        // Example function to simulate user login state
-        function simulateUserLogin() {
-            const user = {
-                displayName: "John Doe",
-                photoURL: "images/IMG_0164.jpeg" // Update with actual URL
-            };
-            displayUserInfo(user.displayName, user.photoURL, true); // Call your function to display user info
-        }
+    
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-        // Simulate login (you should integrate this with your authentication logic)
-        simulateUserLogin();
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const name = localStorage.getItem('userName') || user.displayName;
+                const photoURL = localStorage.getItem('userPhoto') || user.photoURL;
+                displayUserInfo(name, photoURL, true); // Display user info
+            } else {
+                // User is signed out
+                displayUserInfo("Guest", "images/IMG_0164.jpeg", false); // Default picture
+            }
+        });
 
         // Function to display user info and toggle buttons
         function displayUserInfo(name, photoURL, isLoggedIn) {
@@ -90,86 +112,6 @@
             document.getElementById('user-name').textContent = name; // Assuming you have an element for the username
         }
     </script>
-
-    <!-- Scroll to Top functionality here... -->
 </body>
 </html>
 
-
-<!--strtscrollup -->
-  <style>
-    #scrollToTopContainer {
-        display: none;
-        position: fixed;
-        bottom: 1.042vw;
-        right: 1.042vw;
-        z-index: 99;
-    }
-
-    #scrollToTop {
-        background-color: #303030;
-        padding: 0.521vw;
-        border-radius: 1.042vw;
-        cursor: pointer;
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-        border: 0.104vw solid #303030; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #scrollToTop:hover {
-        background-color: #222222;
-        border-color: #f0d210; 
-    }
-
-    #scrollToTop img {
-        width: 2.292vw; 
-        height: auto;
-        transition: transform 0.3s ease;
-    }
-
-    #scrollToTop:hover img {
-        transform: translateY(-0.26vw); 
-    }
-
-</style>
-<body>
-    
-    <div id="scrollToTopContainer">
-        <div id="scrollToTop">
-            <img src="/images/2xuparrw.png" alt="Scroll to Top">
-        </div>
-    </div>
-    
-    <script>
-        window.onscroll = function() {scrollFunction()};
-    
-        function scrollFunction() {
-            var scrollToTopContainer = document.getElementById("scrollToTopContainer");
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollToTopContainer.style.display = "block";
-            } else {
-                scrollToTopContainer.style.display = "none";
-            }
-        }
-    
-        document.getElementById("scrollToTop").addEventListener("click", function() {
-            scrollToTop();
-        });
-    
-        function scrollToTop() {
-            var scrollStep = -window.scrollY / (350 / 15);
-            var scrollInterval = setInterval(function() {
-                if (window.scrollY != 0) {
-                    window.scrollBy(0, scrollStep);
-                } else {
-                    clearInterval(scrollInterval);
-                }
-            }, 15);
-        }
-    </script>
-    
-    </body>
-    </html>
-      <!--endtscrollup -->
