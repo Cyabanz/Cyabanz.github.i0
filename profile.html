@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="tester.css"> <!-- Link to your CSS file -->
+    <script src="tester4.js" defer></script>
+    <style>
+        #profile-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #profile-pic {
+            width: 100px;
+            border-radius: 50%;
+            margin-top: 10px;
+        }
+        #share-link {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+    <script type="module">
+        // Firebase imports and configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        async function loadUserData(uid) {
+            const docRef = doc(db, "users", uid);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                document.getElementById('profile-name').textContent = userData.displayName || "No Name";
+                document.getElementById('profile-bio').textContent = userData.bio || "No bio yet.";
+                document.getElementById('profile-pic').src = userData.photoURL || "images/IMG_0164.jpeg";
+
+                // Create a shareable link
+                const profileLink = `${window.location.origin}/profile.html?uid=${uid}`;
+                document.getElementById('share-link').value = `Check out ${userData.displayName}'s profile!\nBio: ${userData.bio || "No bio yet."}\nProfile Picture: ${userData.photoURL}\nLink: ${profileLink}`;
+            } else {
+                console.log("No such document!");
+            }
+        }
+
+        // Load user data based on URL parameter
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const uid = urlParams.get('uid');
+            if (uid) {
+                loadUserData(uid);
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="profile-info">
+        <h2 id="profile-name"></h2>
+        <img id="profile-pic" src="" alt="Profile Picture" />
+        <p id="profile-bio"></p>
+    </div>
+    
+    <textarea id="share-link" readonly></textarea>
+</body>
+</html>
