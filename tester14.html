@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Google Login with Local Storage</title>
+    <link rel="stylesheet" href="tester.css"> <!-- Link to your CSS file -->
+    <script src="tester4.js" defer></script>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"; // Import Firebase Storage functions
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const storage = getStorage(app); // Initialize Firebase Storage
+
+        let currentUser;
+
+        // Function to retrieve user info from local storage
+        function loadUserInfoFromLocalStorage() {
+            const userName = localStorage.getItem('userName');
+            const userPhoto = localStorage.getItem('userPhoto');
+
+            if (userName && userPhoto) {
+                displayUserInfo(userName, userPhoto);
+                console.log("Loaded user info from local storage:", userName, userPhoto);
+            } else {
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                currentUser = user; // Store the current user
+                displayUserInfo(user.displayName, user.photoURL);
+                
+                // Save user info to localStorage
+                localStorage.setItem('userName', user.displayName);
+                localStorage.setItem('userPhoto', user.photoURL);
+            } else {
+                // User is signed out
+                loadUserInfoFromLocalStorage();
+            }
+        });
+
+        // Handle login
+        document.getElementById('login').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    displayUserInfo(user.displayName, user.photoURL);
+                    
+                    // Save user info to localStorage
+                    localStorage.setItem('userName', user.displayName);
+                    localStorage.setItem('userPhoto', user.photoURL);
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                });
+        });
+
+        // Handle logout
+        document.getElementById('logout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Clear local storage on logout
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userPhoto');
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            }).catch((error) => {
+                console.error('Error during sign-out:', error);
+            });
+        });
+
+        // Function to display user info
+        function displayUserInfo(name, photoURL) {
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-pic-top-right').src = photoURL; // Top-right profile picture
+            document.getElementById('user-pic-center').src = photoURL; // Center Google profile picture
+
+            // Toggle button visibility
+            if (name === "Guest") {
+                document.getElementById('login').style.display = 'inline';
+                document.getElementById('logout').style.display = 'none';
+            } else {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('logout').style.display = 'inline';
+            }
+        }
+
+        // Upload profile picture function
+        document.getElementById('uploadBtn').addEventListener('click', async () => {
+            const file = document.getElementById('fileInput').files[0];
+
+            if (!file) {
+                alert("Please select a file first.");
+                return;
+            }
+
+            // Ensure the user is authenticated
+            if (!currentUser) {
+                alert("You must be logged in to upload a profile picture.");
+                return;
+            }
+
+            // Use user ID for file path to prevent overwriting
+            const storageRef = ref(storage, `profilePictures/${currentUser.uid}.jpeg`);
+
+            try {
+                // Upload the file to Firebase Storage
+                await uploadBytes(storageRef, file);
+                console.log("File uploaded successfully!");
+
+                // Get the download URL
+                const downloadURL = await getDownloadURL(storageRef);
+                console.log("File available at:", downloadURL);
+
+                // Display the uploaded profile picture
+                displayUserInfo(currentUser.displayName, downloadURL); // Update the user picture
+
+                // Save the uploaded profile picture URL to local storage
+                localStorage.setItem('userPhoto', downloadURL);
+                console.log("Profile picture URL saved in local storage:", downloadURL);
+            } catch (error) {
+                console.error("Error uploading file:", error);
+            }
+        });
+
+        // Load user info from local storage when the page is loaded
+        window.onload = loadUserInfoFromLocalStorage;
+
+    </script>
+</head>
+<body>
+    <!-- Top-right profile picture -->
+    <img id="user-pic-top-right" src="" alt="Profile Picture" style="float: right;"/>
+
+    <!-- Centered user name and Google profile picture -->
+    <div id="user-center-info" style="text-align: center;">
+        <h2 id="user-name"></h2>
+        <img id="user-pic-center" src="" alt="Google Profile Picture" width="100" />
+    </div>
+
+    <!-- Input for uploading profile picture -->
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="file" id="fileInput" accept="image/*">
+        <button id="uploadBtn">Upload Profile Picture</button>
+    </div>
+
+    <!-- Button Container at the bottom -->
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+    </div>
+</body>
+</html>
