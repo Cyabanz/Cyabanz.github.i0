@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Google Login with Local Storage</title>
+    <link rel="stylesheet" href="tester.css"> <!-- Link to your CSS file -->
+    <script src="tester4.js" defer></script>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"; // Import Firebase Storage functions
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const storage = getStorage(app); // Initialize Firebase Storage
+
+        let currentUser;
+
+        // Function to retrieve user info from local storage
+        function loadUserInfoFromLocalStorage() {
+            const userName = localStorage.getItem('userName');
+            const userPhoto = localStorage.getItem('userPhoto');
+
+            if (userName && userPhoto) {
+                displayUserInfo(userName, userPhoto);
+                console.log("Loaded user info from local storage:", userName, userPhoto);
+            } else {
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                currentUser = user; // Store the current user
+                displayUserInfo(user.displayName, user.photoURL);
+                
+                // Save user info to localStorage
+                localStorage.setItem('userName', user.displayName);
+                localStorage.setItem('userPhoto', user.photoURL);
+                console.log("User info saved to local storage:", user.displayName, user.photoURL);
+            } else {
+                // User is signed out
+                loadUserInfoFromLocalStorage();
+            }
+        });
+
+        // Handle login
+        document.getElementById('login').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    displayUserInfo(user.displayName, user.photoURL);
+                    
+                    // Save user info to localStorage
+                    localStorage.setItem('userName', user.displayName);
+                    localStorage.setItem('userPhoto', user.photoURL);
+                    console.log("User info saved to local storage after login:", user.displayName, user.photoURL);
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                });
+        });
+
+        // Handle logout
+        document.getElementById('logout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Clear local storage on logout
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userPhoto');
+                console.log("Local storage cleared on logout");
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            }).catch((
