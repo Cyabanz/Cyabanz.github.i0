@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Google Login with Local Storage</title>
+    <link rel="stylesheet" href="tester.css"> <!-- Link to your CSS file -->
+    <script src="tester4.js" defer></script>
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+        #user-pic-top-right {
+            float: right;
+            width: 50px;
+            margin-top: 10px;
+        }
+    </style>
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"; // Realtime Database
+        import { getStorage } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"; // Firebase Storage
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const database = getDatabase(app); // Initialize Realtime Database
+        const storage = getStorage(app); // Initialize Firebase Storage
+
+        let currentUser;
+
+        // Function to retrieve user info from local storage
+        function loadUserInfoFromLocalStorage() {
+            const userName = localStorage.getItem('userName');
+            const userPhoto = localStorage.getItem('userPhoto');
+
+            if (userName && userPhoto) {
+                displayUserInfo(userName, userPhoto);
+                console.log("Loaded user info from local storage:", userName, userPhoto);
+            } else {
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user; // Store the current user
+                const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL; // Use uploaded photo if available
+                displayUserInfo(user.displayName, storedPhoto);
+                
+                // Save user info to localStorage
+                localStorage.setItem('userName', user.displayName);
+                localStorage.setItem('userPhoto', storedPhoto);
+
+                // Load bio from Realtime Database
+                loadBioFromDatabase(user.uid);
+            } else {
+                loadUserInfoFromLocalStorage();
+            }
+        });
+
+        // Handle login
+        document.getElementById('login').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL; // Use uploaded photo if available
+                    displayUserInfo(user.displayName, storedPhoto);
+                    
+                    // Save user info to localStorage
+                    localStorage.setItem('userName', user.displayName);
+                    localStorage.setItem('userPhoto', storedPhoto);
+
+                    // Load bio after login
+                    loadBioFromDatabase(user.uid);
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                });
+        });
+
+        // Handle logout
+        document.getElementById('logout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Clear local storage on logout
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userPhoto');
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+                document.getElementById('user-bio').textContent = ''; // Clear bio
+            }).catch((error) => {
+                console.error('Error during sign-out:', error);
+            });
+        });
+
+        // Function to display user info
+        function displayUserInfo(name, photoURL) {
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-pic-center').src = photoURL;
+            document.getElementById('user-pic-top-right').src = photoURL;
+
+            if (name === "Guest") {
+                document.getElementById('login').style.display = 'inline';
+                document.getElementById('logout').style.display = 'none';
+            } else {
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('logout').style.display = 'inline';
+            }
+
+            // Add share link button
+            document.getElementById('share-profile').style.display = name !== "Guest" ? 'inline' : 'none';
+        }
+
+        // Function to load bio from Realtime Database
+        async function loadBioFromDatabase(uid) {
+            const userRef = ref(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+            } else {
+                document.getElementById('user-bio').textContent = "No bio yet.";
+            }
+        }
+
+        // Function to save bio to Realtime Database
+        document.getElementById('save-bio').addEventListener('click', async () => {
+            const bio = document.getElementById('bio-input').value;
+
+            if (!currentUser) {
+                alert("You must be logged in to save a bio.");
+                return;
+            }
+
+            const userRef = ref(database, `users/${currentUser.uid}`);
+            await set(userRef, { bio: bio });
+
+            document.getElementById('user-bio').textContent = bio; // Display updated bio
+            alert("Bio saved!");
+        });
+
+        // Function to share profile link
+        document.getElementById('share-profile').addEventListener('click', () => {
+            if (currentUser) {
+                const profileLink = `${window.location.origin}/profile.html?uid=${currentUser.uid}`;
+                alert(`Share this link: ${profileLink}`);
+            }
+        });
+
+        // Load user info from local storage when the page is loaded
+        window.onload = loadUserInfoFromLocalStorage;
+
+    </script>
+</head>
+<body>
+    <img id="user-pic-top-right" src="" alt="Profile Picture" style="float: right;"/>
+    
+    <div id="user-center-info">
+        <h2 id="user-name"></h2>
+        <img id="user-pic-center" src="" alt="Profile Picture" />
+        <p id="user-bio">No bio yet.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="file" id="fileInput" accept="image/*">
+        <button id="uploadBtn">Upload Profile Picture</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <textarea id="bio-input" placeholder="Write your bio..."></textarea>
+        <button id="save-bio">Save Bio</button>
+    </div>
+
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+        <button id="share-profile" style="display: none;">Share Profile</button>
+    </div>
+</body>
+</html>
