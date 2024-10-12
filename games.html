@@ -21,36 +21,48 @@
             display: none; /* Initially hidden */
             z-index: 1000; /* Ensure it's on top of other elements */
         }
+
+        .game {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .like-btn, .dislike-btn {
+            background-color: transparent;
+            border: none;
+            color: #000; /* Change to desired text color */
+            cursor: pointer;
+            font-size: 16px; /* Adjust as needed */
+        }
+
+        .like-btn:hover, .dislike-btn:hover {
+            color: #007BFF; /* Change to desired hover color */
+        }
+
+        .material-icons {
+            vertical-align: middle; /* Align icon with text */
+            margin-right: 5px; /* Space between icon and text */
+        }
     </style>
 </head>
 
 <body>
     <nav>
         <a href="/">
-            <button class="material-icons">
-                home
-            </button>
+            <button class="material-icons">home</button>
         </a>
         <a href="/games.html">
-            <button class="material-icons" active="true">
-                sports_esports
-            </button>
+            <button class="material-icons" active="true">sports_esports</button>
         </a>
         <a href="/store.html">
-            <button class="material-icons">
-                store
-            </button>
+            <button class="material-icons">store</button>
         </a>
         <div class="divider"></div>
         <a href="/settings.html">
-            <button class="material-icons">
-                settings
-            </button>
+            <button class="material-icons">settings</button>
         </a>
         <a href="/account.html">
-            <button class="material-icons">
-                account_circle
-            </button>
+            <button class="material-icons">account_circle</button>
         </a>
     </nav>
 
@@ -67,7 +79,19 @@
         <div class="flex-list" id="pinned"></div>
         <br><br>
         <div class="flex-list" id="card-container">
-            <!-- id (card-container) needs to load the javsacript -->
+            <!-- Example game card -->
+            <div class="game" id="game-2">
+                <img src="1v1lol/splash.png" alt="1v1.lol" />
+                <h3>1v1.lol</h3>
+                <p>cool</p>
+                <button class="like-btn" data-game-id="2">
+                    <span class="material-icons">thumb_up</span> Like (<span class="like-count">0</span>)
+                </button>
+                <button class="dislike-btn" data-game-id="2">
+                    <span class="material-icons">thumb_down</span> Dislike (<span class="dislike-count">0</span>)
+                </button>
+            </div>
+            <!-- Add more game cards dynamically using JavaScript -->
         </div>
     </main>
 
@@ -196,4 +220,3 @@
     </script>
 </body>
 </html>
-
