@@ -1,0 +1,32 @@
+// Check authentication state
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+        currentUser = user; // Store the current user
+
+        // Load the uploaded profile picture if it exists, otherwise use Google profile picture
+        const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL; // Use uploaded photo if available
+        displayUserInfo(user.displayName, storedPhoto);
+
+        // Save user info to localStorage if not already stored
+        if (!localStorage.getItem('userName')) {
+            localStorage.setItem('userName', user.displayName);
+        }
+
+        // Load user bio from the database
+        loadBioFromDatabase(currentUser.uid);
+
+        // Show buttons that are only for logged-in users
+        document.getElementById('uploadBtn').style.display = 'inline';
+        document.getElementById('save-bio').style.display = 'inline';
+        document.getElementById('generate-link').style.display = 'inline';
+    } else {
+        // User is signed out
+        loadUserInfoFromLocalStorage();
+
+        // Hide buttons for logged-out users
+        document.getElementById('uploadBtn').style.display = 'none';
+        document.getElementById('save-bio').style.display = 'none';
+        document.getElementById('generate-link').style.display = 'none';
+    }
+});
