@@ -1,96 +1,20 @@
-[
-  {
-    "img": "1v1lol/splash.png",
-    "name": "1v1.lol",
-    "description": "cool",
-    "id": "2",
-    "embed": "/1v1lol"
-  },
-  {
-    "img": "games/bacon-may-die/splash.png",
-    "name": "Bacon May Die",
-    "description": "Lorem ipsum dolor sit amet",
-    "id": "3",
-    "embed": "games/bacon-may-die/index.html"
-  },
-  {
-    "img": "games/basket-random/splash.jpeg",
-    "name": "Basket Random",
-    "description": "10 Minutes Till Dawn is an action bullet-hell roguelite game to attack the enemies and survive for 10 minutes!",
-    "id": "4",
-    "embed": "games/basket-random/index.html",
-    "raw_embed": true
-  },
-  {
-    "img": "games/basketball-stars/assets/images/basketball-stars.png",
-    "name": "Basketball Legends",
-    "description": "cool",
-    "id": "5",
-    "embed": "/games/basketball-stars/index.html",
-    "raw_embed": true
-  },
-  {
-    "img": "games/bitlife/logo.png",
-    "name": "bitlife",
-    "description": "cool",
-    "id": "6",
-    "embed": "/games/bitlife",
-    "raw_embed": true
-  },
-  {
-    "img": "/img/games/among-us.jpeg",
-    "name": "Bob The Robber",
-    "description": "cool",
-    "id": "7",
-    "embed": "games/bobtherobber2/index.html",
-    "raw_embed": true
-  },
-  {
-    "img": "games/basketbros-io/thumb.jpg",
-    "name": "Basket Bros",
-    "description": "cool",
-    "id": "8",
-    "embed": "games/basketbros-io"
-  },
-  {
-    "img": "/img/games/bitlife.png",
-    "name": "BitLife",
-    "description": "cool",
-    "id": "9",
-    "embed": "https://raw.githack.com/nate-games/nate-games.xyz/main/0/g/bitlife/",
-    "raw_embed": true
-  },
-  {
-    "img": "/games/Bottleflip/favicon.ico",
-    "name": "Bottle Flip",
-    "description": "cool",
-    "id": "10",
-    "embed": "games/Bottleflip",
-    "raw_embed": true
-  },
-  {
-    "img": "/games/core-ball/pr_source.png",
-    "name": "Core Ball",
-    "description": "cool",
-    "id": "11",
-    "embed": "games/core-ball",
-    "raw_embed": true
-  },
-  {
-    "img": "/img/games/driftboss.jpeg",
-    "name": "Drift Boss",
-    "description": "cool",
-    "id": "12",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/drift-boss/",
-    "raw_embed": true
-  },
-  {
-    "img": "/img/games/monkeymart.webp",
-    "name": "Monkey Mart",
-    "description": "cool",
-    "id": "13",
-    "embed": "https://raw.githack.com/3kh0/3kh0-assets/main/MonkeyMart/",
-    "raw_embed": true
-  }
-]
+{
+    "games": {
+        "game1": {
+            "title": "1v1.lol",
+            "description": "cool",
+            "image": "1v1lol/splash.png",
+            "likes": 0,
+            "dislikes": 0
+        },
+        "game2": {
+            "title": "Another Game",
+            "description": "awesome",
+            "image": "another_game/splash.png",
+            "likes": 0,
+            "dislikes": 0
+        }
+    }
+}
+
 
