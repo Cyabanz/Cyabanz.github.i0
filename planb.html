@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Google Login with Local Storage</title>
+    <script src="profile.js"></script>
+    <link rel="stylesheet" href="tester.css">
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+        #user-pic-top-right {
+            float: right;
+            width: 50px;
+            margin-top: 10px;
+        }
+        #linkmaker {
+            display: none; /* Initially hidden */
+        }
+    </style>
+    <script type="module">
+        // ... [Firebase Initialization Code Here] ...
+
+        function displayUserProfile(userData) {
+            if (userData) {
+                const profilePicUrl = userData.photoURL;
+                const userName = userData.displayName;
+                
+                // Display user profile information
+                document.getElementById('big-profile-pic').src = profilePicUrl;
+                document.getElementById('user-pic-center').src = profilePicUrl;
+                document.getElementById('user-pic-top-right').src = profilePicUrl;
+                document.getElementById('user-name').textContent = userName;
+                document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+                document.getElementById('user-info').style.display = 'flex';
+
+                // Show the link maker and hide other buttons
+                document.getElementById('linkmaker').style.display = 'block';
+                document.getElementById('login').style.display = 'none';
+                document.getElementById('uploadBtn').style.display = 'none';
+                document.getElementById('save-bio').style.display = 'none';
+            }
+        }
+
+        // Function to fetch user info from the database
+        async function fetchUserInfo(uid) {
+            const userRef = dbRef(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                displayUserProfile(userData);
+            } else {
+                alert("User not found.");
+            }
+        }
+
+        // On page load, check for useruid in the URL
+        window.onload = async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userUid = urlParams.get('useruid');
+
+            if (userUid) {
+                // Fetch and display user info based on userUid
+                await fetchUserInfo(userUid);
+            } else {
+                loadUserInfoFromLocalStorage();
+
+                // Check if the user is already logged in and load the bio
+                const user = auth.currentUser;
+                if (user) {
+                    loadBioFromDatabase(user.uid); // Load bio if user is already logged in
+                    displayUserProfile(user); // Use the new function
+                }
+            }
+        };
+
+        // ... [Rest of the code] ...
+        
+    </script>
+</head>
+<body>
+    <img id="user-pic-top-right" src="" alt="Profile Picture" style="float: right;"/>
+    
+    <div id="user-center-info">
+        <h2 id="user-name"></h2>
+        <img id="user-pic-center" src="" alt="Profile Picture" />
+        <p id="user-bio">No bio yet.</p>
+    </div>
+
+    <div id="linkmaker" style="display: none; margin-top: 20px;">
+        <input type="text" id="usersharelink" readonly style="width: 300px;">
+        <button id="copy-link">Copy Link</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="file" id="fileInput" accept="image/*">
+        <button id="uploadBtn">Upload Profile Picture</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <textarea id="bio-input" placeholder="Write your bio here..." rows="4" cols="50"></textarea>
+        <br>
+        <button id="save-bio">Save Bio</button>
+    </div>
+
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+    </div>
+</body>
+</html>
