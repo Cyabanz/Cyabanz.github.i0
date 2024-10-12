@@ -1,0 +1,28 @@
+{
+  "users": {
+    "user_id_1": {
+      "bio": "This is a bio for user 1",
+      "profile_picture": "url_to_profile_pic"
+    },
+    "user_id_2": {
+      "bio": "This is a bio for user 2",
+      "profile_picture": "url_to_profile_pic_2"
+    }
+  },
+  "games": {
+    "game_id_1": {
+      "name": "Game 1",
+      "description": "Description of Game 1",
+      "img": "url_to_image_1",
+      "likes": 0,
+      "dislikes": 0
+    },
+    "game_id_2": {
+      "name": "Game 2",
+      "description": "Description of Game 2",
+      "img": "url_to_image_2",
+      "likes": 0,
+      "dislikes": 0
+    }
+  }
+}
