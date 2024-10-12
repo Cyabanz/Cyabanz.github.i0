@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui, shrink-to-fit=yes">
+      <title>Study.com | Profile Customization</title>
+      <link href="/styles.css" rel="stylesheet" type="text/css" />
+      <link href="/sys/alert.css" rel="stylesheet" type="text/css" />
+      <link rel="manifest" href="manifest.json"/>
+      <link rel="icon" href="/images/logo.gif">
+      <meta property="og:title" content="frogie's arcade">
+      <meta name="theme-color" content="#00ffa6">
+      <meta name="msapplication-TileColor" content="#00ffa6">
+      <meta property="og:image" content="/images/logo.gif">
+      <meta name="description" content="profiles go hard">
+      <meta property="og:description" content="profiles go hard">
+      
+    <style>
+    body{
+        text-align: center;
+    }
+    header {
+        text-align: center;
+    }
+    .rainbowtitle {
+        display: inline-block;
+    }
+        h1{
+            color: #fff;
+        }
+    </style>
+</head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-43Q4DLBWP2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-43Q4DLBWP2');
+    </script>
+<body>
+  <noscript>enable javascript you dumb monkey</noscript>
+    <script src="/sys/alert.js"></script>
+    <div class="message-box" id="messageBox"></div>
+    <header>
+        <img class="logo" src="/images/logo.gif" width=55px height=55px onclick="window.location.href='/';">
+        <div class="navbar-right">
+            <button id="headerbtn" onclick="window.location.href='/math/index.html';">Unblocked</button></a>
+            <button id="headerbtn" onclick="window.location.href='/reading/';">Apps</button>
+            <button id="headerbtn" onclick="window.location.href='/partners.html';">Partners</button>
+            <button id="stupidpfpbutton" onclick="window.location.href='/settings.html';"><img id="header-img-btn" src="/images/settings.png" width="55px" height="55px" ></img></button>
+            <button id="stupidpfpbutton" onclick="window.location.href='/profile/';"><img id="profile-pic" src="" width="55px" height="55px" ></img></button>
+        </div>
+    </header>
+    <div id="roddyrichhesprisonprofile">
+      <div id="main">
+        <div id="user-info">
+          <img id="big-profile-pic" style="display: none;" src=""></img>
+
+          <div id="bio-section" >
+
+            <h2>Particles Selecter</h2>
+              <select id="particlesselecter" onchange="setparticles(this.value)">
+                <option value="default">Default</option>
+                <option value="emerald">Emerald</option>
+                <option value="moon">Moon</option>
+                <option value="purple-twighlight">Purple Twighlight</option>
+                <option value="cloud9">Cloud 9</option>
+                <option value="pdidzy">Firey Frenzy</option>
+                <option value="none">No Particles</option>
+              </select>
+
+              <h2>Global Theme</h2>
+              <p>makes it so that on your public profile the theme is set to your current theme</p>
+              <button id="linkmaker" onclick="enableglobaltheme()">Enable</button>
+              <button id="linkmaker" onclick="disableglobatheme()">Disable</button>
+
+              <h2>Upload Music</h2>
+              <p>wanna put music on your profile? upload your audio file here and have it play for everyone on your profile! (max file size is 5 mb)</p>
+              <form id="uploadForm">
+                <input type="file" name="audio" accept="audio/*" required>
+                <button type="submit">Upload</button>
+                <button id="delaudio" style="display: none;" onclick="deleteaudiourl()" >Remove Audio</button>
+              </form>
+              <div class="result" id="result"></div>
+          </div>
+          <div class="lds-roller" style="display: none;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="background"></div>
+    <div id="particles-js"></div>
+    <script src="/particles.js"></script>
+    <script src="/app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="/purify.min.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAydynhitaENUPOr8S-glDFflJMZCZbZYY",
+        databaseURL: "https://nfgrhtaer4wt4yh4r-default-rtdb.firebaseio.com",
+        authDomain: "nfgrhtaer4wt4yh4r.firebaseapp.com",
+        projectId: "nfgrhtaer4wt4yh4r",
+        storageBucket: "nfgrhtaer4wt4yh4r.appspot.com",
+        messagingSenderId: "741433768105",
+        appId: "1:741433768105:web:fad81fc01ccb2fddc951b8"
+      };
+  
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+  
+      // Initialize Firebase Auth and Database
+      const auth = firebase.auth();
+      const database = firebase.database();
+  
+      // Function to handle Google Sign-In
+      function googleSignIn() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+          .then((result) => {
+            // User signed in successfully.
+            const user = result.user;
+            console.log('User:', user);
+            storeUserInfo(user);
+            displayUserProfile(user);
+            document.getElementById('logout').style.display = 'inline';
+            document.getElementById('bio-section').style.display = 'block';
+          }).catch((error) => {
+            // Handle Errors here.
+            console.error('Error during sign-in:', error);
+          });
+      }
+  
+      function storeUserInfo(user) {
+        const userRef = database.ref('users/' + user.uid);
+        console.log('gyatt');
+        userRef.set({
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          bio: 'set this bio to whatever you want in your profile settings!',
+        }).then(() => {
+          console.log('User info stored successfully');
+          window.location.reload()
+        }).catch((error) => {
+          console.error('Error storing user info:', error);
+        });
+      }
+  
+      firebase.database.enableLogging(true);
+  
+  
+  
+      // Function to handle sign-out
+      function signOut() {
+        auth.signOut().then(() => {
+          // Sign-out successful.
+          document.getElementById('big-profile-pic').src = '';
+          console.log('User signed out.');
+        }).catch((error) => {
+          // An error happened.
+          console.error('Error during sign-out:', error);
+        });
+      }
+  
+      // Function to display user profile
+      function displayUserProfile(user) {
+        if (user) {
+          const profilePicUrl = user.photoURL;
+          const userUid = user.uid;
+          const usersharelink = window.location + "?useruid=" + userUid
+          const userRef = database.ref('users/' + user.uid);
+          userRef.once('value').then((snapshot) => {
+          if (!snapshot.exists()) {
+          then(() => {
+            console.log('no bio!');
+          }).catch((error) => {
+        console.error('error getting bio:', error);
+        });
+         } else {
+         console.log('bio already exists');
+         const userData = snapshot.val();
+         if(userData.hasaudio === 'yes'){
+            document.getElementById('delaudio').style = '';
+          }
+          else{
+            console.log('oil up lil bro')
+          }
+         document.getElementById("particlesselecter").value = userData.particles;
+          }
+     }).catch((error) => {
+         console.error('Error checking user profile:', error);
+     });
+          document.getElementById('big-profile-pic').src = profilePicUrl;
+          document.getElementById('profile-pic').src = profilePicUrl;
+          document.getElementById('logout').style.display = 'visible';
+          document.getElementById('linkmaker').style.display = 'visible';
+          document.getElementById('signin').style.display = 'none';
+          document.getElementById('user-info').style.display = 'flex';
+          document.getElementById('user-name').textContent = user.displayName;
+          document.getElementById('uid').textContent = userUid;
+          document.getElementById('usersharelink').value = usersharelink;
+        }
+      }
+
+
+      document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const fileInput = document.querySelector('input[type="file"]');
+      const spinner = document.getElementsByClassName('lds-roller')[0];
+      spinner.style = '';
+      formData.append('audio', fileInput.files[0]);
+
+      try {
+        const response = await fetch('https://audios.yourmom.eu.org/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const audiolink = data.url;
+          document.getElementById('result').innerHTML = `<p>file upload successful!</p>`;
+          setaudiourl(audiolink);
+        } else {
+          document.getElementById('result').innerHTML = `<p>error.</p>`;
+          spinner.style = 'display: none;';
+        }
+      } catch (error) {
+        document.getElementById('result').innerHTML = `<p>faliure.</p>`;
+        spinner.style = 'display: none;';
+      }
+    });
+
+    function setaudiourl(value) {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = database.ref('users/' + user.uid);
+          userRef.update({
+            hasaudio: 'yes',
+            audiourl: value
+          }).then(() => {
+            console.log('done!');
+            alert('done!');
+            window.location.reload()
+          }).catch((error) => {
+            console.error('Error updating bio:', error);
+            alert('Error updating bio:', error);
+          });
+        } else {
+          console.error('No user is signed in');
+          alert('No user is signed in');
+        }
+      }
+
+      function deleteaudiourl() {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = database.ref('users/' + user.uid);
+          userRef.update({
+            hasaudio: null,
+            audiourl: null
+          }).then(() => {
+            console.log('done!');
+            alert('done!');
+            window.location.reload()
+          }).catch((error) => {
+            console.error('error deleting audio:', error);
+            alert('error deleting audio:', error);
+          });
+        } else {
+          console.error('No user is signed in');
+          alert('No user is signed in');
+        }
+      }
+
+      function setparticles(value) {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = database.ref('users/' + user.uid);
+          userRef.update({
+            particles: value
+          }).then(() => {
+            console.log('sigma');
+            window.location.href = '/profile/';
+          }).catch((error) => {
+            console.error('Error updating bio:', error);
+            alert('Error updating bio:', error);
+          });
+        } else {
+          console.error('No user is signed in');
+          alert('No user is signed in');
+        }
+      }
+      function enableglobaltheme() {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = database.ref('users/' + user.uid);
+          userRef.update({
+            globaltheme: true
+          }).then(() => {
+            console.log('sigma');
+            window.location.href = '/profile/';
+          }).catch((error) => {
+            console.error('Error updating bio:', error);
+            alert('Error updating bio:', error);
+          });
+        } else {
+          console.error('No user is signed in');
+          alert('No user is signed in');
+        }
+      }
+
+      function disableglobatheme() {
+        const user = auth.currentUser;
+        if (user) {
+          const userRef = database.ref('users/' + user.uid);
+          userRef.update({
+            globaltheme: false
+          }).then(() => {
+            console.log('sigma');
+            window.location.href = '/profile/';
+          }).catch((error) => {
+            console.error('Error updating bio:', error);
+            alert('Error updating bio:', error);
+          });
+        } else {
+          console.error('No user is signed in');
+          alert('No user is signed in');
+        }
+      }
+
+
+      function copyToClipboard() {
+              var inputField = document.getElementById("usersharelink");
+          
+              if (navigator.clipboard) {
+                  navigator.clipboard.writeText(inputField.value).then(function() {
+                  }).catch(function(err) {
+                      console.error('Could not copy text: ', err);
+                  });
+              } else {
+                  inputField.select();
+                  inputField.setSelectionRange(0, 99999);
+                  document.execCommand("copy");
+              }
+          }
+          
+      async function fetchUserInfo(uid) {
+        try {
+          const userRef = database.ref('users/' + uid);
+          userRef.once('value').then((snapshot) => {
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
+              document.getElementById('big-profile-pic').src = userData.photoURL || '';
+              document.getElementById('user-name').textContent = userData.displayName;
+              document.getElementById('user-info').style.display = 'flex';
+            } else {
+              console.error('No such user!');
+              document.getElementById('big-profile-pic').src = '/images/user-notallowed.png';
+              document.getElementById('user-name').textContent = 'user doesnt exist!';
+              document.getElementById('user-info').style.display = 'flex';
+            }
+          }).catch((error) => {
+            console.error('Error fetching user info:', error);
+            document.getElementById('big-profile-pic').src = '/images/user-notallowed.png';
+            document.getElementById('user-name').textContent = 'you must be authenticated to use this feature!';
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('signin').style.display = 'visible';
+          });
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+          document.getElementById('big-profile-pic').src = '/images/user-notallowed.png';
+          document.getElementById('user-name').textContent = 'you must be authenticated to use this feature!';
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('signin').style.display = 'visible';
+        }
+      }
+
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+  
+  
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          displayUserProfile(user);
+        } else {
+          document.getElementById('big-profile-pic').src = '/images/user.png';
+          document.getElementById('profile-pic').src = '/images/user.png';
+          document.getElementById('user-name').textContent = 'login to have a name!';
+          document.getElementById('logout').style.display = 'none';
+          document.getElementById('signin').style.display = 'inline';
+          document.getElementById('uid').textContent = 'uid not avaliable';
+          document.getElementById('usersharelink').style.display = 'none';
+          document.getElementById('account-info').style.display = 'none';
+          document.getElementById('linkmaker').style.display = 'none';
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const uid = getQueryParam('useruid');
+        if (uid) {
+          fetchUserInfo(uid);
+          document.getElementById('logout').style.display = 'none';
+          document.getElementById('signin').style.display = 'none';
+          document.getElementById('uid').style.display = 'none';
+          document.getElementById('totally-uid').style.display = 'none';
+          document.getElementById('user-info').style.display = 'none';
+          document.getElementById('usersharelink').style.display = 'none';
+          document.getElementById('account-info').style.display = 'none';
+          document.getElementById('linkmaker').style.display = 'none';
+        }
+      });
+  
+    </script>
+
+</body>
+</html>
