@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Public Profile</title>
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            // Your Firebase config here
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to load user profile from database using UID
+        async function loadUserProfile(uid) {
+            const userRef = ref(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                document.getElementById('user-name').textContent = userData.displayName || "Unknown User";
+                document.getElementById('user-pic-center').src = userData.profilePic || "images/defaultProfilePic.png";
+                document.getElementById('user-bio').textContent = userData.bio || "No bio available.";
+            } else {
+                document.getElementById('user-name').textContent = "User not found";
+                document.getElementById('user-bio').textContent = "";
+            }
+        }
+
+        // Get UID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const uid = urlParams.get('uid');
+
+        if (uid) {
+            loadUserProfile(uid);
+        } else {
+            document.getElementById('user-name').textContent = "No user specified";
+        }
+    </script>
+</head>
+<body>
+    <div id="user-center-info">
+        <h2 id="user-name"></h2>
+        <img id="user-pic-center" src="" alt="Profile Picture" />
+        <p id="user-bio">Loading bio...</p>
+    </div>
+</body>
+</html>
