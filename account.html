@@ -75,8 +75,7 @@
                 document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
             }
         });
-
-        <script type="module">
+<script type="module">
     // Your existing imports and Firebase initialization code...
 
     document.getElementById('login').addEventListener('click', () => {
@@ -125,23 +124,7 @@
     };
 
     // Other existing code...
-</script>
-
-
-        document.getElementById('logout').addEventListener('click', () => {
-    signOut(auth).then(() => {
-        // Clear local storage upon signing out
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userPhoto');
-
-        displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
-        document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
-    }).catch((error) => {
-        console.error('Error during sign-out:', error);
-    });
-});
-
-
+</script/>
         function displayUserInfo(name, photoURL) {
             document.getElementById('user-name').textContent = name;
             document.getElementById('user-pic-center').src = photoURL;
