@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Public Profile</title>
+    <link rel="stylesheet" href="tester.css">
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+        #user-pic-top-right {
+            float: right;
+            width: 50px;
+            margin-top: 10px;
+        }
+    </style>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        // Firebase config
+        const firebaseConfig = {
+            // Add your Firebase configuration here
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const database = getDatabase(app);
+
+        let currentUser;
+
+        // Function to display user profile
+        function displayUserProfile(userData) {
+            document.getElementById('user-name').textContent = userData.username;
+            document.getElementById('user-pic-center').src = userData.photoURL || 'images/IMG0164.jpeg';
+            document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+        }
+
+        // Get the 'uid' parameter from the URL to load public profile
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const uid = urlParams.get('uid');
+
+        if (uid) {
+            // Load public profile by UID from Firebase Realtime Database
+            const userRef = ref(database, `users/${uid}`);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    displayUserProfile(userData); // Display user's profile info
+                } else {
+                    alert("Profile not found!");
+                }
+            }).catch((error) => {
+                console.error("Error loading profile:", error);
+            });
+        } else {
+            // If no UID, load the current logged-in user's profile
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    const userRef = ref(database, `users/${user.uid}`);
+                    get(userRef).then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const userData = snapshot.val();
+                            displayUserProfile(userData);
+
+                            // Show shareable profile link
+                            document.getElementById('share-link').href = `?uid=${user.uid}`;
+                            document.getElementById('share-link').textContent = `Share your profile: ${window.location.origin}/?uid=${user.uid}`;
+                            document.getElementById('share-link-container').style.display = 'block';
+                        } else {
+                            alert("Profile not found!");
+                        }
+                    }).catch((error) => {
+                        console.error("Error fetching user profile:", error);
+                    });
+                } else {
+                    alert("You need to log in to view your profile.");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <img id="user-pic-top-right" src="" alt="Profile Picture" style="float: right;" />
+    
+    <div id="user-center-info">
+        <h2 id="user-name"></h2>
+        <img id="user-pic-center" src="" alt="Profile Picture" />
+        <p id="user-bio">No bio yet.</p>
+    </div>
+
+    <!-- Container for sharing link -->
+    <div id="share-link-container" style="display: none; text-align: center; margin-top: 20px;">
+        <p>Share your profile using this link:</p>
+        <a id="share-link" href="" target="_blank"></a>
+    </div>
+
+    <!-- Login and Logout buttons (optional) -->
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+    </div>
+</body>
+</html>
