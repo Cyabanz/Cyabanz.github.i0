@@ -1,20 +1,44 @@
+// Import Firebase functions
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+    authDomain: "algebras4-44f23.firebaseapp.com",
+    projectId: "algebras4-44f23",
+    storageBucket: "algebras4-44f23.appspot.com",
+    messagingSenderId: "512062724744",
+    appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+    measurementId: "G-4R378XMPSW"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+const analytics = getAnalytics(app);
+
+// Fetching config and games
 fetch("/js/json/config.json")
-    .then(function (response) {
+    .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         return response.json();
     })
-    .then(function (config) {
+    .then(config => {
         fetch("/js/json/games.json")
-            .then(function (response) {
+            .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-            .then(function (fusion) {
-                fusion.forEach(function (game) {
+            .then(fusion => {
+                fusion.forEach(game => {
                     const cards = document.getElementById("card-container");
                     const card = document.createElement("a");
                     const innerdiv = document.createElement("div");
@@ -66,7 +90,7 @@ fetch("/js/json/config.json")
                     gameimg.src = game.img;
                     card.href = "/#/play?" + game.id;
                     card.appendChild(innerdiv);
-                    card.prepend(gameimg); // puts at top of inside div
+                    card.prepend(gameimg);
                     innerdiv.appendChild(gametext);
                     innerdiv.appendChild(gamedesc);
                     wrapper.appendChild(pin);
@@ -83,11 +107,11 @@ fetch("/js/json/config.json")
                     }
                 });
             })
-            .catch(function (error) {
+            .catch(error => {
                 console.error("Error fetching games.json:", error);
             });
     })
-    .catch(function (error) {
+    .catch(error => {
         console.error("Error fetching config.json:", error);
     });
 
@@ -130,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function updateLikeCount(gameId) {
-    const gameRef = firebase.database().ref('games/' + gameId);
+    const gameRef = database.ref('games/' + gameId); // Use the initialized database
     gameRef.transaction((game) => {
         if (game) {
             game.likes = (game.likes || 0) + 1; // Increment like count
@@ -140,7 +164,7 @@ function updateLikeCount(gameId) {
 }
 
 function updateDislikeCount(gameId) {
-    const gameRef = firebase.database().ref('games/' + gameId);
+    const gameRef = database.ref('games/' + gameId); // Use the initialized database
     gameRef.transaction((game) => {
         if (game) {
             game.dislikes = (game.dislikes || 0) + 1; // Increment dislike count
@@ -148,4 +172,3 @@ function updateDislikeCount(gameId) {
         return game;
     });
 }
-
