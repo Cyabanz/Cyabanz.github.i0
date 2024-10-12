@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Google Login with Local Storage</title>
+    <link rel="stylesheet" href="tester.css">
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+        #user-pic-top-right {
+            float: right;
+            width: 50px;
+            margin-top: 10px;
+        }
+        #uid-link {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>Welcome to My Profile Page</h1>
+        <img id="user-pic-top-right" src="" alt="User Profile" />
+    </div>
+
+    <div id="user-center-info">
+        <img id="user-pic-center" src="" alt="User Profile" />
+        <h2 id="user-name"></h2>
+        <p id="user-bio"></p>
+    </div>
+
+    <div style="text-align: center;">
+        <input type="file" id="fileInput" accept="image/*" />
+        <button id="uploadBtn">Upload Profile Picture</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="text" id="bio-input" placeholder="Enter your bio" />
+        <button id="save-bio">Save Bio</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a id="uid-link" href="#" target="_blank" style="display: none;">Share your profile</a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+        import { getDatabase, ref as dbRef, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const storage = getStorage(app);
+        const database = getDatabase(app);
+
+        let currentUser;
+
+        function loadUserInfoFromLocalStorage() {
+            const userName = localStorage.getItem('userName');
+            const userPhoto = localStorage.getItem('userPhoto');
+
+            if (userName && userPhoto) {
+                displayUserInfo(userName, userPhoto);
+            } else {
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+
+                const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL;
+                displayUserInfo(user.displayName, storedPhoto);
+
+                if (!localStorage.getItem('userName')) {
+                    localStorage.setItem('userName', user.displayName);
+                }
+
+                // Load the bio from the database for the logged-in user
+                loadBioFromDatabase(user.uid).then(userData => {
+                    // Generate and display the UID link with name and bio
+                    const uidLink = `https://cyabanz.github.io/account/?uid=${user.uid}&name=${encodeURIComponent(user.displayName)}&bio=${encodeURIComponent(userData.bio || "No bio yet.")}`;
+                    document.getElementById('uid-link').textContent = uidLink; // Show the link
+                    document.getElementById('uid-link').href = uidLink; // Make it clickable
+
+                    // Make logout and link creation elements visible
+                    document.getElementById('logout').style.display = 'inline';
+                    document.getElementById('uid-link').style.display = 'block';
+                    document.getElementById('login').style.display = 'none';
+
+                    // Display user's name and bio
+                    document.getElementById('user-name').textContent = user.displayName;
+                    document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+                });
+            } else {
+                loadUserInfoFromLocalStorage();
+                document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
+                document.getElementById('uid-link').textContent = ""; // Clear the link for guest users
+                document.getElementById('logout').style.display = 'none'; // Hide logout button
+                document.getElementById('uid-link').style.display = 'none'; // Hide shareable link
+                document.getElementById('login').style.display = 'inline'; // Show login button
+            }
+        });
+
+        document.getElementById('login').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+
+                    const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL;
+                    displayUserInfo(user.displayName, storedPhoto);
+
+                    if (!localStorage.getItem('userName')) {
+                        localStorage.setItem('userName', user.displayName);
+                    }
+
+                    // Load the bio from the database for the logged-in user
+                    loadBioFromDatabase(user.uid).then(userData => {
+                        // Generate and display the UID link with name and bio
+                        const uidLink = `https://cyabanz.github.io/account/?uid=${user.uid}&name=${encodeURIComponent(user.displayName)}&bio=${encodeURIComponent(userData.bio || "No bio yet.")}`;
+                        document.getElementById('uid-link').textContent = uidLink; // Show the link
+                        document.getElementById('uid-link').href = uidLink; // Make it clickable
+
+                        // Make logout and link creation elements visible
+                        document.getElementById('logout').style.display = 'inline';
+                        document.getElementById('uid-link').style.display = 'block';
+                        document.getElementById('login').style.display = 'none';
+
+                        // Display user's name and bio
+                        document.getElementById('user-name').textContent = user.displayName;
+                        document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                });
+        });
+
+        document.getElementById('logout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+                document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
+                document.getElementById('uid-link').textContent = ""; // Clear the link for guest users
+                document.getElementById('logout').style.display = 'none'; // Hide logout button
+                document.getElementById('uid-link').style.display = 'none'; // Hide shareable link
+                document.getElementById('login').style.display = 'inline'; // Show login button
+            }).catch((error) => {
+                console.error('Error during sign-out:', error);
+            });
+        });
+
+        function displayUserInfo(name, photoURL) {
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-pic-center').src = photoURL;
+            document.getElementById('user-pic-top-right').src = photoURL;
+
+            if (name === "Guest") {
+                document.getElementById('login').style.display = 'inline';
+                document.getElementById('logout').style.display = 'none';
+            }
+        }
+
+        function loadBioFromDatabase(uid) {
+            return get(dbRef(database, `users/${uid}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                } else {
+                    console.log("No data available for this user.");
+                    return {};
+                }
+            });
+        }
+
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert("Please select a file to upload.");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const storageRef = ref(storage, `profilePictures/${currentUser.uid}`);
+
+            uploadBytes(storageRef, file).then((snapshot) => {
+                console.log('Uploaded a file!');
+                getDownloadURL(storageRef).then((url) => {
+                    localStorage.setItem('userPhoto', url);
+                    displayUserInfo(currentUser.displayName, url);
+                });
+            });
+        });
+
+        document.getElementById('save-bio').addEventListener('click', () => {
+            const bio = document.getElementById('bio-input').value;
+            if (currentUser) {
+                set(dbRef(database, `users/${currentUser.uid}`), {
+                    bio: bio
+                }).then(() => {
+                    alert('Bio saved successfully!');
+                    document.getElementById('user-bio').textContent = bio;
+                }).catch((error) => {
+                    console.error('Error saving bio:', error);
+                });
+            }
+        });
+
+        loadUserInfoFromLocalStorage();
+    </script>
+</body>
+</html>
