@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to get query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Function to load user profile
+        async function loadUserProfile() {
+            const uid = getQueryParam('uid'); // Get UID from URL
+            if (!uid) {
+                alert("No user ID found.");
+                return;
+            }
+
+            const userRef = dbRef(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                document.getElementById('user-name').textContent = userData.userName || "No username available";
+                document.getElementById('user-pic').src = userData.userPhoto || "images/IMG_0164.jpeg"; // Default picture
+                document.getElementById('user-bio').textContent = userData.bio || "No bio available.";
+            } else {
+                document.getElementById('user-name').textContent = "User not found.";
+                document.getElementById('user-pic').src = "images/IMG_0164.jpeg"; // Default picture
+                document.getElementById('user-bio').textContent = "No bio available.";
+            }
+        }
+
+        window.onload = loadUserProfile; // Load user profile when the page loads
+    </script>
+</head>
+<body>
+    <div id="user-profile">
+        <h2 id="user-name">Loading...</h2>
+        <img id="user-pic" src="images/IMG_0164.jpeg" alt="Profile Picture" style="width: 100px;"/>
+        <p id="user-bio">Loading bio...</p>
+    </div>
+</body>
+</html>
