@@ -100,3 +100,41 @@ document.getElementById("card-lookup").addEventListener("input", search);
 window.addEventListener("load", function () {
   search();
 });
+document.addEventListener("DOMContentLoaded", function () {
+    const likeButtons = document.querySelectorAll('.like-btn');
+    const dislikeButtons = document.querySelectorAll('.dislike-btn');
+
+    likeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const gameId = button.getAttribute('data-game-id');
+            updateLikeCount(gameId);
+        });
+    });
+
+    dislikeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const gameId = button.getAttribute('data-game-id');
+            updateDislikeCount(gameId);
+        });
+    });
+});
+
+function updateLikeCount(gameId) {
+    const gameRef = firebase.database().ref('games/' + gameId);
+    gameRef.transaction((game) => {
+        if (game) {
+            game.likes = (game.likes || 0) + 1; // Increment like count
+        }
+        return game;
+    });
+}
+
+function updateDislikeCount(gameId) {
+    const gameRef = firebase.database().ref('games/' + gameId);
+    gameRef.transaction((game) => {
+        if (game) {
+            game.dislikes = (game.dislikes || 0) + 1; // Increment dislike count
+        }
+        return game;
+    });
+}
