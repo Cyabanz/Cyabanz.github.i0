@@ -76,25 +76,57 @@
             }
         });
 
-        document.getElementById('login').addEventListener('click', () => {
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
+        <script type="module">
+    // Your existing imports and Firebase initialization code...
 
-                    const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL;
-                    displayUserInfo(user.displayName, storedPhoto);
+    document.getElementById('login').addEventListener('click', () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = result.user;
 
-                    if (!localStorage.getItem('userName')) {
-                        localStorage.setItem('userName', user.displayName);
-                    }
+                // Get the user's photo URL from local storage or use the user's photoURL
+                const storedPhoto = localStorage.getItem('userPhoto') || user.photoURL;
+                displayUserInfo(user.displayName, storedPhoto);
 
-                    // Load the bio from the database for the logged-in user
-                    loadBioFromDatabase(user.uid); // Load the bio immediately after login
-                })
-                .catch((error) => {
-                    console.error('Error during sign-in:', error);
-                });
+                // Store user name and photo URL in local storage
+                localStorage.setItem('userName', user.displayName);
+                localStorage.setItem('userPhoto', storedPhoto);
+
+                // Load the bio from the database for the logged-in user
+                loadBioFromDatabase(user.uid); // Load the bio immediately after login
+            })
+            .catch((error) => {
+                console.error('Error during sign-in:', error);
+            });
+    });
+
+    document.getElementById('logout').addEventListener('click', () => {
+        signOut(auth).then(() => {
+            // Clear local storage upon signing out
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userPhoto');
+
+            displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+            document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
+        }).catch((error) => {
+            console.error('Error during sign-out:', error);
         });
+    });
+
+    // Load user info from local storage or the database upon page load
+    window.onload = () => {
+        loadUserInfoFromLocalStorage();
+
+        // Check if the user is already logged in and load the bio
+        const user = auth.currentUser;
+        if (user) {
+            loadBioFromDatabase(user.uid); // Load bio if user is already logged in
+        }
+    };
+
+    // Other existing code...
+</script>
+
 
         document.getElementById('logout').addEventListener('click', () => {
     signOut(auth).then(() => {
