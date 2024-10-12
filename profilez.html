@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        async function loadUserProfile() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const uid = urlParams.get('uid');
+
+            if (uid) {
+                const userRef = dbRef(database, `users/${uid}`);
+                const snapshot = await get(userRef);
+
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    document.getElementById('user-name').textContent = userData.username || "No name provided";
+                    document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+                    document.getElementById('user-pic').src = userData.photoURL || "images/IMG_0164.jpeg"; // Default picture
+                } else {
+                    document.getElementById('user-name').textContent = "User not found";
+                    document.getElementById('user-bio').textContent = "No bio yet.";
+                }
+            } else {
+                document.getElementById('user-name').textContent = "No UID provided";
+                document.getElementById('user-bio').textContent = "No bio yet.";
+            }
+        }
+
+        window.onload = loadUserProfile;
+    </script>
+</head>
+<body>
+    <h2 id="user-name"></h2>
+    <img id="user-pic" src="" alt="Profile Picture" style="width: 100px;"/>
+    <p id="user-bio">No bio yet.</p>
+</body>
+</html>
