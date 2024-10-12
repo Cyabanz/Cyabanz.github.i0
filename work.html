@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="tester.css">
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app); // Initialize Firebase Realtime Database
+
+        // Function to fetch user data from the database
+        async function fetchUserData(uid) {
+            const userRef = dbRef(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                displayUserData(userData);
+            } else {
+                document.getElementById('user-center-info').innerHTML = "<p>User not found.</p>";
+            }
+        }
+
+        // Function to display user data on the profile page
+        function displayUserData(userData) {
+            document.getElementById('user-name').textContent = userData.userName || "No name available";
+            document.getElementById('user-bio').textContent = userData.bio || "No bio available";
+            document.getElementById('user-pic-center').src = userData.userPhoto || "images/IMG_0164.jpeg"; // Default picture
+        }
+
+        // Function to get UID from the URL
+        function getUIDFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('uid');
+        }
+
+        window.onload = () => {
+            const uid = getUIDFromURL();
+            if (uid) {
+                fetchUserData(uid); // Fetch user data if UID is present
+            } else {
+                document.getElementById('user-center-info').innerHTML = "<p>Invalid profile link.</p>";
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="user-center-info">
+        <h2 id="user-name">Loading...</h2>
+        <img id="user-pic-center" src="" alt="Profile Picture" />
+        <p id="user-bio">Loading bio...</p>
+    </div>
+</body>
+</html>
