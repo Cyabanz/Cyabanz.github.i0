@@ -97,13 +97,18 @@
         });
 
         document.getElementById('logout').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
-                document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
-            }).catch((error) => {
-                console.error('Error during sign-out:', error);
-            });
-        });
+    signOut(auth).then(() => {
+        // Clear local storage upon signing out
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userPhoto');
+
+        displayUserInfo("Guest", "images/IMG_0164.jpeg"); // Default picture
+        document.getElementById('user-bio').textContent = "No bio yet."; // Reset bio for guest users
+    }).catch((error) => {
+        console.error('Error during sign-out:', error);
+    });
+});
+
 
         function displayUserInfo(name, photoURL) {
             document.getElementById('user-name').textContent = name;
