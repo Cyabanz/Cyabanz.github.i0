@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="tester.css">
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+        #user-pic-top-right {
+            float: right;
+            width: 50px;
+            margin-top: 10px;
+        }
+        #profile-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+    <script type="module">
+        // Your existing JavaScript code goes here
+        // Ensure to include the updated JavaScript code provided earlier
+    </script>
+</head>
+<body>
+    <img id="user-pic-top-right" src="images/IMG_0164.jpeg" alt="Profile Picture" />
+    
+    <div id="user-center-info">
+        <h2 id="user-name">Guest</h2>
+        <img id="user-pic-center" src="images/IMG_0164.jpeg" alt="Profile Picture" />
+        <p id="user-bio">No bio yet.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        <button id="uploadBtn" style="display: none;">Upload Profile Picture</button>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <textarea id="bio-input" placeholder="Write your bio here..." rows="4" cols="50" style="display: none;"></textarea>
+        <br>
+        <button id="save-bio" style="display: none;">Save Bio</button>
+    </div>
+
+    <div id="profile-link"></div> <!-- Display the profile link here -->
+
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+    </div>
+</body>
+</html>
