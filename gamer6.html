@@ -16,7 +16,7 @@
 
   // Function to load game data from JSON
   async function loadGames() {
-    const response = await fetch('games.json'); // Adjust the path if necessary
+    const response = await fetch('gamers.json'); // Adjust the path if necessary
     allGames = await response.json(); // Store all the games for filtering
     displayGames(allGames); // Initially display all games
   }
