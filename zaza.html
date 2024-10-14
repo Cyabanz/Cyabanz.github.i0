@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Cards</title>
+  <link rel="stylesheet" href="games.css">
+  <link rel="stylesheet" href="gamer2.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    .category-dropdown {
+      display: none;
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      z-index: 1;
+    }
+    .category-option {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .category-option:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search...">
+      <div class="search-btn" id="dropdown-toggle">
+        <i class="fas fa-search"></i> <!-- Font Awesome Search Icon -->
+      </div>
+      <div class="category-dropdown" id="category-dropdown">
+        <div class="category-option" onclick="filterByCategory('All')">All</div>
+        <div class="category-option" onclick="filterByCategory('Survival')">Survival</div>
+        <div class="category-option" onclick="filterByCategory('Creative')">Creative</div>
+        <div class="category-option" onclick="filterByCategory('Action')">Action</div>
+      </div>
+    </div>
+    <div class="games" id="games-container"></div>
+  </div>
+
+<script>
+  let allGames = []; // To store all the games initially
+
+  // Function to load game data from JSON
+  async function loadGames() {
+    const response = await fetch('weed.json'); // Adjust the path if necessary
+    allGames = await response.json(); // Store all the games for filtering
+    displayGames(allGames); // Initially display all games
+  }
+
+  // Function to display games
+  function displayGames(games) {
+    const container = document.getElementById('games-container');
+    container.innerHTML = ''; // Clear previous content
+
+    if (games.length === 0) {
+      // Display "No results found" if no games match the search
+      const noResults = document.createElement('p');
+      noResults.textContent = 'No results found';
+      noResults.classList.add('no-results');
+      container.appendChild(noResults);
+      return;
+    }
+
+    games.forEach(game => {
+      // Create a banner wrapper
+      const bannerWrapper = document.createElement('div');
+      bannerWrapper.classList.add('banner_wrapper');
+
+      // Create a clickable link
+      const link = document.createElement('a');
+      link.href = game.link; // Set the link URL
+      link.target = '_blank'; // Open in a new tab
+
+      // Create a banner
+      const banner = document.createElement('div');
+      banner.classList.add('banner');
+      const bannerImage = document.createElement('img');
+      bannerImage.src = game.banner;
+      bannerImage.alt = "Banner Game";
+      bannerImage.classList.add('banner__image');
+      banner.appendChild(bannerImage);
+      bannerWrapper.appendChild(banner);
+
+      // Create card wrapper
+      const cardWrapper = document.createElement('div');
+      cardWrapper.classList.add('card__wrapper');
+
+      // Create card
+      const card = document.createElement('div');
+      card.classList.add('card');
+      const cardInfo = document.createElement('div');
+      cardInfo.classList.add('card__info');
+      const cardAvatar = document.createElement('img');
+      cardAvatar.src = game.avatar;
+      cardAvatar.alt = "Game";
+      cardAvatar.classList.add('card__avatar');
+
+      const titleDiv = document.createElement('div');
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = game.title;
+      const descriptionP = document.createElement('p');
+      descriptionP.textContent = game.description;
+
+      titleDiv.appendChild(titleSpan);
+      titleDiv.appendChild(descriptionP);
+      cardInfo.appendChild(cardAvatar);
+      cardInfo.appendChild(titleDiv);
+      card.appendChild(cardInfo);
+      card.appendChild(document.createElement('button').appendChild(document.createTextNode('Get')));
+      cardWrapper.appendChild(card);
+      bannerWrapper.appendChild(cardWrapper);
+      link.appendChild(bannerWrapper); // Add the bannerWrapper to the link
+      container.appendChild(link); // Add the link to the container
+    });
+  }
+
+  // Function to filter games based on search input
+  function filterGames() {
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const filteredGames = allGames.filter(game => 
+      game.title.toLowerCase().includes(searchInput) || 
+      game.description.toLowerCase().includes(searchInput)
+    );
+    displayGames(filteredGames); // Display filtered games or no results message
+  }
+
+  // Function to filter games based on selected category
+  function filterByCategory(category) {
+    let filteredGames;
+
+    if (category === 'All') {
+      filteredGames = allGames; // Show all games
+    } else {
+      filteredGames = allGames.filter(game => game.category.includes(category)); // Filter by selected category
+    }
+
+    displayGames(filteredGames); // Display filtered games or all games
+  }
+
+  // Add event listener to the search input
+  document.getElementById('search-input').addEventListener('input', filterGames);
+
+  // Load games when the page loads
+  window.onload = loadGames;
+
+  // Show or hide dropdown when clicking the search button
+  document.getElementById('dropdown-toggle').addEventListener('click', () => {
+    const dropdown = document.getElementById('category-dropdown');
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // Close dropdown when clicking outside
+  window.addEventListener('click', (event) => {
+    const dropdown = document.getElementById('category-dropdown');
+    if (!event.target.matches('#dropdown-toggle') && !event.target.matches('.category-option')) {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
