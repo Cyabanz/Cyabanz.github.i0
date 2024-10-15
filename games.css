@@ -113,7 +113,15 @@ button:active {
   gap: 10px;
 }
 
-.card {
-  /* Add some bottom margin to create space between cards */
-  margin-bottom: 50px; /* Adjust this value for desired spacing between cards */
+.card__wrapper {
+  margin: 20px 0; /* Add vertical margin to create space between cards */
 }
+
+.banner_wrapper {
+  margin-bottom: 20px; /* Add space below the banner wrapper */
+}
+
+.games {
+  padding-top: 20px; /* Add some padding at the top of the games container */
+}
+
