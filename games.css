@@ -112,3 +112,8 @@ button:active {
   flex-direction: row;
   gap: 10px;
 }
+
+.card {
+  /* Add some bottom margin to create space between cards */
+  margin-bottom: 20px; /* Adjust this value for desired spacing between cards */
+}
