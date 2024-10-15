@@ -6,7 +6,7 @@
 
 .search-box {
   position: absolute; /* Use absolute positioning */
-  top: 20px; /* Adjust the top value to move the search bar up or down */
+  top: 12px; /* Adjusted top value to move the search bar up */
   left: 50%; /* Center the search bar horizontally */
   transform: translateX(-50%); /* Align the search bar properly in the center */
   max-width: 288px;
@@ -66,3 +66,4 @@
   text-align: center; /* Center align the text */
   margin-top: 20px; /* Add some space at the top */
 }
+
