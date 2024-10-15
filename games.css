@@ -114,14 +114,14 @@ button:active {
 }
 
 .card__wrapper {
-  margin: 20px 0; /* Add vertical margin to create space between cards */
+  margin: 40px 0; /* Add vertical margin to create space between cards */
 }
 
 .banner_wrapper {
-  margin-bottom: 20px; /* Add space below the banner wrapper */
+  margin-bottom: 40px; /* Add space below the banner wrapper */
 }
 
 .games {
-  padding-top: 20px; /* Add some padding at the top of the games container */
+  padding-top: 40px; /* Add some padding at the top of the games container */
 }
 
