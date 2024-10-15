@@ -138,7 +138,7 @@ button:active {
 /* Container to position the search box */
 .container {
   position: relative;
-  padding-top: 150px; /* Adjust this padding as needed for your layout */
+  padding-top: 20px; /* Adjust this padding as needed for your layout */
 }
 
 .search-box {
