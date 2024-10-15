@@ -143,17 +143,19 @@ button:active {
 
 .search-box {
   position: absolute; /* Use absolute positioning */
-  top: 0px; /* Keep the top position as needed */
+  top: -20px; /* Move the search bar higher (adjust this as needed) */
   left: 50%; /* Center the search bar horizontally */
   transform: translateX(-50%); /* Align the search bar properly in the center */
   max-width: 288px;
   background: #2f3640;
-  height: 90px; /* Increase the height to make it 80% higher than the original 50px */
+  height: 90px; /* Increase height to 90px */
   border-radius: 50px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
+  z-index: 1; /* Ensure the search box is above other elements */
 }
+
 
 
 
