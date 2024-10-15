@@ -135,17 +135,16 @@ button:active {
   background-color: #f0f0f0;
 }
 
-/* Container to position the search box */
 .container {
   position: relative;
-  padding-top: 20px; /* Adjust this padding as needed for your layout */
+  padding-top: 40px; /* Decrease this to move the search box higher */
 }
 
 .search-box {
-  position: absolute; /* Use absolute positioning */
-  top: -20px; /* Move the search bar higher (adjust this as needed) */
-  left: 50%; /* Center the search bar horizontally */
-  transform: translateX(-50%); /* Align the search bar properly in the center */
+  position: absolute; 
+  top: 0px; /* Keeps the search bar at the top */
+  left: 50%; 
+  transform: translateX(-50%);
   max-width: 288px;
   background: #2f3640;
   height: 90px; /* Increase height to 90px */
