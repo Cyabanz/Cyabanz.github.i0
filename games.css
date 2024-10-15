@@ -137,12 +137,13 @@ button:active {
 
 .container {
   position: relative;
-  padding-top: 80px; /* Adjusted padding to 80px for 20% higher position */
+  top: -90%; /* Move the container up by 90% */
+  padding-top: 80px; /* Adjusted padding */
 }
 
 .search-box {
   position: absolute; /* Use absolute positioning */
-  top: -10px; /* Moved the search bar higher up (20% higher from the original 0px) */
+  top: -100px; /* Adjusted top to move it higher */
   left: 50%; /* Center the search bar horizontally */
   transform: translateX(-50%); /* Align the search bar properly in the center */
   max-width: 288px;
@@ -196,6 +197,7 @@ button:active {
   box-shadow: 0px 0px 0px 0px #1e2030;
   transform: translateY(4px);
 }
+
 
 
 .no-results {
