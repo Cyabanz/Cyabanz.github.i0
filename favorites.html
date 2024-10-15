@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favorites</title>
+  <link rel="stylesheet" href="games.css">
+  <link rel="stylesheet" href="gamer2.css">
+  <style>
+    /* Add any additional styles you need here */
+  </style>
+</head>
+<body>
+  <div id="game-details-container"></div>
+
+  <script>
+    // Function to get game details from URL parameters
+    function getGameDetails() {
+      const params = new URLSearchParams(window.location.search);
+      const gameData = JSON.parse(params.get('game')); // Get the game data from URL and parse it
+      
+      if (gameData) {
+        displayGameDetails(gameData); // Call the function to display game details
+      } else {
+        document.getElementById('game-details-container').innerHTML = '<p>No game details found.</p>';
+      }
+    }
+
+    // Function to display game details
+    function displayGameDetails(game) {
+      const container = document.getElementById('game-details-container');
+      container.innerHTML = `
+        <h1>${game.title}</h1>
+        <img src="${game.banner}" alt="${game.title} Banner">
+        <img src="${game.avatar}" alt="${game.title} Avatar">
+        <p><strong>Description:</strong> ${game.description}</p>
+        <p><strong>Link:</strong> <a href="${game.link}" target="_blank">${game.link}</a></p>
+        <p><strong>Category:</strong> ${game.category.join(', ')}</p>
+      `;
+    }
+
+    // Call the function to get game details when the page loads
+    window.onload = getGameDetails;
+  </script>
+</body>
+</html>
