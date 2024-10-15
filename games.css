@@ -137,26 +137,23 @@ button:active {
 
 .container {
   position: relative;
-  padding-top: 40px; /* Decrease this to move the search box higher */
+  padding-top: 0px; /* Decreased padding */
 }
 
 .search-box {
   position: absolute; 
-  top: 0px; /* Keeps the search bar at the top */
+  top: -40px; /* Moved higher up */
   left: 50%; 
-  transform: translateX(-50%);
+  transform: translateX(-50%); 
   max-width: 288px;
   background: #2f3640;
-  height: 90px; /* Increase height to 90px */
+  height: 90px; 
   border-radius: 50px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  z-index: 1; /* Ensure the search box is above other elements */
+  z-index: 1; 
 }
-
-
-
 
 .search-box input {
   border: none;
