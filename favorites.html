@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favorite Game Details</title>
+  <style>
+    .game-details {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .game-details img {
+      width: 300px; /* Adjust the width as needed */
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-details" id="game-details"></div>
+
+  <script>
+    // Function to get game data from URL parameters
+    function getGameFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const gameString = params.get('game');
+
+      if (gameString) {
+        const gameObject = JSON.parse(decodeURIComponent(gameString));
+        displayGameDetails(gameObject); // Call a function to display the game details
+      }
+    }
+
+    // Function to display game details
+    function displayGameDetails(game) {
+      const detailsDiv = document.getElementById('game-details');
+
+      // Create elements to display the game details
+      const title = document.createElement('h1');
+      title.textContent = game.title;
+      const description = document.createElement('p');
+      description.textContent = game.description;
+      const banner = document.createElement('img');
+      banner.src = game.banner;
+      const avatar = document.createElement('img');
+      avatar.src = game.avatar;
+
+      // Append elements to the detailsDiv
+      detailsDiv.appendChild(title);
+      detailsDiv.appendChild(banner);
+      detailsDiv.appendChild(avatar);
+      detailsDiv.appendChild(description);
+    }
+
+    // Call the function when the page loads
+    window.onload = getGameFromUrl;
+  </script>
+</body>
+</html>
