@@ -137,25 +137,24 @@ button:active {
 
 .container {
   position: relative;
-  padding-top: 0px; /* Set to 0 or a small value */
+  padding-top: 80px; /* Adjusted padding to 80px for 20% higher position */
 }
 
 .search-box {
-  position: absolute; 
-  top: -40px; /* Move it higher */
-  left: 50%; 
-  transform: translateX(-50%); 
+  position: absolute; /* Use absolute positioning */
+  top: -10px; /* Moved the search bar higher up (20% higher from the original 0px) */
+  left: 50%; /* Center the search bar horizontally */
+  transform: translateX(-50%); /* Align the search bar properly in the center */
   max-width: 288px;
   background: #2f3640;
-  height: 90px; 
+  height: 50px;
   border-radius: 50px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  z-index: 1; 
 }
 
-
+/* Other styles remain unchanged */
 .search-box input {
   border: none;
   background: none;
@@ -197,6 +196,7 @@ button:active {
   box-shadow: 0px 0px 0px 0px #1e2030;
   transform: translateY(4px);
 }
+
 
 .no-results {
   color: white; /* White text */
