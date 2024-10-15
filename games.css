@@ -115,5 +115,5 @@ button:active {
 
 .card {
   /* Add some bottom margin to create space between cards */
-  margin-bottom: 20px; /* Adjust this value for desired spacing between cards */
+  margin-bottom: 50px; /* Adjust this value for desired spacing between cards */
 }
