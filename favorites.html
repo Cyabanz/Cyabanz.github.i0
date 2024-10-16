@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Favorite Games</title>
+  <link rel="stylesheet" href="games.css">
+  <link rel="stylesheet" href="favorites.css">
+  <style>
+    /* Add any styles you want for the favorites page here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .favorites-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .favorite-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white;
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+    }
+    .favorite-card img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Favorite Games</h1>
+  <div class="favorites-container" id="favorites-container"></div>
+
+  <script>
+    // Function to display favorite games
+    function displayFavorites() {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const container = document.getElementById('favorites-container');
+
+      // Clear existing content
+      container.innerHTML = '';
+
+      if (favorites.length === 0) {
+        const noFavorites = document.createElement('p');
+        noFavorites.textContent = 'No favorite games yet.';
+        container.appendChild(noFavorites);
+        return;
+      }
+
+      favorites.forEach(game => {
+        const favoriteCard = document.createElement('div');
+        favoriteCard.classList.add('favorite-card');
+
+        const avatarImage = document.createElement('img');
+        avatarImage.src = game.avatar;
+        avatarImage.alt = game.title;
+
+        const title = document.createElement('h2');
+        title.textContent = game.title;
+
+        const description = document.createElement('p');
+        description.textContent = game.description;
+
+        favoriteCard.appendChild(avatarImage);
+        favoriteCard.appendChild(title);
+        favoriteCard.appendChild(description);
+        container.appendChild(favoriteCard);
+      });
+    }
+
+    // Load favorites when the page loads
+    window.onload = displayFavorites;
+  </script>
+</body>
+</html>
