@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Cards</title>
+  <link rel="stylesheet" href="games.css">
+  <link rel="stylesheet" href="gamer2.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    .category-dropdown {
+      display: none;
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      z-index: 10;
+      width: 200px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .category-option {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .category-option:hover {
+      background-color: #f0f0f0;
+    }
+    .search-box {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search...">
+      <div class="search-btn" id="dropdown-toggle">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="category-dropdown" id="category-dropdown">
+        <div class="category-option" onclick="filterByCategory('All')">All</div>
+        <div class="category-option" onclick="filterByCategory('Survival')">Survival</div>
+        <div class="category-option" onclick="filterByCategory('Creative')">Creative</div>
+        <div class="category-option" onclick="filterByCategory('Action')">Action</div>
+        <div class="category-option" onclick="filterByCategory('Multiplayer')">Multiplayer</div>
+      </div>
+    </div>
+    <div class="games" id="games-container"></div>
+  </div>
+
+  <script>
+    let allGames = [];
+    let favorites = [];
+
+    // Sample game data
+    const gameData = [
+      {
+        "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252490/header.jpg?t=1715591843",
+        "avatar": "https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg",
+        "title": "Rust",
+        "description": "Wilderness",
+        "link": "https://rust.facepunch.com",
+        "category": ["Survival", "All"]
+      },
+      {
+        "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4000/header.jpg?t=1710347075",
+        "avatar": "https://files.facepunch.com/lewis/1b1311b1/gmod-logo.svg",
+        "title": "Garry's Mod",
+        "description": "Physics Sandbox",
+        "link": "https://gmod.facepunch.com",
+        "category": ["Creative", "All"]  
+      },
+      {
+        "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
+        "avatar": "https://static.bandainamcoent.eu/high/the-dark-pictures/the-devil-in-me/00-page-setup/tdim_header_mobile_new-keyart.jpg",
+        "title": "The Devil In Me",
+        "description": "Survivor Horror",
+        "link": "https://www.bhvr.com/the-devil-in-me/",
+        "category": ["Action", "All"]  
+      },
+      {
+        "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
+        "avatar": "https://static.bandainamcoent.eu/high/the-dark-pictures/the-devil-in-me/00-page-setup/tdim_header_mobile_new-keyart.jpg",
+        "title": "Roblox",
+        "description": "Survivor Horror",
+        "link": "https://www.bhvr.com/the-devil-in-me/",
+        "category": ["All", "Multiplayer"]  
+      }
+    ];
+
+    // Function to display games
+    function displayGames(games) {
+      const container = document.getElementById('games-container');
+      container.innerHTML = '';
+
+      if (games.length === 0) {
+        const noResults = document.createElement('p');
+        noResults.textContent = 'No results found';
+        noResults.classList.add('no-results');
+        container.appendChild(noResults);
+        return;
+      }
+
+      games.forEach(game => {
+        const bannerWrapper = document.createElement('div');
+        bannerWrapper.classList.add('banner_wrapper');
+
+        const link = document.createElement('a');
+        link.href = game.link;
+        link.target = '_blank';
+
+        const banner = document.createElement('div');
+        const bannerImage = document.createElement('img');
+        bannerImage.src = game.banner;
+        bannerImage.alt = "Banner Game";
+        bannerImage.classList.add('banner__image');
+        banner.appendChild(bannerImage);
+        bannerWrapper.appendChild(banner);
+
+        const cardWrapper = document.createElement('div');
+        cardWrapper.classList.add('card__wrapper');
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const cardInfo = document.createElement('div');
+        cardInfo.classList.add('card__info');
+
+        const cardAvatar = document.createElement('img');
+        cardAvatar.src = game.avatar;
+        cardAvatar.alt = "Game Avatar";
+        cardAvatar.classList.add('card__avatar');
+
+        cardAvatar.addEventListener('click', () => {
+          if (!favorites.includes(game.title)) {
+            const gameObjectString = encodeURIComponent(JSON.stringify(game));
+            window.location.href = `favorites.html?game=${gameObjectString}`;
+            favorites.push(game.title);
+          } else {
+            alert('This game is already clicked!');
+          }
+        });
+
+        const titleDiv = document.createElement('div');
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = game.title;
+        const descriptionP = document.createElement('p');
+        descriptionP.textContent = game.description;
+
+        titleDiv.appendChild(titleSpan);
+        titleDiv.appendChild(descriptionP);
+        cardInfo.appendChild(cardAvatar);
+        cardInfo.appendChild(titleDiv);
+        card.appendChild(cardInfo);
+        card.appendChild(document.createElement('button').appendChild(document.createTextNode('Get')));
+        cardWrapper.appendChild(card);
+        bannerWrapper.appendChild(cardWrapper);
+        link.appendChild(bannerWrapper);
+        container.appendChild(link);
+      });
+    }
+
+    // Function to filter games based on search input
+    function filterGames() {
+      const searchInput = document.getElementById('search-input').value.toLowerCase();
+      const filteredGames = allGames.filter(game => 
+        game.title.toLowerCase().includes(searchInput) || 
+        game.description.toLowerCase().includes(searchInput)
+      );
+      displayGames(filteredGames);
+    }
+
+    // Function to filter games based on selected category
+    function filterByCategory(category) {
+      let filteredGames;
+
+      if (category === 'All') {
+        filteredGames = allGames;
+      } else {
+        filteredGames = allGames.filter(game => game.category.includes(category));
+      }
+
+      displayGames(filteredGames);
+    }
+
+    // Load games when the page loads
+    window.onload = function () {
+      allGames = gameData; // Load game data
+      displayGames(allGames); // Initially display all games
+    };
+
+    // Add event listener to the search input
+    document.getElementById('search-input').addEventListener('input', filterGames);
+
+    // Show or hide dropdown when clicking the search button
+    document.getElementById('dropdown-toggle').addEventListener('click', (event) => {
+      const dropdown = document.getElementById('category-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      event.stopPropagation();
+    });
+
+    // Close dropdown when clicking or touching outside
+    function closeDropdown(event) {
+      const dropdown = document.getElementById('category-dropdown');
+      const toggle = document.getElementById('dropdown-toggle');
+
+      if (dropdown.style.display === 'block' && !dropdown.contains(event.target) && !toggle.contains(event.target)) {
+        dropdown.style.display = 'none';
+      }
+    }
+
+    window.addEventListener('click', closeDropdown);
+    window.addEventListener('touchstart', closeDropdown);
+  </script>
+</body>
+</html>
