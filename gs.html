@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Cards</title>
+  <link rel="stylesheet" href="games.css">
+  <link rel="stylesheet" href="gamer2.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    .category-dropdown {
+      display: none;
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      z-index: 10;
+      width: 200px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .category-option {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .category-option:hover {
+      background-color: #f0f0f0;
+    }
+    .search-box {
+      position: relative;
+      z-index: 1;
+    }
+    /* Iframe styles */
+    #game-iframe {
+      width: 100%; /* Make iframe take full width */
+      height: 500px; /* Adjust height as needed */
+      border: none; /* No border */
+      display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search...">
+      <div class="search-btn" id="dropdown-toggle">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="category-dropdown" id="category-dropdown">
+        <div class="category-option" onclick="filterByCategory('All')">All</div>
+        <div class="category-option" onclick="filterByCategory('Survival')">Survival</div>
+        <div class="category-option" onclick="filterByCategory('Creative')">Creative</div>
+        <div class="category-option" onclick="filterByCategory('Action')">Action</div>
+        <div class="category-option" onclick="filterByCategory('Multiplayer')">Multiplayer</div>
+      </div>
+    </div>
+    <div class="games" id="games-container"></div>
+    <!-- Add iframe here -->
+   
+    <iframe id="game-iframe" src=""></iframe>
+    <body style="height: 99vh;">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+
+        .topnav{
+    margin: 5px;
+    border-radius: 15px;
+    background-color: var(--sidebar-color);
+    height: 50px;
+    width: calc(100% - 10px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(134, 134, 134, 0.4));
+    filter: drop-shadow(1px 1px 1px rgba(134, 134, 134, 0.4));
+}
+.show {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    border-radius: 15px;
+    background-color: var(--sidebar-color);
+    z-index: 999;
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(134, 134, 134, 0.4));
+    filter: drop-shadow(1px 1px 1px rgba(134, 134, 134, 0.4));
+    justify-content: center;
+    align-items: center;
+    display: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.show i {
+    font-size: 17px;
+    font-size: 30px;
+    color: var(--widget-text);
+
+   
+}
+.home .text{    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 30px;
+
+}
+
+.topnav .left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.topnav .left i{
+    color: var(--primary-color);
+    padding: 10px;
+    font-size: 30px;
+}
+.topnav .left i.small{
+    font-size: 20px;
+}
+.topnav .left i.refresh{
+    font-size: 25px;
+}
+.topnav img{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    margin: 15px;
+}
+
+.topnav p#appname {
+    margin: 20px;
+    font-size: 20px ;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.topnav .right {
+    right: 0;
+    margin-right: 10px;
+    position: absolute;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+}
+.topnav .right i{
+    color: var(--primary-color);
+    padding: 10px;
+    font-size: 30px;
+}
+.topnav .right i.small{
+    font-size: 20px;
+}
+  .intro {
+    scale: 1;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 200;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background-color: #000000;
+    transition: 1s;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+    
+}
+.imgloading {
+    visibility: hidden;
+    scale: 1;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 210;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background-color: #000000;
+    transition: 1s;
+    background-image:url('./img/loading.png') ;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+}
+.agrandissement {
+    visibility: visible;
+    display: flex;
+    transition: all 0.2s ease-in-out;
+    animation-name: size;
+    animation-duration: .2s;
+}
+#bgurl::placeholder {
+    text-align: center;
+}
+
+button {
+    border: 0;
+    color: var(--widget-text);
+    background-color: var(--widget-color);
+    padding: 5px;
+    border-radius: 10px;
+    filter: drop-shadow(1px 1px 2px rgb(0 0 0 / 0.4));
+}
+#previewbg {
+    margin-top: 10px;
+    display: flex;
+    height: 100px;
+    width: 400px;
+    border-radius: 25px;
+    background-color: var(--widget-color);
+    box-shadow: 4px 3px 8px 1px #96969633;
+  	-webkit-box-shadow: 4px 3px 8px 1px #96969633;
+    background-color: #121111;
+    color: white;
+    object-fit: cover;
+}
+
+.searchbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    padding: 0px 17px;
+    height: 40px;
+    width: 350px;
+    border-radius: 10px;
+    background-color: #7878783b;
+    filter: drop-shadow(2px 2px 5px rgb(0 0 0 / 0.4));
+  }
+  ::placeholder{
+    color: #fff;
+    background-color: transparent;
+    filter: drop-shadow(2px 2px 5px rgb(0 0 0 / 0.4));
+    text-align: center;
+  }
+  .searchbar i {
+    color: #fff;
+    filter: drop-shadow(2px 2px 5px rgb(0 0 0 / 0.4));
+  }
+  .theme-switch {
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    width: 52px;
+    filter: drop-shadow(1px 1px 2px rgb(0 0 0 / 0.4));
+  }
+  
+  .theme-switch input {
+    display:none;
+  }
+  
+  .slider {
+    background-color: var(--primary-color-light);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  }
+  
+  .slider i {
+    color: var(--box-bg);
+  }
+  .slider i.globe {
+    margin-left: 7px;
+    color: var(--text-color);
+  }
+  .slider i.mask {
+    margin-right: 6px;
+    color: var(--text-color);
+  }
+  
+  .slider:before {
+    background-color: var(--body-color);
+    bottom: 4px;
+    content: '';
+    height: 22px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 22px;
+    border-radius: 15px;
+  }
+  
+  input:checked + .slider {
+    background-color: var(--primary-color-light);
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(23px);
+  }
+  #uv-address {
+    background-color: rgba(255, 255, 255, 0);
+    font-family: inherit;
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+     color: #fff;
+     width: 150px;
+     text-align: center;
+   }
+   #iframeurl{
+    background-image:url('./img/loading.png') ;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+   }
+   .fadein-animation {
+    transition: all 0.2s ease-in-out;
+    animation-name: fadeout;
+    animation-duration: 1s;
+  }
+  @keyframes fadeout {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes size {
+    from {
+       scale: 0;
+    }
+    to {
+      scale: 1;
+    }
+  }
+  @media screen and (max-width: 400px) {
+
+.topnav img{
+    display: none;
+}
+
+.topnav p#appname {
+    display: none;
+}
+
+}
+  @media screen and (max-width: 800px) {
+    .searchbar{
+        display: none;
+    }
+    .searchapp {
+        display: none;
+    }
+    
+  }
+
+    </style>
+    <div id="preloader" class="intro">
+        <div id="agrandissement" class="imgloading"></div>
+    </div>
+    <div id="topnav" class="topnav">  
+        <div class="left">
+            <i onclick="history.back()" class='bx bx-chevron-left'></i>
+            <i id="ext" onclick="window.location.href = './iframe.html'" class='bx bx-refresh medium'></i>
+            <i id="int" onclick="document.getElementById('preloader').classList.remove('fadein-animation');document.getElementById('preloader').style.display = 'flex';document.getElementById('iframeurl').contentWindow.location.reload(true);waitload()" class='bx bx-refresh medium'></i>
+            <i onclick="window.location.href = './ac.html'" class='bx bx-home small'></i>
+            <img id="imageapp" src="">
+            <p id="appname">App</p>
+            
+        </div>
+        <div class="searchbar">
+            <i class='bx bx-search'></i>
+            <form id="uv-form" class="flex-center">
+              <input id="uv-address" placeholder="Rechercher..." />
+            </form>
+            <label class="theme-switch" for="checkbox">
+              <input type="checkbox" id="checkbox">
+              <div class="slider"><i class='bx bx-globe globe'></i></i><i class='bx bxs-face-mask mask' ></i></div>
+            </label>
+          </div>
+        <div class="right">
+            <i onclick="document.getElementById('iframeurl').style = 'background-color: black;margin-top: 0px; border: 0; height: 100vh;border-radius: 10px;left: 0; position: absolute; top: 0; width: 100%; bottom: 0;';document.getElementById('show').style.display = 'flex';document.getElementById('topnav').style.display = 'none'" class="bx bx-fullscreen small"></i>
+            <a target="_blank" href="" id="external" style="display: none;"><i class='bx bx-link-external small'></i></a>
+            <i class='bx bx-exit small' onclick="window.parent.document.getElementById('iframe').style.display = 'none';"></i>
+        </div>
+
+    
+        <script>
+            document.getElementById("appname").innerHTML = (localStorage.getItem('appname'))
+            document.getElementById("external").href=(localStorage.getItem('iframeurl'))
+            document.getElementById("imageapp").src=(localStorage.getItem('image'))
+        </script>
+    </div>
+    <div id="show" class="show" onclick="document.getElementById('iframeurl').style = 'background-color: black;border-radius: 10px;border: 0; height: calc(100vh - 60px); left: 0; position: absolute; top: 0; width: 100%; bottom: 0; margin-top: 60px;';document.getElementById('show').style.display = 'none';document.getElementById('topnav').style.display = 'flex';">
+      <i class="bx bx-show"></i>
+    </div>
+    <div class="iframe">
+        <iframe name="iframeurl" id="iframeurl" src="" style="background-color: black;border-radius: 10px;border: 0; height: calc(100vh - 60px); left: 0; position: absolute; top: 0; width: 100%; bottom: 0; margin-top: 60px;"></iframe>
+        <script>
+            document.getElementById("iframeurl").src=(localStorage.getItem('iframeurl'))
+    
+        </script>
+        </div>
+    </div>
+
+    <script>
+    if (localStorage.getItem('iframeurl').includes('://')){
+        document.getElementById('int').style.display = "none"
+    }else{
+        document.getElementById('ext').style.display = "none"
+        document.getElementById('external').style.display = "none"
+    }
+    document.getElementById("themestyle").setAttribute("href", `css/${localStorage.getItem("theme")}.css`);
+    </script>
+    <script src="js/main.js"></script>
+    <script></script>
+    <script>
+        refreshbutton()
+      
+    </script>
+    <script>
+        function agrandissement(){
+            setTimeout(() => {
+              document.getElementById("agrandissement").style.display='flex';
+                document.getElementById("agrandissement").classList.add('agrandissement');
+            }, 500);
+            
+        }
+        agrandissement()
+    </script>
+    <script>
+        function waitload(){
+          agrandissement()
+          setTimeout(() => {
+            document.getElementById("preloader").classList.add('fadein-animation');
+            setTimeout(() => {
+              document.getElementById("agrandissement").style.display='none';
+                document.getElementById("preloader").style.display='none';
+                
+            }, 1000);
+          }, 2500);
+
+        }
+        waitload()
+  </div>
+
+  <script>
+    let allGames = [];
+
+    async function loadGames() {
+      const response = await fetch('weed.json');
+      allGames = await response.json();
+      displayGames(allGames);
+    }
+
+    function displayGames(games) {
+      const container = document.getElementById('games-container');
+      container.innerHTML = '';
+
+      if (games.length === 0) {
+        const noResults = document.createElement('p');
+        noResults.textContent = 'No results found';
+        noResults.classList.add('no-results');
+        container.appendChild(noResults);
+        return;
+      }
+
+      games.forEach(game => {
+        const bannerWrapper = document.createElement('div');
+        bannerWrapper.classList.add('banner_wrapper');
+
+        const link = document.createElement('a');
+        link.href = game.link; 
+        link.target = '_blank'; 
+
+        const banner = document.createElement('div');
+        banner.classList.add('banner');
+        const bannerImage = document.createElement('img');
+        bannerImage.src = game.banner;
+        bannerImage.alt = "Banner Game";
+        bannerImage.classList.add('banner__image');
+        banner.appendChild(bannerImage);
+        bannerWrapper.appendChild(banner);
+
+        const cardWrapper = document.createElement('div');
+        cardWrapper.classList.add('card__wrapper');
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const cardInfo = document.createElement('div');
+        cardInfo.classList.add('card__info');
+
+        const cardAvatar = document.createElement('img');
+        cardAvatar.src = game.avatar;
+        cardAvatar.alt = "Game Avatar";
+        cardAvatar.classList.add('card__avatar');
+
+        cardAvatar.addEventListener('click', () => {
+          const gameId = game.title; 
+          const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+          if (favorites.some(fav => fav.title === gameId)) {
+            alert('Already favorited');
+          } else {
+            favorites.push(game); 
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            alert('Game added to favorites');
+          }
+        });
+
+        const titleDiv = document.createElement('div');
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = game.title;
+        const descriptionP = document.createElement('p');
+        descriptionP.textContent = game.description;
+
+        titleDiv.appendChild(titleSpan);
+        titleDiv.appendChild(descriptionP);
+        cardInfo.appendChild(cardAvatar);
+        cardInfo.appendChild(titleDiv);
+        card.appendChild(cardInfo);
+
+        // Modify the button to open in the iframe
+        const button = document.createElement('button');
+        button.textContent = 'Get';
+        button.onclick = () => {
+          const iframe = document.getElementById('game-iframe');
+          iframe.src = game.onclick.split("'")[3]; // Extracting the URL from the onclick string
+          iframe.style.display = 'block'; // Show the iframe
+        };
+        card.appendChild(button);
+        cardWrapper.appendChild(card);
+        bannerWrapper.appendChild(cardWrapper);
+        container.appendChild(bannerWrapper);
+      });
+    }
+
+    function filterGames() {
+      const searchInput = document.getElementById('search-input').value.toLowerCase();
+      const filteredGames = allGames.filter(game => 
+        game.title.toLowerCase().includes(searchInput) || 
+        game.description.toLowerCase().includes(searchInput)
+      );
+      displayGames(filteredGames);
+    }
+
+    function filterByCategory(category) {
+      let filteredGames;
+
+      if (category === 'All') {
+        filteredGames = allGames; 
+      } else {
+        filteredGames = allGames.filter(game => game.category.includes(category)); 
+      }
+
+      displayGames(filteredGames);
+    }
+
+    document.getElementById('search-input').addEventListener('input', filterGames);
+    window.onload = loadGames;
+
+    document.getElementById('dropdown-toggle').addEventListener('click', (event) => {
+      const dropdown = document.getElementById('category-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+      event.stopPropagation();
+    });
+
+    function closeDropdown(event) {
+      const dropdown = document.getElementById('category-dropdown');
+      const toggle = document.getElementById('dropdown-toggle');
+
+      if (dropdown.style.display === 'block' && !dropdown.contains(event.target) && !toggle.contains(event.target)) {
+        dropdown.style.display = 'none'; 
+      }
+    }
+
+    window.addEventListener('click', closeDropdown);
+    window.addEventListener('touchstart', closeDropdown);
+  </script>
+</body>
+</html>
