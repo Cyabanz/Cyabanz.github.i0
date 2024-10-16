@@ -30,5 +30,13 @@
     "description": "Survivor Horror",
     "link": "https://www.bhvr.com/the-devil-in-me/",
     "category": ["All", "Multiplayer"]  
+  },
+  {
+    "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
+    "avatar": "https://static.bandainamcoent.eu/high/the-dark-pictures/the-devil-in-me/00-page-setup/tdim_header_mobile_new-keyart.jpg",
+    "title": "Plants",
+    "description": "Survivor Horror",
+    "link": "https://www.bhvr.com/the-devil-in-me/",
+    "category": ["All", "Multiplayer"]  
   }
 ]
