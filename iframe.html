@@ -357,16 +357,36 @@ button {
             <i class='bx bx-exit small' onclick="window.parent.document.getElementById('iframe').style.display = 'none';"></i>
         </div>
 
-    
-        <script>
-            document.getElementById("appname").innerHTML = (localStorage.getItem('appname'))
-            document.getElementById("external").href=(localStorage.getItem('iframeurl'))
-            document.getElementById("imageapp").src=(localStorage.getItem('image'))
-        </script>
-    </div>
-    <div id="show" class="show" onclick="document.getElementById('iframeurl').style = 'background-color: black;border-radius: 10px;border: 0; height: calc(100vh - 60px); left: 0; position: absolute; top: 0; width: 100%; bottom: 0; margin-top: 60px;';document.getElementById('show').style.display = 'none';document.getElementById('topnav').style.display = 'flex';">
-      <i class="bx bx-show"></i>
-    </div>
+     <script>
+    // Function to get the game URL from the URL parameters
+    function getGameUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('gameId'); // Get the game ID from the URL
+    }
+
+    // Load the appropriate game URL into the iframe
+    function loadGame() {
+      const gameId = getGameUrl();
+
+      // Fetching the JSON data
+      fetch('weed.json') // Adjust the path if necessary
+        .then(response => response.json())
+        .then(games => {
+          const game = games.find(g => g.title === gameId); // Find the game by title
+
+          if (game) {
+            const iframe = document.getElementById('game-iframe');
+            iframe.src = game.onclick; // Set the iframe source to the game's onclick URL
+          } else {
+            console.error('Game not found');
+            alert('Game not found!'); // Show an alert if the game is not found
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching the JSON data:', error);
+          alert('Error loading game data!');
+        });
+    }
     <div class="iframe">
         <iframe name="iframeurl" id="iframeurl" src="" style="background-color: black;border-radius: 10px;border: 0; height: calc(100vh - 60px); left: 0; position: absolute; top: 0; width: 100%; bottom: 0; margin-top: 60px;"></iframe>
         <script>
