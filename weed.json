@@ -4,7 +4,7 @@
     "avatar": "https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg",
     "title": "Rust",
     "description": "Wilderness",
-    "link": "https://rust.facepunch.com",
+    "onclick": "openiniframe('Connect AI', './img/games/connectai.png', 'games/connectai/index.html');",
     "category": ["Survival", "All"]
   },
   {
@@ -13,7 +13,7 @@
     "title": "Garry's Mod",
     "description": "Physics Sandbox",
     "link": "https://gmod.facepunch.com",
-    "category": ["Creative", "All"]  
+    "category": ["Creative", "All"]
   },
   {
     "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
@@ -21,7 +21,7 @@
     "title": "The Devil In Me",
     "description": "Survivor Horror",
     "link": "https://www.bhvr.com/the-devil-in-me/",
-    "category": ["Action", "All"]  
+    "category": ["Action", "All"]
   },
   {
     "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
@@ -29,7 +29,7 @@
     "title": "Roblox",
     "description": "Survivor Horror",
     "link": "https://www.bhvr.com/the-devil-in-me/",
-    "category": ["All", "Multiplayer"]  
+    "category": ["All", "Multiplayer"]
   },
   {
     "banner": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
@@ -37,6 +37,6 @@
     "title": "Plants",
     "description": "Survivor Horror",
     "link": "https://www.bhvr.com/the-devil-in-me/",
-    "category": ["All", "Multiplayer"]  
+    "category": ["All", "Multiplayer"]
   }
 ]
