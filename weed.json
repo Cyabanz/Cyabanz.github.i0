@@ -4,7 +4,7 @@
     "avatar": "https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg",
     "title": "Rust",
     "description": "Wilderness",
-    "onclick": "openiniframe('Connect AI', './img/games/connectai.png', 'games/connectai/index.html');",
+    "onclick": "openiniframe('Connect AI', './img/games/connectai.png', 'https://example.html');",
     "category": ["Survival", "All"]
   },
   {
