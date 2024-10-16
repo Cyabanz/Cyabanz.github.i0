@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" id="themestyle" href="css/light.css">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon" href="./img/calculator.png">
+    <link rel="manifest" href="manifest.json">
+    <title>GetTechno | Iframe page</title> 
+</head>
+<body style="height: 99vh;">
+    <div id="preloader" class="intro">
+        <div id="agrandissement" class="imgloading"></div>
+    </div>
+    <div id="topnav" class="topnav">  
+        <div class="left">
+            <i onclick="history.back()" class='bx bx-chevron-left'></i>
+            <i id="ext" onclick="window.location.href = './iframe.html'" class='bx bx-refresh medium'></i>
+            <i id="int" onclick="document.getElementById('preloader').classList.remove('fadein-animation');document.getElementById('preloader').style.display = 'flex';document.getElementById('iframeurl').contentWindow.location.reload(true);waitload()" class='bx bx-refresh medium'></i>
+            <i onclick="window.location.href = './ac.html'" class='bx bx-home small'></i>
+            <img id="imageapp" src="">
+            <p id="appname">App</p>
+        </div>
+        <div class="searchbar">
+            <i class='bx bx-search'></i>
+            <form id="uv-form" class="flex-center">
+              <input id="uv-address" placeholder="Rechercher..." />
+            </form>
+            <label class="theme-switch" for="checkbox">
+              <input type="checkbox" id="checkbox">
+              <div class="slider"><i class='bx bx-globe globe'></i><i class='bx bxs-face-mask mask'></i></div>
+            </label>
+        </div>
+        <div class="right">
+            <i onclick="document.getElementById('iframeurl').style = 'background-color: black;margin-top: 0px; border: 0; height: 100vh;border-radius: 10px;left: 0; position: absolute; top: 0; width: 100%; bottom: 0;';document.getElementById('show').style.display = 'flex';document.getElementById('topnav').style.display = 'none'" class="bx bx-fullscreen small"></i>
+            <a target="_blank" href="" id="external" style="display: none;"><i class='bx bx-link-external small'></i></a>
+            <i class='bx bx-exit small' onclick="window.parent.document.getElementById('iframe').style.display = 'none';"></i>
+        </div>
+    </div>
+
+    <div class="iframe">
+        <iframe name="iframeurl" id="iframeurl" src="" style="background-color: black;border-radius: 10px;border: 0; height: calc(100vh - 60px); left: 0; position: absolute; top: 0; width: 100%; bottom: 0; margin-top: 60px;"></iframe>
+    </div>
+
+    <script>
+        // Function to get the game URL from the URL parameters
+        function getGameUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('gameId'); // Get the game ID from the URL
+        }
+
+        // Load the appropriate game URL into the iframe
+        function loadGame() {
+            const gameId = getGameUrl();
+
+            // Fetching the JSON data
+            fetch('weed.json') // Adjust the path if necessary
+                .then(response => response.json())
+                .then(games => {
+                    const game = games.find(g => g.title === gameId); // Find the game by title
+
+                    if (game) {
+                        const iframe = document.getElementById('iframeurl');
+                        iframe.src = game.onclick; // Set the iframe source to the game's onclick URL
+                    } else {
+                        console.error('Game not found');
+                        alert('Game not found!'); // Show an alert if the game is not found
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the JSON data:', error);
+                    alert('Error loading game data!');
+                });
+        }
+
+        // Load the game when the page loads
+        window.onload = loadGame;
+
+        // Check and set iframe URL from local storage
+        document.getElementById("iframeurl").src = localStorage.getItem('iframeurl');
+
+        if (localStorage.getItem('iframeurl').includes('://')) {
+            document.getElementById('int').style.display = "none";
+        } else {
+            document.getElementById('ext').style.display = "none";
+            document.getElementById('external').style.display = "none";
+        }
+        document.getElementById("themestyle").setAttribute("href", `css/${localStorage.getItem("theme")}.css`);
+
+        function agrandissement() {
+            setTimeout(() => {
+                document.getElementById("agrandissement").style.display = 'flex';
+                document.getElementById("agrandissement").classList.add('agrandissement');
+            }, 500);
+        }
+        agrandissement();
+
+        function waitload() {
+            agrandissement();
+            setTimeout(() => {
+                document.getElementById("preloader").classList.add('fadein-animation');
+                setTimeout(() => {
+                    document.getElementById("agrandissement").style.display = 'none';
+                    document.getElementById("preloader").style.display = 'none';
+                }, 1000);
+            }, 2500);
+        }
+        waitload();
+
+    </script>
+    <script src="js/main.js"></script>
+    <script src="./uv/uv.bundle.js"></script>
+    <script src="./uv/uv.config.js"></script>
+    <script src="./index.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
