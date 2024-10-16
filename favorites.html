@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Favorites</title>
+    <link rel="stylesheet" href="favorites.css"> <!-- Link to your CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 style="color: white;">Favorite Games</h1>
+    <div class="games" id="favorites-container"></div>
+
+    <script>
+        // Function to load favorites from local storage
+        function loadFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const uniqueFavorites = Array.from(new Set(favorites.map(JSON.stringify))).map(JSON.parse); // Ensure unique favorites
+            displayFavorites(uniqueFavorites);
+        }
+
+        // Function to display favorite games
+        function displayFavorites(favorites) {
+            const container = document.getElementById('favorites-container');
+            container.innerHTML = ''; // Clear previous content
+
+            if (favorites.length === 0) {
+                const noResults = document.createElement('p');
+                noResults.textContent = 'No favorites found.';
+                noResults.classList.add('no-results');
+                container.appendChild(noResults);
+                return;
+            }
+
+            favorites.forEach(game => {
+                const cardWrapper = document.createElement('div');
+                cardWrapper.classList.add('card__wrapper');
+
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const cardInfo = document.createElement('div');
+                cardInfo.classList.add('card__info');
+
+                const cardAvatar = document.createElement('img');
+                cardAvatar.src = game.avatar;
+                cardAvatar.alt = "Game Avatar";
+                cardAvatar.classList.add('card__avatar');
+
+                // Add click event to remove the game from favorites
+                cardAvatar.onclick = () => {
+                    removeFromFavorites(game);
+                };
+
+                const titleDiv = document.createElement('div');
+                const titleSpan = document.createElement('span');
+                
+                // Create a clickable title that links to the game's page
+                const titleLink = document.createElement('a');
+                titleLink.href = game.link; // Use the game's link
+                titleLink.textContent = game.title; // Use the game's title
+                titleLink.style.color = '#fff'; // Set color to white
+                titleLink.style.textDecoration = 'none'; // Remove underline
+                titleLink.target = '_blank'; // Open link in new tab
+
+                const descriptionP = document.createElement('p');
+                descriptionP.textContent = game.description;
+
+                titleDiv.appendChild(titleLink);
+                titleDiv.appendChild(descriptionP);
+                cardInfo.appendChild(cardAvatar);
+                cardInfo.appendChild(titleDiv);
+                card.appendChild(cardInfo);
+                cardWrapper.appendChild(card);
+                container.appendChild(cardWrapper);
+            });
+        }
+
+        // Function to remove a game from favorites
+        function removeFromFavorites(gameToRemove) {
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const updatedFavorites = favorites.filter(game => game.title !== gameToRemove.title);
+
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            displayFavorites(updatedFavorites);
+
+            // Show popup message
+            alert(`Removed ${gameToRemove.title} from favorites.`);
+        }
+
+        // Load favorites when the page loads
+        window.onload = loadFavorites;
+    </script>
+
+    <style>
+        * {
+            border: initial;
+            box-sizing: border-box;
+            list-style: none;
+            margin: 0;
+            outline: none;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+
+        .card__wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .card {
+            display: flex;
+            width: 300px;
+            padding: 1rem;
+            background-color: #252525;
+            border-radius: 0px 0px 12px 12px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card__info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card__avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer; /* Show pointer on hover */
+        }
+
+        .card__info span {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .card__info p {
+            color: #919191;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .no-results {
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</body>
+</html>
