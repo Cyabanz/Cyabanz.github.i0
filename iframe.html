@@ -138,3 +138,26 @@
     </script>
 </body>
 </html>
+
+ <script>
+async function loadGameDetails() {
+    const games = await fetchGamesData();
+
+    // Get the game link from the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameLink = urlParams.get('link');
+
+    // Find the game based on the link (assuming the link matches a game title)
+    const selectedGame = games.find(game => game.link === gameLink);
+    
+    if (selectedGame) {
+        // Set the banner and avatar
+        document.getElementById('gameBanner').src = selectedGame.banner;
+        document.getElementById('gameAvatar').src = selectedGame.avatar;
+        document.getElementById('gameBanner').style.display = 'block'; // Show the banner
+
+        // Set the iframe source to the game link
+        const gameFrame = document.getElementById('game-frame');
+        gameFrame.src = selectedGame.link;
+    }
+}
