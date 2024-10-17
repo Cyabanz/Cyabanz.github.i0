@@ -189,3 +189,18 @@
   </script>
 </body>
 </html>
+
+  <script>
+    // JavaScript to fetch the game data and set the avatar
+    function loadGame(link, avatar) {
+      document.getElementById('game-frame').src = link; // Load the game in iframe
+      document.getElementById('gameAvatar').src = avatar; // Set the avatar
+    }
+
+    // This function can be called from game.html when a game is clicked
+    function receiveGameData(link, avatar) {
+      loadGame(link, avatar);
+    }
+  </script>
+</body>
+</html>
