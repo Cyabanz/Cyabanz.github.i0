@@ -106,5 +106,35 @@
             navContent.classList.toggle('hidden'); // Hide or show the nav-content
         });
     </script>
+
+    <script>
+        // Function to adjust the iframe height
+        function adjustIframeHeight() {
+            const navContent = document.getElementById('navContent');
+            const iframe = document.getElementById('game-frame');
+
+            // Get the height of the navigation bar
+            const navHeight = navContent.offsetHeight;
+
+            // Set the iframe height to fill the screen below the nav bar
+            iframe.style.height = `${window.innerHeight - navHeight}px`;
+        }
+
+        // Call the function on page load
+        window.addEventListener('load', adjustIframeHeight);
+
+        // Call the function on window resize
+        window.addEventListener('resize', adjustIframeHeight);
+
+        // Eye icon functionality
+        const toggleEye = document.getElementById('toggleEye');
+        const navContent = document.getElementById('navContent');
+
+        toggleEye.addEventListener('click', () => {
+            navContent.classList.toggle('hidden'); // Hide or show the nav-content
+        });
+    </script>
+
+
 </body>
 </html>
