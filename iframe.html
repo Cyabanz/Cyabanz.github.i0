@@ -161,3 +161,9 @@ async function loadGameDetails() {
         gameFrame.src = selectedGame.link;
     }
 }
+
+<script>
+async function fetchGamesData() {
+    const response = await fetch('path/to/your/games.json'); // Update with the path to your JSON file
+    return await response.json();
+}
