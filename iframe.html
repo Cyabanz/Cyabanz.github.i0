@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.9/css/boxicons.min.css">
+    <style>
+        html, body {
+            height: 100%; /* Ensure the html and body take full height */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            font-family: Arial, sans-serif;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px; /* Adjusted padding for a better look */
+            border-radius: 15px; /* Makes the corners curvy */
+            border: 1px solid #ccc; /* Optional: adds a border */
+            background-color: #f8f8f8; /* Background color for the nav bar */
+            position: fixed; /* Fix the navigation bar at the top */
+            width: 100%; /* Make the nav bar full width */
+            z-index: 10; /* Ensure it stays above the iframe */
+        }
+
+        .nav-icons {
+            display: flex; /* Create a flex container for the nav icons */
+            align-items: center; /* Center the icons vertically */
+            margin-right: auto; /* Push the icons to the left */
+        }
+
+        .nav-content i {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .exit-icon {
+            margin-left: auto; /* Push the exit icon to the very right */
+        }
+
+        .hidden {
+            display: none; /* Hide the navigation content */
+        }
+
+        /* Styling for the eye Boxicon */
+        #toggleEye {
+            font-size: 24px; /* Same size as nav icons */
+            cursor: pointer;
+            position: absolute; /* Keep the eye icon over the nav-content */
+            right: 10px; /* Aligns the eye icon to the right */
+            top: 50%; /* Center it vertically */
+            transform: translateY(-50%); /* Adjust to truly center it */
+        }
+
+        #gameContainer {
+            height: 100%; /* Full height */
+            overflow: hidden; /* Prevent overflow */
+            position: relative; /* Position relative for absolute children */
+            top: 60px; /* Move down by the height of the navbar */
+        }
+
+        /* Ensure the iframe takes up full width and height */
+        #game-frame {
+            width: 100%; /* Full width */
+            height: calc(100% - 60px); /* Full height minus nav bar height */
+            border: none; /* No border */
+            position: absolute; /* Absolute positioning to fill container */
+            top: 0; /* Align to the top of the container */
+            left: 0; /* Align to the left of the container */
+        }
+    </style>
+    <title>Game Page</title>
+</head>
+<body>
+    <div class="nav-content" id="navContent">
+        <div class="nav-icons" id="navBar">
+            <i class='bx bx-home'></i>
+            <i class='bx bx-refresh'></i>
+        </div>
+        <i class='bx bx-exit exit-icon'></i> <!-- Exit icon positioned on the right -->
+    </div>
+    <i class='bx bx-low-vision' id="toggleEye"></i> <!-- Eye icon positioned over the nav bar -->
+
+    <div id="gameContainer">
+        <iframe id="game-frame"></iframe> <!-- Iframe for the game content -->
+    </div>
+
+    <script>
+        // Get the game link from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameLink = urlParams.get('link');
+
+        // Set the iframe source to the game link
+        const gameFrame = document.getElementById('game-frame');
+        if (gameLink) {
+            gameFrame.src = gameLink;
+            gameFrame.style.display = 'block'; // Show the iframe if link is provided
+        }
+
+        // Eye icon functionality
+        const toggleEye = document.getElementById('toggleEye');
+        const navContent = document.getElementById('navContent');
+
+        toggleEye.addEventListener('click', () => {
+            navContent.classList.toggle('hidden'); // Hide or show the nav-content
+        });
+    </script>
+</body>
+</html>
