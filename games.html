@@ -204,3 +204,18 @@
   </script>
 </body>
 </html>
+
+<script>
+// Update the click event for the game card
+link.addEventListener('click', () => {
+    const gameLink = game.link; // Get the game link
+    const gameBanner = game.banner; // Get the game banner
+    const gameAvatar = game.avatar; // Get the game avatar
+
+    // Call the function to load game data into the iframe
+    window.open('iframe.html', '_blank'); // Open iframe.html in a new tab or window
+    receiveGameData(gameLink, gameBanner, gameAvatar); // Send the game data
+});
+<script>
+</body>
+</html>
