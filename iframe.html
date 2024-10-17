@@ -147,3 +147,23 @@
     </script>
 </body>
 </html>
+
+<script>
+  // Function to load game data and set the banner and avatar
+  function loadGame(link, banner, avatar) {
+      document.getElementById('game-frame').src = link; // Load the game in iframe
+      document.getElementById('gameAvatar').src = avatar; // Set the avatar
+
+      const bannerImage = document.getElementById('game-banner');
+      bannerImage.src = banner; // Set the banner image
+      bannerImage.style.display = 'block'; // Show the banner
+  }
+
+  // This function can be called from games.html when a game is clicked
+  function receiveGameData(link, banner, avatar) {
+      loadGame(link, banner, avatar);
+  }
+</script>
+</body>
+</html>
+
