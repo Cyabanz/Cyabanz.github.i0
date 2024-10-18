@@ -219,3 +219,22 @@ link.addEventListener('click', () => {
 <script>
 </body>
 </html>
+
+<script>
+    document.querySelectorAll('.game-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const game = JSON.parse(card.getAttribute('data-game'));
+            addGameToRecent(game);
+        });
+    });
+
+    function addGameToRecent(game) {
+        const recentGames = JSON.parse(localStorage.getItem('recentGames')) || [];
+        
+        // Check for duplicates by title
+        if (!recentGames.some(existingGame => existingGame.title === game.title)) {
+            recentGames.push(game); // Add unique game
+            localStorage.setItem('recentGames', JSON.stringify(recentGames));
+        }
+    }
+</script>
