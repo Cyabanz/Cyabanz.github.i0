@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggested Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            border: initial;
+            box-sizing: border-box;
+            list-style: none;
+            margin: 0;
+            outline: none;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+
+        .card__wrapper {
+            display: flex;
+            flex-direction: row;
+            gap: 20px; /* Spacing between cards */
+            padding: 20px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            background-color: #252525;
+            border-radius: 12px;
+            overflow: hidden; /* Ensures rounded corners are applied to child elements */
+            position: relative;
+        }
+
+        .banner__wrapper {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card__info {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .card__info h2 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .card__info p {
+            color: #919191;
+            font-size: 13px;
+            font-weight: 400;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #2d80ff;
+            font-weight: 400;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.3s all ease;
+            align-self: flex-start; /* Align button to the left */
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+        .no-results {
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white;">Suggested Games</h1>
+    <div class="card__wrapper" id="game-container"></div>
+
+    <script>
+        const gameContainer = document.getElementById('game-container');
+
+        fetch('weed.json')
+            .then(response => response.json())
+            .then(data => {
+                // Shuffle the array to get random games
+                const shuffledGames = data.sort(() => 0.5 - Math.random());
+                const selectedGames = shuffledGames.slice(0, 4); // Get 4 random games
+
+                if (selectedGames.length === 0) {
+                    gameContainer.innerHTML = '<p class="no-results">No games available.</p>';
+                    return;
+                }
+
+                selectedGames.forEach(game => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+
+                    card.innerHTML = `
+                        <div class="banner__wrapper">
+                            <div class="banner">
+                                <img src="${game.banner}" alt="${game.title} Banner">
+                            </div>
+                        </div>
+                        <div class="card__info">
+                            <h2>${game.title}</h2>
+                            <p>${game.description}</p>
+                            <button onclick="window.open('${game.link}', '_blank')">Play Now</button>
+                        </div>
+                    `;
+
+                    gameContainer.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching the games:', error);
+                gameContainer.innerHTML = '<p class="no-results">Error fetching games.</p>';
+            });
+    </script>
+</body>
+</html>
