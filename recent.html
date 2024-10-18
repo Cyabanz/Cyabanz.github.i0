@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .game-banner {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+        .game-details {
+            margin-top: 20px;
+        }
+        .game-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .game-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .game-description {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .game-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: blue;
+        }
+        .clear-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-banner" class="game-banner"></div>
+    <div class="game-details">
+        <img id="game-avatar" class="game-avatar" src="" alt="Game Avatar">
+        <div id="game-title" class="game-title"></div>
+        <div id="game-description" class="game-description"></div>
+        <a id="game-link" class="game-link" href="" target="_blank">Play Now</a>
+    </div>
+
+    <!-- Clear Button -->
+    <button class="clear-button" id="clear-button">Clear Recent Game</button>
+
+    <script>
+        // Get the game title from URL (you will pass the game title in the URL)
+        const params = new URLSearchParams(window.location.search);
+        const gameTitle = params.get('title');
+
+        // Function to clear the game display
+        function clearGame() {
+            localStorage.setItem('recentCleared', 'true'); // Store the clear state in localStorage
+            document.getElementById('game-banner').style.backgroundImage = '';
+            document.getElementById('game-avatar').src = '';
+            document.getElementById('game-title').textContent = '';
+            document.getElementById('game-description').textContent = '';
+            document.getElementById('game-link').href = '';
+            document.getElementById('game-link').textContent = ''; // Clear link text as well
+        }
+
+        // Fetch JSON data and display game details if not cleared
+        fetch('weed.json')
+            .then(response => response.json())
+            .then(data => {
+                if (localStorage.getItem('recentCleared') !== 'true' && gameTitle) {
+                    // Find the game by title
+                    const game = data.find(g => g.title === gameTitle);
+                    if (game) {
+                        // Update HTML content
+                        document.getElementById('game-banner').style.backgroundImage = `url(${game.banner})`;
+                        document.getElementById('game-avatar').src = game.avatar;
+                        document.getElementById('game-title').textContent = game.title;
+                        document.getElementById('game-description').textContent = game.description;
+                        document.getElementById('game-link').href = game.link;
+                        document.getElementById('game-link').textContent = 'Play Now';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching game data:', error);
+            });
+
+        // Attach the clear button to the clear function
+        document.getElementById('clear-button').addEventListener('click', clearGame);
+
+        // Clear the storage when a new game is loaded
+        window.onload = function () {
+            if (localStorage.getItem('recentCleared') === 'true') {
+                clearGame();
+            } else {
+                localStorage.removeItem('recentCleared'); // Clear the flag if a new game is loaded
+            }
+        }
+    </script>
+
+</body>
+</html>
