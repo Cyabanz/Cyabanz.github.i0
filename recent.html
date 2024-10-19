@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .game {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .game img {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .game-details {
+            flex-grow: 1;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Recently Clicked Games</h1>
+<div id="games-list"></div>
+<button id="clear-games">Clear Games</button>
+
+<script>
+    let gamesData = [];
+    let recentGames = JSON.parse(localStorage.getItem('recentGames')) || [];
+
+    function displayGames() {
+        const gamesList = document.getElementById('games-list');
+        gamesList.innerHTML = '';
+
+        recentGames.forEach(title => {
+            const game = gamesData.find(g => g.title === title);
+            if (game) {
+                const gameElement = document.createElement('div');
+                gameElement.classList.add('game');
+                gameElement.innerHTML = `
+                    <img src="${game.avatar}" alt="${game.title}">
+                    <div class="game-details">
+                        <h2>${game.title}</h2>
+                        <p>${game.description}</p>
+                        <a href="${game.link}" target="_blank">Play Now</a>
+                    </div>
+                `;
+                gamesList.appendChild(gameElement);
+            }
+        });
+    }
+
+    function clearGames() {
+        recentGames = [];
+        localStorage.removeItem('recentGames');
+        displayGames();
+    }
+
+    document.getElementById('clear-games').addEventListener('click', clearGames);
+
+    // Fetch the JSON data
+    fetch('weed.json')
+        .then(response => response.json())
+        .then(data => {
+            gamesData = data;
+            displayGames();
+        })
+        .catch(error => console.error('Error fetching games data:', error));
+</script>
+
+</body>
+</html>
