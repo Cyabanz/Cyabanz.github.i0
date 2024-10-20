@@ -42,9 +42,10 @@ function displayGames(games) {
         cardAvatar.alt = "Game Avatar";
         cardAvatar.classList.add('card__avatar');
 
-        // Add click event to the entire card (or you can change this to just the image, title, etc.)
+        // Add click event to the bannerWrapper to store the clicked game
         bannerWrapper.addEventListener('click', () => {
-            addGameToRecent(game); // Add to recent games when clicked
+            addGameToRecent(game); // Store only the clicked game
+            window.open('recent.html', '_blank'); // Open recent.html
         });
 
         const titleDiv = document.createElement('div');
@@ -58,7 +59,6 @@ function displayGames(games) {
         cardInfo.appendChild(cardAvatar);
         cardInfo.appendChild(titleDiv);
         card.appendChild(cardInfo);
-        card.appendChild(document.createElement('button').appendChild(document.createTextNode('Get')));
         cardWrapper.appendChild(card);
         bannerWrapper.appendChild(cardWrapper);
         link.appendChild(bannerWrapper); // Add the bannerWrapper to the link
@@ -68,11 +68,5 @@ function displayGames(games) {
 
 // Function to add game to recent list in local storage
 function addGameToRecent(game) {
-    const recentGames = JSON.parse(localStorage.getItem('recentGames')) || [];
-    
-    // Check for duplicates by title
-    if (!recentGames.some(existingGame => existingGame.title === game.title)) {
-        recentGames.push(game); // Add unique game
-        localStorage.setItem('recentGames', JSON.stringify(recentGames));
-    }
+    localStorage.setItem('recentGame', JSON.stringify(game)); // Store the clicked game
 }
