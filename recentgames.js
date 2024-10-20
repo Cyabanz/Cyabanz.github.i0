@@ -15,9 +15,11 @@ function displayGames(games) {
         const bannerWrapper = document.createElement('div');
         bannerWrapper.classList.add('banner_wrapper');
 
-        const link = document.createElement('a');
-        link.href = game.link; // Set the link URL
-        link.target = '_blank'; // Open in a new tab
+        // Add click event to the bannerWrapper to store the clicked game
+        bannerWrapper.addEventListener('click', () => {
+            addGameToRecent(game); // Store only the clicked game
+            window.open('recent.html', '_blank'); // Open recent.html
+        });
 
         const banner = document.createElement('div');
         banner.classList.add('banner');
@@ -42,12 +44,6 @@ function displayGames(games) {
         cardAvatar.alt = "Game Avatar";
         cardAvatar.classList.add('card__avatar');
 
-        // Add click event to the bannerWrapper to store the clicked game
-        bannerWrapper.addEventListener('click', () => {
-            addGameToRecent(game); // Store only the clicked game
-            window.open('recent.html', '_blank'); // Open recent.html
-        });
-
         const titleDiv = document.createElement('div');
         const titleSpan = document.createElement('span');
         titleSpan.textContent = game.title;
@@ -61,8 +57,7 @@ function displayGames(games) {
         card.appendChild(cardInfo);
         cardWrapper.appendChild(card);
         bannerWrapper.appendChild(cardWrapper);
-        link.appendChild(bannerWrapper); // Add the bannerWrapper to the link
-        container.appendChild(link); // Add the link to the container
+        container.appendChild(bannerWrapper); // Add the bannerWrapper to the container
     });
 }
 
