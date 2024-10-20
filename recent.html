@@ -2,151 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Game Cards</title>
-    <link rel="stylesheet" href="games.css">
-    <link rel="stylesheet" href="gamer2.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Game</title>
     <style>
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            margin: 20px;
         }
-        .container {
-            padding: 20px;
+        #recent-container {
+            margin-top: 20px;
         }
-        .games {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+        .recent-game {
+            margin: 20px 0;
         }
-        .game-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 250px;
-            cursor: pointer;
+        .recent-game img {
+            max-width: 100%; /* Responsive image */
+            height: auto;
         }
-        .banner {
-            width: 100%;
-            height: 150px;
-            overflow: hidden;
-        }
-        .banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .card-info {
-            padding: 10px;
-        }
-        .card-info h3 {
-            margin: 0;
-        }
-        .no-results {
-            color: red;
-            font-weight: bold;
-        }
-        .clear-btn {
+        #clear-button {
             margin-top: 20px;
             padding: 10px 15px;
-            background-color: red;
+            background-color: #f44336; /* Red background */
             color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
+        }
+        #clear-button:hover {
+            background-color: #d32f2f; /* Darker red */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Game Cards</h1>
-        <div class="games" id="games-container"></div>
-        <button class="clear-btn" id="clear-favorites" style="display: none;">Clear All Favorites</button>
-    </div>
+    <h1>Recent Game</h1>
+    <div id="recent-container"></div>
+    <button id="clear-button">Clear Recent</button>
 
     <script>
-        let allGames = []; // To store all the games
-
-        // Function to load game data from JSON
-        async function loadGames() {
-            const response = await fetch('weed.json'); // Adjust the path if necessary
-            allGames = await response.json(); // Store all the games
-            displayGames(allGames); // Initially display all games
-        }
-
-        // Function to display games
-        function displayGames(games) {
-            const container = document.getElementById('games-container');
+        // Function to load the recent game from localStorage
+        function loadRecentGame() {
+            const recentGame = JSON.parse(localStorage.getItem('recentGame'));
+            const container = document.getElementById('recent-container');
             container.innerHTML = ''; // Clear previous content
 
-            if (games.length === 0) {
-                const noResults = document.createElement('p');
-                noResults.textContent = 'No results found';
-                noResults.classList.add('no-results');
-                container.appendChild(noResults);
+            if (!recentGame) {
+                const noGames = document.createElement('p');
+                noGames.textContent = 'No games found';
+                container.appendChild(noGames);
                 return;
             }
 
-            games.forEach(game => {
-                const card = document.createElement('div');
-                card.classList.add('game-card');
-                card.onclick = () => addGameToFavorites(game); // Add click event to the card
+            const gameDiv = document.createElement('div');
+            gameDiv.classList.add('recent-game');
 
-                const banner = document.createElement('div');
-                banner.classList.add('banner');
-                const bannerImage = document.createElement('img');
-                bannerImage.src = game.banner;
-                bannerImage.alt = "Banner Game";
-                banner.appendChild(bannerImage);
+            const gameBanner = document.createElement('img');
+            gameBanner.src = recentGame.banner;
+            gameBanner.alt = recentGame.title + " Banner";
+            gameDiv.appendChild(gameBanner);
 
-                const cardInfo = document.createElement('div');
-                cardInfo.classList.add('card-info');
-                const title = document.createElement('h3');
-                title.textContent = game.title;
-                const description = document.createElement('p');
-                description.textContent = game.description;
+            const gameTitle = document.createElement('h2');
+            gameTitle.textContent = recentGame.title;
+            gameDiv.appendChild(gameTitle);
 
-                cardInfo.appendChild(title);
-                cardInfo.appendChild(description);
-                card.appendChild(banner);
-                card.appendChild(cardInfo);
-                container.appendChild(card);
-            });
+            const gameDescription = document.createElement('p');
+            gameDescription.textContent = recentGame.description;
+            gameDiv.appendChild(gameDescription);
 
-            // Show clear button if there are favorites
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            document.getElementById('clear-favorites').style.display = favorites.length > 0 ? 'block' : 'none';
+            container.appendChild(gameDiv);
         }
 
-        // Function to add game to favorites
-        function addGameToFavorites(game) {
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-            // Check if the game is already favorited
-            if (favorites.some(fav => fav.title === game.title)) {
-                alert('Already favorited');
-            } else {
-                favorites.push(game); // Add the game to favorites
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                alert('Game added to favorites');
-            }
-
-            // Show the clear button if there are favorites
-            document.getElementById('clear-favorites').style.display = 'block';
+        // Function to clear the recent game from localStorage
+        function clearRecentGame() {
+            localStorage.removeItem('recentGame');
+            loadRecentGame(); // Reload to show "No games found"
         }
 
-        // Function to clear all favorites
-        document.getElementById('clear-favorites').onclick = () => {
-            localStorage.removeItem('favorites'); // Clear favorites from local storage
-            alert('All favorites cleared');
-            document.getElementById('clear-favorites').style.display = 'none'; // Hide the clear button
-        };
+        document.getElementById('clear-button').addEventListener('click', clearRecentGame);
 
-        // Load games when the page loads
-        window.onload = loadGames;
+        // Load the recent game on page load
+        window.onload = loadRecentGame;
     </script>
 </body>
 </html>
