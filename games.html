@@ -239,3 +239,38 @@ link.addEventListener('click', () => {
         }
     }
 </script>
+
+<script>
+    // Function to add the clicked game to recent games in localStorage
+    function addGameToRecent(game) {
+        const recentGames = JSON.parse(localStorage.getItem('recentGames')) || [];
+        
+        // Check for duplicates
+        if (!recentGames.some(existingGame => existingGame.title === game.title)) {
+            recentGames.push(game); // Add unique game
+            localStorage.setItem('recentGames', JSON.stringify(recentGames));
+        }
+    }
+
+    // Assuming you have a function that fetches your games and displays them
+    games.forEach(game => {
+        const bannerWrapper = document.createElement('div');
+        bannerWrapper.classList.add('banner_wrapper');
+
+        // Add click event to the bannerWrapper to store the clicked game
+        bannerWrapper.addEventListener('click', () => {
+            addGameToRecent(game); // Store only the clicked game
+            window.open('recent.html', '_blank'); // Open recent.html
+        });
+
+        // Set up the rest of your game display logic here
+        const bannerImage = document.createElement('img');
+        bannerImage.src = game.banner;
+        bannerImage.alt = `${game.title} Banner`;
+        bannerWrapper.appendChild(bannerImage);
+
+        // Append the bannerWrapper to the container (assumes you have a container for your games)
+        document.getElementById('games-container').appendChild(bannerWrapper);
+    });
+</script>
+
