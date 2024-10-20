@@ -2,84 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recent Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #recent-container {
-            margin-top: 20px;
-        }
-        .recent-game {
-            margin: 20px 0;
-        }
-        .recent-game img {
-            max-width: 100%; /* Responsive image */
-            height: auto;
-        }
-        #clear-button {
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #f44336; /* Red background */
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        #clear-button:hover {
-            background-color: #d32f2f; /* Darker red */
-        }
-    </style>
+    <title>Recent Games</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Recent Game</h1>
-    <div id="recent-container"></div>
-    <button id="clear-button">Clear Recent</button>
+    <h1>Recently Played Games</h1>
+    <div id="recent-games-container"></div>
 
     <script>
-        // Function to load the recent game from localStorage
-        function loadRecentGame() {
-            const recentGame = JSON.parse(localStorage.getItem('recentGame'));
-            const container = document.getElementById('recent-container');
+        function displayRecentGames() {
+            const recentGames = JSON.parse(localStorage.getItem('recentGames')) || [];
+            const container = document.getElementById('recent-games-container');
             container.innerHTML = ''; // Clear previous content
 
-            if (!recentGame) {
-                const noGames = document.createElement('p');
-                noGames.textContent = 'No games found';
-                container.appendChild(noGames);
+            if (recentGames.length === 0) {
+                const noResults = document.createElement('p');
+                noResults.textContent = 'No recent games found.';
+                container.appendChild(noResults);
                 return;
             }
 
-            const gameDiv = document.createElement('div');
-            gameDiv.classList.add('recent-game');
+            recentGames.forEach(game => {
+                const gameDiv = document.createElement('div');
+                gameDiv.classList.add('game-item');
+                
+                const title = document.createElement('h2');
+                title.textContent = game.title;
 
-            const gameBanner = document.createElement('img');
-            gameBanner.src = recentGame.banner;
-            gameBanner.alt = recentGame.title + " Banner";
-            gameDiv.appendChild(gameBanner);
+                const description = document.createElement('p');
+                description.textContent = game.description;
 
-            const gameTitle = document.createElement('h2');
-            gameTitle.textContent = recentGame.title;
-            gameDiv.appendChild(gameTitle);
+                const banner = document.createElement('img');
+                banner.src = game.banner;
+                banner.alt = game.title;
 
-            const gameDescription = document.createElement('p');
-            gameDescription.textContent = recentGame.description;
-            gameDiv.appendChild(gameDescription);
-
-            container.appendChild(gameDiv);
+                gameDiv.appendChild(banner);
+                gameDiv.appendChild(title);
+                gameDiv.appendChild(description);
+                container.appendChild(gameDiv);
+            });
         }
 
-        // Function to clear the recent game from localStorage
-        function clearRecentGame() {
-            localStorage.removeItem('recentGame');
-            loadRecentGame(); // Reload to show "No games found"
-        }
-
-        document.getElementById('clear-button').addEventListener('click', clearRecentGame);
-
-        // Load the recent game on page load
-        window.onload = loadRecentGame;
+        // Call the function to display recent games
+        window.onload = displayRecentGames;
     </script>
 </body>
 </html>
