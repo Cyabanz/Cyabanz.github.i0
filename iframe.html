@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.9/css/boxicons.min.css">
+    <style>
+        html, body {
+            height: 100%; /* Make sure both html and body take full height */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Loading screen styles */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(34, 34, 34, 0.8); /* Semi-transparent background */
+            z-index: 9999; /* Ensure it covers everything */
+        }
+
+        figure {
+            margin: auto;
+            width: 6.250em;
+            height: 6.250em;
+            animation: rotate 2.4s linear infinite;
+        }
+
+        .white {
+            background: white;
+            animation: flash 2.4s linear infinite;
+            opacity: 0;
+        }
+
+        .dot {
+            position: absolute;
+            margin: auto;
+            width: 2.4em;
+            height: 2.4em;
+            border-radius: 100%;
+            transition: all 1s ease;
+        }
+
+        .dot:nth-child(2) {
+            top: 0;
+            background: #FF4444;
+            animation: dotsY 2.4s linear infinite;
+        }
+
+        .dot:nth-child(3) {
+            top: 0;
+            background: #FFBB33;
+            animation: dotsX 2.4s linear infinite;
+        }
+
+        .dot:nth-child(4) {
+            bottom: 0;
+            background: #99CC00;
+            animation: dotsY 2.4s linear infinite;
+        }
+
+        .dot:nth-child(5) {
+            bottom: 0;
+            background: #33B5E5;
+            animation: dotsX 2.4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0); }
+            10% { width: 6.250em; height: 6.250em; }
+            66% { width: 2.4em; height: 2.4em; }
+            100% { transform: rotate(360deg); width: 6.250em; height: 6.250em; }
+        }
+
+        @keyframes dotsY {
+            66% { opacity: .1; width: 2.4em; }
+            77% { opacity: 1; width: 0; }
+        }
+
+        @keyframes dotsX {
+            66% { opacity: .1; height: 2.4em; }
+            77% { opacity: 1; height: 0; }
+        }
+
+        @keyframes flash {
+            33% { opacity: 0; border-radius: 0%; }
+            55% { opacity: .6; border-radius: 100%; }
+            66% { opacity: 0; }
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px; /* Reduced padding for a more rectangular shape */
+            border-radius: 8px; /* Adjust the border-radius for less rounded corners */
+            border: 1px solid #ccc; /* Adds a border */
+            background-color: rgba(248, 248, 248, 0.9); /* Semi-transparent background */
+            position: fixed; /* Fixed position for the nav bar */
+            top: 0; /* Align it to the top */
+            left: 50%; /* Center it horizontally */
+            transform: translateX(-50%); /* Adjust for centering */
+            max-width: 600px; /* Set a maximum width for the nav bar */
+            width: auto; /* Allow it to size based on content */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+            transition: visibility 0s, opacity 0.5s linear; /* Smooth transition */
+            z-index: 10; /* Ensure it appears above other content */
+        }
+
+        .nav-icons {
+            display: flex; /* Create a flex container for the nav icons */
+            align-items: center; /* Center the icons vertically */
+            margin-right: auto; /* Push the icons to the left */
+        }
+
+        .nav-content i {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .exit-icon {
+            margin-left: 5px; /* Slightly move the exit icon to the left */
+        }
+
+        .hidden {
+            visibility: hidden; /* Hide the navigation content */
+            opacity: 0; /* Fade out effect */
+        }
+
+        /* Styling for the eye Boxicon */
+        #toggleEye {
+            font-size: 24px; /* Same size as nav icons */
+            cursor: pointer;
+            position: absolute; /* Keep the eye icon over the nav-content */
+            right: 10px; /* Aligns the eye icon to the right */
+            top: 50%; /* Center it vertically */
+            transform: translateY(-50%); /* Adjust to truly center it */
+            background-color: white; /* Optional: Background color for visibility */
+            border-radius: 50%; /* Optional: Makes the eye icon round */
+            padding: 5px; /* Optional: Adds padding around the icon */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow for depth */
+            z-index: 11; /* Ensure the eye icon appears above the nav bar */
+        }
+
+        /* Ensure the iframe takes up full width and height */
+        #gameContainer {
+            height: 100%; /* Fill entire height */
+            width: 100%; /* Fill entire width */
+            position: relative; /* Relative positioning for the iframe */
+        }
+
+        #game-frame {
+            width: 100%; /* Full width */
+            height: 100%; /* Full height, including nav bar */
+            border: none; /* No border */
+            position: absolute; /* Absolute positioning for full coverage */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+            z-index: 1; /* Set lower than nav-content to keep nav on top */
+        }
+    </style>
+    <title>Game Page</title>
+</head>
+<body>
+    <div id="loadingScreen">
+        <figure>
+            <div class="dot white"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </figure>
+    </div>
+
+    <div class="nav-content" id="navContent">
+        <div class="nav-icons" id="navBar">
+            <i class='bx bx-home'></i>
+            <i class='bx bx-refresh'></i>
+        </div>
+        <i class='bx bx-exit exit-icon'></i> <!-- Exit icon positioned on the right -->
+    </div>
+    <i class='bx bx-low-vision' id="toggleEye"></i> <!-- Eye icon positioned over the nav bar -->
+
+    <div id="gameContainer">
+        <iframe id="game-frame"></iframe> <!-- Iframe for the game content -->
+    </div>
+
+    <script>
+        // Get the game link from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameLink = urlParams.get('link');
+
+        // Set the iframe source to the game link
+        const gameFrame = document.getElementById('game-frame');
+        if (gameLink) {
+            gameFrame.src = gameLink;
+            gameFrame.style.display = 'block'; // Show the iframe if link is provided
+        }
+
+        // Eye icon functionality
+        const toggleEye = document.getElementById('toggleEye');
+        const navContent = document.getElementById('navContent');
+
+        toggleEye.addEventListener('click', () => {
+            navContent.classList.toggle('hidden'); // Hide or show the nav-content
+        });
+
+        // Call the function on page load
+        window.addEventListener('load', () => {
+            adjustIframeHeight();
+            hideLoadingScreen();
+        });
+
+        // Call the function on window resize
+        window.addEventListener('resize', () => {
+            adjustIframeHeight();
+        });
+
+        // Function to adjust the iframe height
+        function adjustIframeHeight() {
+            const iframe = document.getElementById('game-frame');
+            iframe.style.height = '100%'; // Set the iframe height to fill the gameContainer
+        }
+
+        // Function to hide the loading screen
+        function hideLoadingScreen() {
+            // Remove the loading screen after 5 seconds
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
