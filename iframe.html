@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.9/css/boxicons.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Loading screen styles */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(34, 34, 34, 0.8);
+            z-index: 9999;
+        }
+
+        figure {
+            margin: auto;
+            width: 6.250em;
+            height: 6.250em;
+            animation: rotate 2.4s linear infinite;
+        }
+
+        .white {
+            background: white;
+            animation: flash 2.4s linear infinite;
+            opacity: 0;
+        }
+
+        .dot {
+            position: absolute;
+            margin: auto;
+            width: 2.4em;
+            height: 2.4em;
+            border-radius: 100%;
+            transition: all 1s ease;
+        }
+
+        .dot:nth-child(2) {
+            top: 0;
+            background: #FF4444;
+            animation: dotsY 2.4s linear infinite;
+        }
+
+        .dot:nth-child(3) {
+            top: 0;
+            background: #FFBB33;
+            animation: dotsX 2.4s linear infinite;
+        }
+
+        .dot:nth-child(4) {
+            bottom: 0;
+            background: #99CC00;
+            animation: dotsY 2.4s linear infinite;
+        }
+
+        .dot:nth-child(5) {
+            bottom: 0;
+            background: #33B5E5;
+            animation: dotsX 2.4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0); }
+            10% { width: 6.250em; height: 6.250em; }
+            66% { width: 2.4em; height: 2.4em; }
+            100% { transform: rotate(360deg); width: 6.250em; height: 6.250em; }
+        }
+
+        @keyframes dotsY {
+            66% { opacity: .1; width: 2.4em; }
+            77% { opacity: 1; width: 0; }
+        }
+
+        @keyframes dotsX {
+            66% { opacity: .1; height: 2.4em; }
+            77% { opacity: 1; height: 0; }
+        }
+
+        @keyframes flash {
+            33% { opacity: 0; border-radius: 0%; }
+            55% { opacity: .6; border-radius: 100%; }
+            66% { opacity: 0; }
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: rgba(248, 248, 248, 0.9);
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 600px;
+            width: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: visibility 0s, opacity 0.5s linear;
+            z-index: 10;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+        }
+
+        .nav-content i {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .exit-icon {
+            margin-left: 5px;
+        }
+
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        /* Eye icon styling */
+        #toggleEye {
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            border-radius: 50%;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 11;
+        }
+
+        /* Iframe styles */
+        #gameContainer {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        #game-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+    </style>
+    <title>Game Page</title>
+</head>
+<body>
+    <div id="loadingScreen">
+        <figure>
+            <div class="dot white"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </figure>
+    </div>
+
+    <div class="nav-content" id="navContent">
+        <div class="nav-icons" id="navBar">
+            <i class='bx bx-home' id="homeIcon"></i>
+            <i class='bx bx-refresh' id="refreshIcon"></i>
+        </div>
+        <i class='bx bx-exit exit-icon' id="exitIcon"></i> <!-- Exit icon positioned on the right -->
+    </div>
+
+    <i class='bx bx-low-vision' id="toggleEye"></i> <!-- Eye icon positioned over the nav bar -->
+
+    <div id="gameContainer">
+        <iframe id="game-frame"></iframe> <!-- Iframe for the game content -->
+    </div>
+
+    <script>
+        // Go back to index.html when home icon is clicked
+        document.getElementById('homeIcon').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        // Go back to games.html when exit icon is clicked
+        document.getElementById('exitIcon').addEventListener('click', function() {
+            window.location.href = 'games.html';
+        });
+
+        // Refresh the iframe when refresh icon is clicked
+        document.getElementById('refreshIcon').addEventListener('click', function() {
+            const iframe = document.getElementById('game-frame');
+            iframe.src = iframe.src; // Reloads the iframe by resetting its src
+        });
+
+        // Get the game link from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameLink = urlParams.get('link');
+
+        // Set the iframe source to the game link
+        const gameFrame = document.getElementById('game-frame');
+        if (gameLink) {
+            gameFrame.src = gameLink;
+            gameFrame.style.display = 'block'; // Show the iframe if link is provided
+        }
+
+        // Eye icon functionality
+        const toggleEye = document.getElementById('toggleEye');
+        const navContent = document.getElementById('navContent');
+
+        toggleEye.addEventListener('click', () => {
+            navContent.classList.toggle('hidden'); // Hide or show the nav-content
+        });
+
+        // Call the function on page load
+        window.addEventListener('load', () => {
+            adjustIframeHeight();
+            hideLoadingScreen();
+        });
+
+        // Call the function on window resize
+        window.addEventListener('resize', () => {
+            adjustIframeHeight();
+        });
+
+        // Function to adjust the iframe height
+        function adjustIframeHeight() {
+            const iframe = document.getElementById('game-frame');
+            iframe.style.height = '100%'; // Set the iframe height to fill the gameContainer
+        }
+
+        // Function to hide the loading screen
+        function hideLoadingScreen() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
