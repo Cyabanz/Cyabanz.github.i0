@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
 * {
   border: initial;
   box-sizing: border-box;
@@ -22,25 +23,24 @@ body {
 }
 
 .card__wrapper {
-    display: flex;
-    flex-wrap: wrap; /* Allows cards to wrap to the next row */
-    justify-content: center; /* Centers the cards horizontally */
-    gap: 20px; /* Spacing between cards */
-    padding: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap to the next row */
+  justify-content: center; /* Centers the cards horizontally */
+  gap: 20px; /* Spacing between cards */
+  padding: 20px;
 }
 
 .card {
-    flex: 1 1 calc(33.333% - 40px); /* Makes sure cards take up 33.33% of the width and fit 3 per row */
-    max-width: 300px; /* Optional max width to limit card size */
-    min-width: 250px; /* Optional min width to prevent them from getting too small */
-    background-color: #252525;
-    border-radius: 12px;
-    overflow: hidden; /* Ensures rounded corners are applied to child elements */
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  flex: 1 1 calc(33.333% - 40px); /* Makes sure cards take up 33.33% of the width and fit 3 per row */
+  max-width: 300px; /* Optional max width to limit card size */
+  min-width: 250px; /* Optional min width to prevent them from getting too small */
+  padding: 1rem;
+  background-color: #252525;
+  border-radius: 12px; /* Rounded corners */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between;
 }
-
 
 .card__info {
   display: flex;
@@ -79,6 +79,7 @@ button {
   cursor: pointer;
   transition: 0.3s all ease;
 }
+
 button span {
   font-size: 12px;
   color: #656565;
@@ -151,6 +152,5 @@ button:active {
   left: 50%; /* Position it horizontally centered */
   transform: translate(-50%, -50%); /* Centering transform */
 }
-
 
       
