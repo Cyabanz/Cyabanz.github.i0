@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Ratings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+
+        #games-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .game-card {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        #rating-form {
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Game Ratings</h1>
+    <div id="games-container"></div>
+
+    <!-- Rating Form -->
+    <div id="rating-form">
+        <h2>Rate a Game</h2>
+        <input type="text" id="game-title" placeholder="Game Title" required>
+        <input type="number" id="game-rating" placeholder="Rate from 1 to 5" min="1" max="5" required>
+        <button id="submit-rating">Submit Rating</button>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Fetch games and display them
+        function fetchGames() {
+            fetch('weed.json')
+                .then(response => response.json())
+                .then(games => {
+                    const gamesContainer = document.getElementById('games-container');
+                    gamesContainer.innerHTML = '';
+
+                    for (const key in games) {
+                        const game = games[key];
+                        const gameCard = document.createElement('div');
+                        gameCard.classList.add('game-card');
+                        gameCard.innerHTML = `
+                            <img src="${game.banner}" alt="${game.title}" style="width:100%; border-radius: 8px;">
+                            <h3>${game.title}</h3>
+                            <p>${game.description}</p>
+                            <p>Average Rating: ${getAverageRating(game.ratings) || 'No ratings yet'}</p>
+                        `;
+                        gamesContainer.appendChild(gameCard);
+                    }
+                });
+        }
+
+        // Get average rating
+        function getAverageRating(ratings) {
+            if (!ratings || ratings.length === 0) return null;
+            const total = ratings.reduce((sum, rating) => sum + rating, 0);
+            return (total / ratings.length).toFixed(1);
+        }
+
+        // Submit a rating
+        document.getElementById('submit-rating').addEventListener('click', () => {
+            const gameTitle = document.getElementById('game-title').value;
+            const gameRating = parseInt(document.getElementById('game-rating').value);
+            
+            if (!gameTitle || !gameRating) return;
+
+            database.ref('games').orderByChild('title').equalTo(gameTitle).once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    const gameKey = Object.keys(snapshot.val())[0];
+                    database.ref(`games/${gameKey}/ratings`).push(gameRating).then(() => {
+                        alert('Rating submitted!');
+                        fetchGames(); // Refresh game ratings
+                    });
+                } else {
+                    alert('Game not found!');
+                }
+            });
+        });
+
+        // Fetch games on page load
+        window.onload = fetchGames;
+    </script>
+</body>
+</html>
