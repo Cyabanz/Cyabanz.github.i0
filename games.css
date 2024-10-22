@@ -24,22 +24,20 @@ body {
 
 .card__wrapper {
   display: flex;
-  flex-wrap: wrap; /* Allows cards to wrap to the next row */
-  justify-content: center; /* Centers the cards horizontally */
-  gap: 20px; /* Spacing between cards */
-  padding: 20px;
+  flex-wrap: wrap; /* Allow wrapping of cards */
+  justify-content: center; /* Center cards in the container */
+  max-width: 950px; /* Maximum width for 3 cards (300px each + gap) */
+  gap: 10px; /* Space between cards */
 }
 
 .card {
-  flex: 1 1 calc(33.333% - 40px); /* Makes sure cards take up 33.33% of the width and fit 3 per row */
-  max-width: 300px; /* Optional max width to limit card size */
-  min-width: 250px; /* Optional min width to prevent them from getting too small */
+  display: flex;
+  width: 300px;
   padding: 1rem;
   background-color: #252525;
-  border-radius: 12px; /* Rounded corners */
-  display: flex;
-  flex-direction: column; /* Stack content vertically */
+  border-radius: 0px 0px 12px 12px;
   justify-content: space-between;
+  align-items: center;
 }
 
 .card__info {
@@ -152,5 +150,6 @@ button:active {
   left: 50%; /* Position it horizontally centered */
   transform: translate(-50%, -50%); /* Centering transform */
 }
+
 
       
