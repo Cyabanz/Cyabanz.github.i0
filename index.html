@@ -59,6 +59,7 @@
         <h1 style="margin-bottom: 0;">FU<span class="brand-color">SIO</span>N</h1>
         <sub>Officially v2</sub>
         <h2>Home</h2>
+        <p id="user-name"></p> <!-- Add this line to display the user's name -->
     </main>
 
     <!-- Top-right profile picture -->
@@ -109,13 +110,9 @@
             document.getElementById('user-pic-top-right').style.display = isLoggedIn ? 'inline' : 'none'; // Show or hide based on login state
 
             // Additional user info handling...
-            document.getElementById('user-name').textContent = name; // Assuming you have an element for the username
+            document.getElementById('user-name').textContent = name; // Set username
         }
-    </script>
-</body>
-</html>
 
- <script>
         // Check if the user has completed the tutorial
         if (!localStorage.getItem('tutorialCompleted')) {
             // Redirect to tutorial.html if not completed
@@ -124,3 +121,4 @@
     </script>
 </body>
 </html>
+
