@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Games to Firestore</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1>Upload Games to Firestore</h1>
+    <button id="upload-games">Upload Games</button>
+    
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const games = [
+            {
+                title: "Rust",
+                banner: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252490/header.jpg?t=1715591843",
+                avatar: "https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg",
+                description: "Wilderness",
+                link: "iframe.html?link=https://cyabanz.github.io",
+                category: ["Survival", "All"],
+                ratings: []
+            },
+            {
+                title: "Garry's Mod",
+                banner: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4000/header.jpg?t=1710347075",
+                avatar: "https://files.facepunch.com/lewis/1b1311b1/gmod-logo.svg",
+                description: "Physics Sandbox",
+                link: "https://gmod.facepunch.com",
+                category: ["Creative", "All"],
+                ratings: []
+            },
+            {
+                title: "The Devil In Me",
+                banner: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649",
+                avatar: "https://static.bandainamcoent.eu/high/the-dark-pictures/the-devil-in-me/00-page-setup/tdim_header_mobile_new-keyart.jpg",
+                description: "Survivor Horror",
+                link: "https://www.bhvr.com/the-devil-in-me/",
+                category: ["Action", "All"],
+                ratings: []
+            },
+            // Add more games here...
+        ];
+
+        document.getElementById('upload-games').addEventListener('click', async () => {
+            const batch = db.batch(); // Create a batch
+            games.forEach(game => {
+                const gameRef = db.collection('games').doc(game.title); // Use the game title as the document ID
+                batch.set(gameRef, game); // Set the game data
+            });
+            await batch.commit(); // Commit the batch
+            alert('Games uploaded successfully!');
+        });
+    </script>
+</body>
+</html>
