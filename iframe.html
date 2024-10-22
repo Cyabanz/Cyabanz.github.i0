@@ -180,12 +180,36 @@
     </div>
 
     <div class="nav-content" id="navContent">
-        <div class="nav-icons" id="navBar">
-            <i class='bx bx-home'></i>
-            <i class='bx bx-refresh'></i>
-        </div>
-        <i class='bx bx-exit exit-icon'></i> <!-- Exit icon positioned on the right -->
+    <div class="nav-icons" id="navBar">
+        <i class='bx bx-home' id="homeIcon"></i>
+        <i class='bx bx-refresh' id="refreshIcon"></i>
     </div>
+    <i class='bx bx-exit exit-icon' id="exitIcon"></i> <!-- Exit icon positioned on the right -->
+</div>
+<i class='bx bx-low-vision' id="toggleEye"></i> <!-- Eye icon positioned over the nav bar -->
+
+<div id="gameContainer">
+    <iframe id="game-frame"></iframe> <!-- Iframe for the game content -->
+</div>
+
+<script>
+    // Go back to index.html when home icon is clicked
+    document.getElementById('homeIcon').addEventListener('click', function() {
+        window.location.href = 'index.html';
+    });
+
+    // Go back to games.html when exit icon is clicked
+    document.getElementById('exitIcon').addEventListener('click', function() {
+        window.location.href = 'games.html';
+    });
+
+    // Refresh the iframe when refresh icon is clicked
+    document.getElementById('refreshIcon').addEventListener('click', function() {
+        const iframe = document.getElementById('game-frame');
+        iframe.src = iframe.src; // Reloads the iframe by resetting its src
+    });
+</script>
+
     <i class='bx bx-low-vision' id="toggleEye"></i> <!-- Eye icon positioned over the nav bar -->
 
     <div id="gameContainer">
