@@ -661,3 +661,13 @@
 		</div>
 	</div>
 	</di>
+
+	<script>
+        // Check if the user has completed the tutorial
+        if (!localStorage.getItem('tutorialCompleted')) {
+            // Redirect to tutorial.html if not completed
+            window.location.href = 'tutorial.html';
+        }
+    </script>
+</body>
+</html>
