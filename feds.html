@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Island Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .game-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 200px;
+        }
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+        .dynamic-island {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            width: 300px;
+            display: none; /* Initially hidden */
+            z-index: 100;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        .dynamic-island.show {
+            display: block;
+            opacity: 1;
+        }
+        .dynamic-island img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .dynamic-island h2 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+        }
+        .dynamic-island p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .dynamic-island a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .dynamic-island a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dynamicIsland" class="dynamic-island">
+        <img id="dynamicBanner" src="" alt="Game Banner">
+        <h2 id="dynamicTitle"></h2>
+        <p id="dynamicDescription"></p>
+        <a id="dynamicLink" href="#" target="_blank">Play Now</a>
+    </div>
+
+    <div id="gameContainer"></div>
+
+    <script>
+        // Fetch games from weed.json
+        fetch('weed.json')
+            .then(response => response.json())
+            .then(games => {
+                const gameContainer = document.getElementById('gameContainer');
+
+                // Create game cards
+                games.forEach((game) => {
+                    const gameCard = document.createElement('div');
+                    gameCard.classList.add('game-card');
+                    gameCard.innerHTML = `
+                        <img src="${game.avatar}" alt="${game.title} Avatar" style="width: 100%; border-radius: 10px;">
+                        <h3>${game.title}</h3>
+                        <p>${game.description}</p>
+                    `;
+                    gameCard.addEventListener('click', () => showDynamicIsland(game));
+                    gameContainer.appendChild(gameCard);
+                });
+            })
+            .catch(error => console.error('Error fetching games:', error));
+
+        // Show Dynamic Island
+        function showDynamicIsland(game) {
+            document.getElementById('dynamicBanner').src = game.banner;
+            document.getElementById('dynamicTitle').textContent = game.title;
+            document.getElementById('dynamicDescription').textContent = game.description;
+            document.getElementById('dynamicLink').href = game.link;
+
+            const dynamicIsland = document.getElementById('dynamicIsland');
+            dynamicIsland.classList.add('show');
+
+            // Automatically hide the island after 5 seconds
+            setTimeout(() => {
+                dynamicIsland.classList.remove('show');
+            }, 5000);
+        }
+    </script>
+
+</body>
+</html>
