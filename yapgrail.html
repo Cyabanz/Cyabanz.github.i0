@@ -94,11 +94,19 @@
         window.signIn = function() {  // Make it globally accessible
             signInWithPopup(auth, provider).then((result) => {
                 console.log("User signed in:", result.user);
-                // Initialize user data if this is their first sign-in
                 const userRef = ref(db, 'users/' + result.user.uid);
-                set(userRef, {
-                    coins: 0,
-                    lastClaimDate: null // No claims yet
+
+                // Check if user data already exists
+                get(userRef).then((snapshot) => {
+                    if (!snapshot.exists()) {
+                        // Initialize user data only if it doesn't exist
+                        set(userRef, {
+                            coins: 0,
+                            lastClaimDate: null // No claims yet
+                        });
+                    }
+                }).catch((error) => {
+                    console.error("Error checking user data:", error);
                 });
             }).catch((error) => {
                 console.error("Error signing in:", error);
