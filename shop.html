@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { initializeApp } from "firebase/app";
+        import { getAnalytics } from "firebase/analytics";
+        import { getDatabase, ref, onValue, set } from "firebase/database";
+        import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
             authDomain: "algebras4-44f23.firebaseapp.com",
@@ -22,78 +21,86 @@
             measurementId: "G-4R378XMPSW"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const database = getDatabase(app);
-        const auth = getAuth(app);
+        const auth = getAuth();
 
-        // Function to initialize user data (if not done in progress.html)
-        function initializeUserData(userId) {
-            const userRef = ref(database, 'users/' + userId);
-            const initialData = {
-                coins: 3000,
-                lastRewardClaim: null, // Set this to null initially
-                dailyProgress: {
-                    day1: false,
-                    day2: false,
-                    day3: false,
-                    day4: false,
-                    day5: false,
-                    day6: false,
-                    day7: false
-                },
-                purchasedItems: {
-                    item1: false,
-                    item2: false
-                }
-            };
-
-            set(userRef, initialData)
-                .then(() => {
-                    console.log('User data initialized successfully!');
-                })
-                .catch((error) => {
-                    console.error('Error initializing user data: ', error);
-                });
-        }
-
-        // Function to handle purchasing an item
         function purchaseItem(userId, itemId, itemPrice) {
             const userRef = ref(database, 'users/' + userId);
+            
             onValue(userRef, (snapshot) => {
                 const userData = snapshot.val();
                 if (userData.coins >= itemPrice) {
-                    const updatedCoins = userData.coins - itemPrice;
+                    const newCoins = userData.coins - itemPrice;
                     const updatedPurchasedItems = { ...userData.purchasedItems, [itemId]: true };
-                    set(userRef, { ...userData, coins: updatedCoins, purchasedItems: updatedPurchasedItems });
-                    console.log(`Purchased ${itemId} successfully!`);
+
+                    set(userRef, {
+                        ...userData,
+                        coins: newCoins,
+                        purchasedItems: updatedPurchasedItems
+                    }).then(() => {
+                        console.log(`${itemId} purchased successfully!`);
+                    }).catch((error) => {
+                        console.error('Error purchasing item: ', error);
+                    });
                 } else {
                     console.log('Not enough coins to purchase this item.');
                 }
             });
         }
 
-        // Call this function after the user signs up or logs in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const userId = user.uid; // Get the signed-in user's ID
-                initializeUserData(userId);
+                const userId = user.uid;
 
-                // Example of purchasing an item (you might replace this with actual button clicks)
-                // purchaseItem(userId, 'item1', 1000); // Uncomment this to test purchasing
+                const userRef = ref(database, 'users/' + userId);
+                onValue(userRef, (snapshot) => {
+                    const userData = snapshot.val();
+                    document.getElementById('userCoins').textContent = `Coins: ${userData.coins}`;
+                });
+
+                const shopRef = ref(database, 'shopItems');
+                onValue(shopRef, (snapshot) => {
+                    const items = snapshot.val();
+                    const shopContainer = document.getElementById('shopItems');
+                    shopContainer.innerHTML = ''; // Clear previous items
+
+                    // Dynamically add the shop items
+                    const item1 = {
+                        id: 'item1',
+                        name: 'Expensive Item',
+                        price: 800,
+                        image: 'images/drive.png' // Replace with actual image URL
+                    };
+                    const item2 = {
+                        id: 'item2',
+                        name: 'Cheap Item',
+                        price: 200,
+                        image: 'images/drive.png' // Replace with actual image URL
+                    };
+
+                    const itemsArray = [item1, item2];
+                    itemsArray.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.innerHTML = `
+                            <h3>${item.name}</h3>
+                            <p>Price: ${item.price} coins</p>
+                            <img src="${item.image}" alt="${item.name}" width="100">
+                            <button onclick="purchaseItem('${userId}', '${item.id}', ${item.price})">Purchase</button>
+                        `;
+                        shopContainer.appendChild(itemElement);
+                    });
+                });
+            } else {
+                console.log('User is not signed in');
             }
         });
     </script>
 </head>
 <body>
     <h1>Shop</h1>
-    <!-- Display shop items here -->
-    <div>
-        <h2>Available Items</h2>
-        <div id="shop-items">
-            <!-- Your shop items will be displayed here -->
-        </div>
-    </div>
+    <div id="userCoins">Coins: 0</div>
+    <div id="shopItems"></div>
 </body>
 </html>
