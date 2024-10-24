@@ -59,7 +59,7 @@
         }
 
         // Function to open a loot box
-        function openLootBox() {
+        window.openLootBox = function() {
             // Check if the user can open the loot box for free or needs to pay
             if (canOpenLootBoxForFree()) {
                 const lootBoxItems = ["Sword", "Shield", "Potion", "Helmet"];
@@ -90,7 +90,7 @@
             } else {
                 alert("You don't have enough coins to open a loot box.");
             }
-        }
+        };
 
         // Function to update coins after opening a loot box
         function updateCoinsAfterOpening(amount = 0) {
@@ -106,8 +106,8 @@
         // Function to determine if user can open loot box for free
         function canOpenLootBoxForFree() {
             // Implement your logic here to determine if user can open the loot box for free
-            // For example, you might want to check if they have opened one today
-            return true; // For now, return true to allow free opening
+            // For now, return true to allow free opening
+            return true; // Adjust this based on your logic
         }
     </script>
 </head>
@@ -117,4 +117,3 @@
     <button id="openLootBoxButton" onclick="openLootBox()" disabled>Open Loot Box</button>
 </body>
 </html>
-
