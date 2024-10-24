@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+</head>
+<body>
+    <h1>Your Inventory</h1>
+    <ul id="inventoryList"></ul>
+    <p id="emptyMessage" style="display: none;">You have no items in your inventory.</p>
+
+    <script>
+        // Fetch inventory from local storage
+        const inventoryList = document.getElementById('inventoryList');
+        const emptyMessage = document.getElementById('emptyMessage');
+        const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+
+        if (inventory.length === 0) {
+            emptyMessage.style.display = 'block';
+        } else {
+            inventory.forEach(item => {
+                const itemElement = document.createElement('li');
+                itemElement.textContent = item;
+                inventoryList.appendChild(itemElement);
+            });
+        }
+    </script>
+</body>
+</html>
