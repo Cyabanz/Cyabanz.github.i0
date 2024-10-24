@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Calendar</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.0/firebase-database.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .reward-message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reward Calendar</h1>
+    <button id="login-button">Login with Google</button>
+    <div class="reward-message" id="reward-message"></div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // User authentication
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        document.getElementById('login-button').onclick = async () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                // Sign in with popup
+                await auth.signInWithPopup(provider);
+                const user = auth.currentUser;
+
+                if (user) {
+                    await handleUserRewards(user);
+                }
+            } catch (error) {
+                console.error("Error during sign-in:", error);
+            }
+        };
+
+        async function handleUserRewards(user) {
+            const userId = user.uid;
+            const userRef = db.ref(`users/${userId}`);
+            const snapshot = await userRef.once('value');
+            let userData = snapshot.val();
+
+            // If no data exists, initialize user data
+            if (!userData) {
+                userData = {
+                    coins: 0,
+                    lastSignIn: null,
+                    rewardsClaimed: {}
+                };
+                await userRef.set(userData);
+            }
+
+            const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+            if (!userData.rewardsClaimed[today]) {
+                const reward = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random reward between 50 and 100
+                userData.coins += reward; // Update coin balance
+                userData.rewardsClaimed[today] = true; // Mark reward as claimed
+                await userRef.update(userData); // Update user data in the database
+
+                document.getElementById('reward-message').innerText = `You've received ${reward} coins!`;
+            } else {
+                document.getElementById('reward-message').innerText = "You have already claimed today's reward.";
+            }
+        }
+    </script>
+</body>
+</html>
