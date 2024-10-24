@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reward with Firebase</title>
+    <link rel="stylesheet" href="tester.css">
+    <style>
+        #user-center-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #user-pic-center {
+            width: 100px;
+            margin-top: 10px;
+        }
+        #user-pic-top-right {
+            float: right;
+            width: 50px;
+            margin-top: 10px;
+        }
+        /* Popup styles */
+        #reward-popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 2px solid #ccc;
+            padding: 20px;
+            z-index: 1000;
+            text-align: center;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getDatabase, ref as dbRef, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "your-measurement-id"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const database = getDatabase(app);
+        let currentUser;
+
+        async function loadUserData(uid) {
+            const userRef = dbRef(database, `users/${uid}`);
+            const snapshot = await get(userRef);
+
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                document.getElementById('user-bio').textContent = userData.bio || "No bio yet.";
+                displayUserInfo(currentUser.displayName, userData.photoURL || "images/IMG0164.jpeg");
+                
+                // Check if the daily reward was claimed
+                checkDailyReward(uid, userData.coins || 0);
+            } else {
+                document.getElementById('user-bio').textContent = "No bio yet.";
+                displayUserInfo("Guest", "images/IMG0164.jpeg");
+            }
+        }
+
+        async function checkDailyReward(uid, currentCoins) {
+            const userRef = dbRef(database, `users/${uid}`);
+            const today = new Date().toISOString().slice(0, 10); // Format YYYY-MM-DD
+
+            const snapshot = await get(userRef);
+            const userData = snapshot.val();
+
+            if (userData.lastRewardDate !== today) {
+                // Update coins and last reward date
+                const newCoins = currentCoins + 1000; // Award 1000 coins
+                await set(userRef, { ...userData, coins: newCoins, lastRewardDate: today });
+
+                // Show reward popup
+                showRewardPopup(newCoins);
+            }
+        }
+
+        function showRewardPopup(coins) {
+            document.getElementById('overlay').style.display = 'block';
+            const popup = document.getElementById('reward-popup');
+            popup.textContent = `You received 1000 coins! Total: ${coins}`;
+            popup.style.display = 'block';
+        }
+
+        function hideRewardPopup() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('reward-popup').style.display = 'none';
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData(user.uid);
+            } else {
+                displayUserInfo("Guest", "images/IMG0164.jpeg");
+                document.getElementById('user-bio').textContent = "No bio yet.";
+            }
+        });
+
+        document.getElementById('login').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then(async (result) => {
+                    const user = result.user;
+                    currentUser = user;
+                    await loadUserData(user.uid);
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                });
+        });
+
+        document.getElementById('logout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                displayUserInfo("Guest", "images/IMG0164.jpeg");
+                document.getElementById('user-bio').textContent = "No bio yet.";
+            }).catch((error) => {
+                console.error('Error during sign-out:', error);
+            });
+        });
+
+        function displayUserInfo(name, photoURL) {
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-pic-center').src = photoURL;
+            document.getElementById('user-pic-top-right').src = photoURL;
+        }
+    </script>
+</head>
+<body>
+    <img id="user-pic-top-right" src="images/IMG_0164.jpeg" alt="Profile Picture" />
+    
+    <div id="user-center-info">
+        <h2 id="user-name">Guest</h2>
+        <img id="user-pic-center" src="images/IMG_0164.jpeg" alt="Profile Picture" />
+        <p id="user-bio">No bio yet.</p>
+    </div>
+
+    <div class="button-container" style="text-align: center; margin-top: 20px;">
+        <button id="login">Login with Google</button>
+        <button id="logout" style="display: none;">Logout</button>
+    </div>
+
+    <!-- Reward Popup -->
+    <div id="overlay" onclick="hideRewardPopup()"></div>
+    <div id="reward-popup"></div>
+
+    <script>
+        // Close the popup when clicking anywhere on the overlay
+        document.getElementById('overlay').addEventListener('click', hideRewardPopup);
+    </script>
+</body>
+</html>
