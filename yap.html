@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Progress</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.0/firebase-database.js"></script>
+    <style>
+        button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4285F4;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Progress</h1>
+    <div id="coin-balance">Please sign in to see your coin balance.</div>
+    <button id="login-google">Login with Google</button>
+    <button id="claim-reward" disabled>Claim Daily Reward</button>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        // Google Sign-In Functionality
+        document.getElementById('login-google').addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then((result) => {
+                // User signed in successfully
+                console.log("User signed in:", result.user);
+                updateUserData(result.user);
+            }).catch((error) => {
+                console.error("Error signing in:", error);
+            });
+        });
+
+        // Function to update user data in Firebase
+        function updateUserData(user) {
+            const userId = user.uid;
+            const userRef = db.ref(`users/${userId}`);
+            userRef.once('value', (snapshot) => {
+                if (!snapshot.exists()) {
+                    // Initialize user data if not present
+                    userRef.set({
+                        coins: 0,
+                        lastSignIn: new Date().toISOString()
+                    });
+                }
+                // Enable the claim reward button and fetch user data
+                document.getElementById('claim-reward').disabled = false;
+                fetchUserData(userId);
+            });
+        }
+
+        // Function to fetch user data
+        function fetchUserData(userId) {
+            const userRef = db.ref(`users/${userId}`);
+            userRef.once('value').then((snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    document.getElementById('coin-balance').innerText = `Your coin balance: ${userData.coins}`;
+                } else {
+                    document.getElementById('coin-balance').innerText = "User data not found.";
+                }
+            });
+        }
+
+        // Function to claim daily reward
+        document.getElementById('claim-reward').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const userId = user.uid;
+                const userRef = db.ref(`users/${userId}`);
+                const snapshot = await userRef.once('value');
+                const userData = snapshot.val();
+
+                if (userData) {
+                    // Check if the user has claimed the reward today
+                    const lastSignInDate = new Date(userData.lastSignIn);
+                    const today = new Date();
+                    if (lastSignInDate.toDateString() === today.toDateString()) {
+                        alert("You have already claimed your reward today.");
+                        return;
+                    }
+                    
+                    const rewardAmount = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random coins between 50 and 100
+                    userData.coins += rewardAmount; // Update coins
+                    userData.lastSignIn = today.toISOString(); // Update last sign-in date
+                    await userRef.update(userData); // Save updated data to Firebase
+                    alert(`You have claimed your daily reward of ${rewardAmount} coins!`);
+                    document.getElementById('coin-balance').innerText = `Your new coin balance: ${userData.coins}`;
+                }
+            } else {
+                alert("You need to be signed in to claim rewards.");
+            }
+        });
+
+        // Monitor auth state
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                fetchUserData(user.uid);
+            } else {
+                document.getElementById('coin-balance').innerText = "Please sign in to see your coin balance.";
+                document.getElementById('claim-reward').disabled = true; // Disable button if not signed in
+            }
+        });
+    </script>
+</body>
+</html>
