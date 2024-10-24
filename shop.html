@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Page</title>
+    <style>
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .close-popup {
+            cursor: pointer;
+            color: red;
+        }
+    </style>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        let currentUserId = null;
+        let coins = 0; // User's coin count
+        let freeLootBoxUsed = false; // Track if free loot box has been used
+        const purchasedItems = []; // Store purchased item images
+
+        // Check user authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                document.getElementById("openLootBoxButton").disabled = false; // Enable button if user is logged in
+                checkCoins(); // Check available coins for the user
+            } else {
+                alert("Please sign in to access the shop.");
+                currentUserId = null;
+                document.getElementById("openLootBoxButton").disabled = true; // Disable button if user is not logged in
+            }
+        });
+
+        // Function to check user coins
+        function checkCoins() {
+            const userRef = ref(db, 'users/' + currentUserId + '/coins');
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    coins = snapshot.val();
+                    localStorage.setItem('coins', coins); // Store coins in local storage
+                    document.getElementById("coinCount").innerText = `Coins: ${coins}`;
+                } else {
+                    document.getElementById("coinCount").innerText = "Coins: 0";
+                }
+            }).catch((error) => {
+                console.error("Error fetching coins: ", error);
+            });
+        }
+
+        // Function to open a loot box
+        window.openLootBox = function() {
+            const lootBoxItems = [
+                { name: "Sword", img: "sword.png" }, // Add paths to your images
+                { name: "Shield", img: "shield.png" },
+                { name: "Potion", img: "potion.png" },
+                { name: "Helmet", img: "helmet.png" }
+            ];
+
+            let randomItem;
+            let coinsGained;
+
+            if (!freeLootBoxUsed) {
+                // Free loot box logic
+                randomItem = lootBoxItems[Math.floor(Math.random() * lootBoxItems.length)];
+                coinsGained = Math.floor(Math.random() * (11)) + 50; // Random coins between 50 and 60
+                freeLootBoxUsed = true; // Mark free loot box as used
+                alert(`You have received: ${randomItem.name} and ${coinsGained} coins!`);
+            } else if (coins >= 50) {
+                // Paid loot box logic
+                randomItem = lootBoxItems[Math.floor(Math.random() * lootBoxItems.length)];
+                coinsGained = Math.floor(Math.random() * (11)) + 50; // Random coins between 50 and 60
+                alert(`You have received: ${randomItem.name} and ${coinsGained} coins!`);
+                updateCoinsAfterOpening(50); // Deduct coins for the loot box
+            } else {
+                alert("You don't have enough coins to open a loot box.");
+                return;
+            }
+
+            // Update total coins and display the loot item image in a popup
+            updateCoins(coinsGained);
+            displayLootImage(randomItem.img);
+
+            // Store the purchased item image
+            purchasedItems.push(randomItem.img);
+            localStorage.setItem('purchasedItems', JSON.stringify(purchasedItems)); // Save purchased items to local storage
+        };
+
+        // Function to update total coins
+        function updateCoins(amount) {
+            coins += amount;
+            const userRef = ref(db, 'users/' + currentUserId + '/coins');
+            set(userRef, coins).then(() => {
+                localStorage.setItem('coins', coins); // Store updated coins in local storage
+                document.getElementById("coinCount").innerText = `Coins: ${coins}`;
+            }).catch((error) => {
+                console.error("Error updating coins: ", error);
+            });
+        }
+
+        // Function to display the loot item image in a popup
+        function displayLootImage(imageUrl) {
+            const lootImageContainer = document.getElementById("lootImageContainer");
+            lootImageContainer.innerHTML = `
+                <div class="popup" id="lootPopup">
+                    <div class="popup-content">
+                        <span class="close-popup" onclick="closePopup()">× Close</span>
+                        <img src="${imageUrl}" alt="Loot Item" style="width: 100px; height: auto;">
+                    </div>
+                </div>
+            `;
+            document.getElementById("lootPopup").style.display = "flex"; // Show the popup
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            const lootPopup = document.getElementById("lootPopup");
+            lootPopup.style.display = "none"; // Hide the popup
+            lootPopup.innerHTML = ""; // Clear popup content
+        }
+    </script>
+</head>
+<body>
+    <h1>Shop</h1>
+    <p id="coinCount">Coins: 0</p>
+    <button id="openLootBoxButton" onclick="openLootBox()" disabled>Open Loot Box</button>
+    <div id="lootImageContainer"></div> <!-- Container for displaying loot item image -->
+</body>
+</html>
