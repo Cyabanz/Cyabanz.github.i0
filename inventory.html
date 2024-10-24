@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Page</title>
+    <script type="module">
+        // Initialize inventory from local storage or set to an empty array
+        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+
+        // Function to display the inventory
+        function displayInventory() {
+            const inventoryList = document.getElementById('inventoryList');
+            inventoryList.innerHTML = ''; // Clear existing list
+            inventory.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => removeItem(index);
+                listItem.appendChild(removeButton);
+                inventoryList.appendChild(listItem);
+            });
+        }
+
+        // Function to add an item to the inventory
+        function addItem() {
+            const newItem = document.getElementById('newItem').value;
+            if (newItem) {
+                inventory.push(newItem);
+                localStorage.setItem('inventory', JSON.stringify(inventory)); // Save to local storage
+                document.getElementById('newItem').value = ''; // Clear input
+                displayInventory(); // Update display
+            } else {
+                alert('Please enter an item.');
+            }
+        }
+
+        // Function to remove an item from the inventory
+        function removeItem(index) {
+            inventory.splice(index, 1);
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Update local storage
+            displayInventory(); // Update display
+        }
+
+        // Function to sign out and clear the inventory
+        function signOut() {
+            // Clear the inventory from local storage
+            localStorage.removeItem('inventory');
+            inventory = []; // Reset the inventory array
+            displayInventory(); // Update the display to show the empty inventory
+            alert('You have signed out. Your inventory has been cleared.');
+        }
+
+        // Initial display of the inventory
+        window.onload = displayInventory;
+    </script>
+</head>
+<body>
+    <h1>Inventory</h1>
+    <input type="text" id="newItem" placeholder="Add new item">
+    <button onclick="addItem()">Add Item</button>
+    <ul id="inventoryList"></ul>
+    <button onclick="signOut()">Sign Out</button>
+</body>
+</html>
