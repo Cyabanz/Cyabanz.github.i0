@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        let currentUserId = null;
+
+        // Check user authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                fetchInventory(); // Fetch inventory items for the user
+            } else {
+                document.getElementById("inventory").innerHTML = "<p>Please log in to view your inventory.</p>";
+            }
+        });
+
+        // Function to fetch inventory
+        function fetchInventory() {
+            const userRef = ref(db, 'users/' + currentUserId);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const inventory = snapshot.val().inventory || [];
+                    const inventoryList = document.getElementById("inventory-list");
+                    inventoryList.innerHTML = ''; // Clear existing items
+
+                    if (inventory.length === 0) {
+                        inventoryList.innerHTML = '<li>No items in inventory.</li>';
+                    } else {
+                        inventory.forEach(item => {
+                            const li = document.createElement('li');
+                            li.textContent = item;
+                            inventoryList.appendChild(li);
+                        });
+                    }
+                }
+            }).catch((error) => {
+                console.error("Error fetching inventory: ", error);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Your Inventory</h1>
+    <ul id="inventory-list">
+        <!-- Inventory items will be populated here -->
+    </ul>
+    <button onclick="window.location.href='shop.html'">Back to Shop</button>
+</body>
+</html>
