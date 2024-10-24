@@ -3,32 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop</title>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
-</head>
-<body>
-    <h1>Shop</h1>
-    <div id="userStatus"></div>
-    <div>
-        <p>Coin Balance: <span id="coinBalance">0</span></p>
-    </div>
-    <button id="loginButton">Login with Google</button>
-    <h2>Items for Sale</h2>
-    <ul>
-        <li>
-            Hacks - 50 coins 
-            <button onclick="buyItem('Hacks', 50)">Buy</button>
-        </li>
-        <li>
-            Test - 50 coins 
-            <button onclick="buyItem('Test', 50)">Buy</button>
-        </li>
-    </ul>
+    <title>Shop Page</title>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
 
-    <script>
-        // Your Firebase configuration
+        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
             authDomain: "algebras4-44f23.firebaseapp.com",
@@ -41,59 +23,98 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
 
-        let userId = null; // Initialize user ID
-        let userCoins = 0; // Initialize user coins
+        let currentUserId = null;
+        let coins = 0; // Assuming you have a way to track user's coins
 
-        const userStatusDiv = document.getElementById('userStatus');
-        const coinBalanceSpan = document.getElementById('coinBalance');
-        const loginButton = document.getElementById('loginButton');
-
-        // Google Sign-In Functionality
-        loginButton.addEventListener('click', () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider)
-                .then((result) => {
-                    userId = result.user.uid;
-                    userStatusDiv.innerHTML = `Logged in as ${result.user.displayName}`;
-                    loadUserData();
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+        // Check user authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                document.getElementById("openLootBoxButton").disabled = false; // Enable button if user is logged in
+                checkCoins(); // Check available coins for the user
+            } else {
+                alert("Please sign in to access the shop.");
+                currentUserId = null;
+                document.getElementById("openLootBoxButton").disabled = true; // Disable button if user is not logged in
+            }
         });
 
-        // Load user data from Firebase
-        function loadUserData() {
-            firebase.database().ref(`users/${userId}`).once('value').then((snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    userCoins = data.coins || 0;
-                    coinBalanceSpan.textContent = userCoins;
+        // Function to check user coins
+        function checkCoins() {
+            const userRef = ref(db, 'users/' + currentUserId + '/coins');
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    coins = snapshot.val();
+                    document.getElementById("coinCount").innerText = `Coins: ${coins}`;
+                } else {
+                    document.getElementById("coinCount").innerText = "Coins: 0";
                 }
+            }).catch((error) => {
+                console.error("Error fetching coins: ", error);
             });
         }
 
-        // Buy Item Functionality
-        function buyItem(itemName, itemCost) {
-            if (userCoins >= itemCost) {
-                userCoins -= itemCost;
-                coinBalanceSpan.textContent = userCoins;
+        // Function to open a loot box
+        function openLootBox() {
+            // Check if the user can open the loot box for free or needs to pay
+            if (canOpenLootBoxForFree()) {
+                const lootBoxItems = ["Sword", "Shield", "Potion", "Helmet"];
+                const randomItem = lootBoxItems[Math.floor(Math.random() * lootBoxItems.length)];
 
-                // Save to local storage
-                let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-                inventory.push(itemName);
-                localStorage.setItem('inventory', JSON.stringify(inventory));
+                // Save the obtained item to Firebase
+                const userRef = ref(db, 'users/' + currentUserId + '/inventory/' + randomItem);
+                set(userRef, true).then(() => {
+                    alert(`You have received: ${randomItem}`);
+                    // Update the coins after opening the loot box
+                    updateCoinsAfterOpening();
+                }).catch((error) => {
+                    console.error("Error saving item: ", error);
+                });
+            } else if (coins >= 50) {
+                // If user can't open for free, check if they have enough coins
+                const lootBoxItems = ["Sword", "Shield", "Potion", "Helmet"];
+                const randomItem = lootBoxItems[Math.floor(Math.random() * lootBoxItems.length)];
 
-                // Update Firebase
-                firebase.database().ref(`users/${userId}`).update({ coins: userCoins });
-
-                alert(`You bought ${itemName}!`);
+                // Save the obtained item to Firebase
+                const userRef = ref(db, 'users/' + currentUserId + '/inventory/' + randomItem);
+                set(userRef, true).then(() => {
+                    alert(`You have received: ${randomItem}`);
+                    updateCoinsAfterOpening(50); // Deduct coins
+                }).catch((error) => {
+                    console.error("Error saving item: ", error);
+                });
             } else {
-                alert("You don't have enough coins!");
+                alert("You don't have enough coins to open a loot box.");
             }
         }
+
+        // Function to update coins after opening a loot box
+        function updateCoinsAfterOpening(amount = 0) {
+            coins -= amount;
+            const userRef = ref(db, 'users/' + currentUserId + '/coins');
+            set(userRef, coins).then(() => {
+                document.getElementById("coinCount").innerText = `Coins: ${coins}`;
+            }).catch((error) => {
+                console.error("Error updating coins: ", error);
+            });
+        }
+
+        // Function to determine if user can open loot box for free
+        function canOpenLootBoxForFree() {
+            // Implement your logic here to determine if user can open the loot box for free
+            // For example, you might want to check if they have opened one today
+            return true; // For now, return true to allow free opening
+        }
     </script>
+</head>
+<body>
+    <h1>Shop</h1>
+    <p id="coinCount">Coins: 0</p>
+    <button id="openLootBoxButton" onclick="openLootBox()" disabled>Open Loot Box</button>
 </body>
 </html>
+
