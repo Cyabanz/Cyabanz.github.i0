@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Function to load leaderboard data
+        function loadLeaderboard() {
+            const leaderboardRef = ref(db, 'users');
+            get(leaderboardRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const users = snapshot.val();
+                    const leaderboard = Object.entries(users)
+                        .map(([uid, user]) => ({ uid, ...user }))
+                        .sort((a, b) => b.wins - a.wins) // Sort by wins descending
+                        .slice(0, 10); // Get top 10 users
+
+                    const leaderboardElement = document.getElementById("leaderboard");
+                    leaderboardElement.innerHTML = ""; // Clear previous entries
+
+                    leaderboard.forEach(user => {
+                        const userElement = document.createElement("div");
+                        userElement.textContent = `${user.displayName || 'User'}: Wins - ${user.wins}`;
+                        leaderboardElement.appendChild(userElement);
+                    });
+                } else {
+                    document.getElementById("leaderboard").innerText = "No leaderboard data available.";
+                }
+            }).catch((error) => {
+                console.error("Error loading leaderboard data: ", error);
+            });
+        }
+
+        window.onload = loadLeaderboard; // Load leaderboard when the page loads
+    </script>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <div id="leaderboard">Loading leaderboard...</div>
+    <button onclick="window.location.href='index.html'">Back to Game</button>
+</body>
+</html>
