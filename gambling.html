@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack with Firebase</title>
+  <style>
+    /* Add your styles here */
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Blackjack</h1>
+  <button id="login-btn">Login with Google</button>
+  <button id="logout-btn" class="hidden">Logout</button>
+  <p id="user-info" class="hidden">Welcome, <span id="username"></span>!</p>
+
+  <div id="game" class="hidden">
+    <h2>Coins: <span id="coins"></span></h2>
+    <div class="cards-container">
+      <div id="player-cards"></div>
+      <div id="dealer-cards"></div>
+    </div>
+    <label for="bet">Place your bet: </label>
+    <input type="range" id="bet" min="5" max="10" value="5">
+    <p>Bet Amount: <span id="bet-amount">5</span></p>
+    <div class="game-buttons">
+      <button id="hit">Hit</button>
+      <button id="stand">Stand</button>
+    </div>
+    <p id="result" class="hidden"></p>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "firebase/app";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+    import { getDatabase, ref, get, set } from "firebase/database";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+      authDomain: "algebras4-44f23.firebaseapp.com",
+      databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+      projectId: "algebras4-44f23",
+      storageBucket: "algebras4-44f23.appspot.com",
+      messagingSenderId: "512062724744",
+      appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+      measurementId: "G-4R378XMPSW"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const database = getDatabase();
+    const provider = new GoogleAuthProvider();
+
+    let userCoins = 1000;
+    let userId = null;
+
+    // DOM elements
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const gameDiv = document.getElementById('game');
+    const userInfo = document.getElementById('user-info');
+    const usernameDisplay = document.getElementById('username');
+    const coinsDisplay = document.getElementById('coins');
+    const resultDisplay = document.getElementById('result');
+    const betSlider = document.getElementById('bet');
+    const betAmountDisplay = document.getElementById('bet-amount');
+
+    // Login with Google
+    loginBtn.addEventListener('click', () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          userId = user.uid;
+          usernameDisplay.innerText = user.displayName;
+          loginBtn.classList.add('hidden');
+          logoutBtn.classList.remove('hidden');
+          userInfo.classList.remove('hidden');
+          gameDiv.classList.remove('hidden');
+          loadUserData();
+        })
+        .catch((error) => {
+          console.error("Login failed:", error);
+        });
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        userId = null;
+        userCoins = 1000;
+        loginBtn.classList.remove('hidden');
+        logoutBtn.classList.add('hidden');
+        userInfo.classList.add('hidden');
+        gameDiv.classList.add('hidden');
+      }).catch((error) => {
+        console.error("Logout failed:", error);
+      });
+    });
+
+    // Load user data from Firebase
+    function loadUserData() {
+      const userRef = ref(database, 'users/' + userId + '/coins');
+      get(userRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          userCoins = snapshot.val();
+        } else {
+          set(userRef, 1000);  // Initialize with 1000 coins
+        }
+        coinsDisplay.innerText = userCoins;
+      }).catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+    }
+
+    // Update bet amount display
+    betSlider.addEventListener('input', () => {
+      betAmountDisplay.innerText = betSlider.value;
+    });
+
+    // Game logic (simplified)
+    const playerHand = [];
+    const dealerHand = [];
+
+    function dealCard(hand) {
+      const card = Math.floor(Math.random() * 11) + 1; // 1 to 11 for simplicity
+      hand.push(card);
+      return card;
+    }
+
+    document.getElementById('hit').addEventListener('click', () => {
+      const card = dealCard(playerHand);
+      document.getElementById('player-cards').innerText += ` ${card}`;
+      if (calculateHandValue(playerHand) > 21) {
+        endGame('lose');
+      }
+    });
+
+    document.getElementById('stand').addEventListener('click', () => {
+      while (calculateHandValue(dealerHand) < 17) {
+        const card = dealCard(dealerHand);
+        document.getElementById('dealer-cards').innerText += ` ${card}`;
+      }
+      checkWinner();
+    });
+
+    function calculateHandValue(hand) {
+      return hand.reduce((sum, card) => sum + card, 0);
+    }
+
+    function checkWinner() {
+      const playerValue = calculateHandValue(playerHand);
+      const dealerValue = calculateHandValue(dealerHand);
+      if (dealerValue > 21 || playerValue > dealerValue) {
+        endGame('win');
+      } else if (playerValue < dealerValue) {
+        endGame('lose');
+      } else {
+        endGame('draw');
+      }
+    }
+
+    function endGame(result) {
+      const betAmount = parseInt(betSlider.value);
+      if (result === 'win') {
+        userCoins += betAmount;
+        resultDisplay.innerText = "You Win!";
+      } else if (result === 'lose') {
+        userCoins -= betAmount;
+        resultDisplay.innerText = "You Lose!";
+      } else {
+        resultDisplay.innerText = "It's a Draw!";
+      }
+      set(ref(database, 'users/' + userId + '/coins'), userCoins);
+      coinsDisplay.innerText = userCoins;
+      resultDisplay.classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
