@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        /* Example styles for leaderboard */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        #leaderboard {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h3 {
+            text-align: center;
+        }
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="leaderboard"></div>
+
+    <!-- Firebase scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    
+    <!-- Your Firebase configuration -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQcJNa_j_PC3-K5er4ms0WvVXQS_CEcuE",
+            authDomain: "algebras4-44f23.firebaseapp.com",
+            databaseURL: "https://algebras4-44f23-default-rtdb.firebaseio.com",
+            projectId: "algebras4-44f23",
+            storageBucket: "algebras4-44f23.appspot.com",
+            messagingSenderId: "512062724744",
+            appId: "1:512062724744:web:653e3c7a504fb7255fdd3d",
+            measurementId: "G-4R378XMPSW"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+    </script>
+
+    <!-- Leaderboard loading script -->
+    <script>
+        function loadLeaderboard() {
+            const leaderboardRef = firebase.database().ref('leaderboard').orderByChild('totalWins').limitToLast(10);
+            leaderboardRef.once('value', (snapshot) => {
+                const leaderboard = document.getElementById("leaderboard");
+                leaderboard.innerHTML = "<h3>Leaderboard</h3>";
+                
+                if (snapshot.exists()) {
+                    const users = Object.entries(snapshot.val()).reverse(); // Get top users by totalWins
+                    users.forEach(([id, userData]) => {
+                        leaderboard.innerHTML += `<p>${userData.username}: ${userData.totalWins} Wins</p>`;
+                    });
+                } else {
+                    leaderboard.innerHTML += "<p>No entries yet.</p>";
+                }
+            }).catch((error) => {
+                console.error("Error fetching leaderboard:", error);
+            });
+        }
+
+        // Call the function to load leaderboard on page load
+        window.onload = loadLeaderboard;
+    </script>
+</body>
+</html>
