@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Blackjack Game</h1>
+    <div id="loggedInMessage">Please log in to play.</div>
+    <button id="loginButton" onclick="signIn()">Log in with Google</button>
+    <button id="playButton" style="display: none;" onclick="startGame()">Start Game</button>
+    <div id="balance">Your Balance: $0</div>
+    
+    <label for="betAmount">Bet Amount:</label>
+    <input type="number" id="betAmount" value="100" min="1" max="1000">
+    
+    <button id="hitButton" style="display: none;" onclick="hit()">Hit</button>
+    <button id="standButton" style="display: none;" onclick="stand()">Stand</button>
+    
+    <div id="playerHand"></div>
+    <div id="dealerHand"></div>
+    <div id="result"></div>
+    
+    <div id="leaderboard"></div>
+    
+    <script type="module" src="game.js"></script> <!-- Link to your external JS file -->
+</body>
+</html>
