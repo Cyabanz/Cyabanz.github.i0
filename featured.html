@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of the Day</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        #game-of-the-day {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-of-the-day">
+    <h2>Game of the Day</h2>
+    <div id="game-details">
+        <!-- Game details will be populated here by JavaScript -->
+    </div>
+</div>
+
+<script>
+// Function to fetch the JSON data and display a random game of the day
+async function fetchRandomGame() {
+    try {
+        // Fetch the JSON file containing game data
+        const response = await fetch('games.json');
+        const games = await response.json();
+
+        // Get the current date
+        const currentDate = new Date().toDateString();
+        const lastFetchedDate = localStorage.getItem('lastFetchedDate');
+        const storedGame = JSON.parse(localStorage.getItem('selectedGame'));
+
+        // If the stored game exists and is today's game, display it
+        if (lastFetchedDate === currentDate && storedGame) {
+            displayGame(storedGame);
+            return;
+        }
+
+        // Select a random game from the array
+        const randomIndex = Math.floor(Math.random() * games.length);
+        const selectedGame = games[randomIndex];
+
+        // Display the selected game
+        displayGame(selectedGame);
+
+        // Update localStorage with today's date and the selected game
+        localStorage.setItem('lastFetchedDate', currentDate);
+        localStorage.setItem('selectedGame', JSON.stringify(selectedGame));
+    } catch (error) {
+        console.error('Error fetching the games:', error);
+    }
+}
+
+// Function to display the selected game
+function displayGame(game) {
+    const gameDetails = document.getElementById('game-details');
+
+    // Construct the HTML to display the game
+    gameDetails.innerHTML = `
+        <img src="${game.banner}" alt="${game.title}">
+        <h3>${game.title}</h3>
+        <p>${game.description}</p>
+        <a href="${game.link}" target="_blank">Play Now</a>
+    `;
+}
+
+// Fetch and display the random game of the day when the page loads
+window.onload = fetchRandomGame;
+</script>
+
+</body>
+</html>
