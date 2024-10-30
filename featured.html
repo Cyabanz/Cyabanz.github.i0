@@ -1,4 +1,12 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of the Day</title>
+   <style>
+    /* Global Styles */
+ <style>
     /* Global Styles */
     :root {
         --container-width: 1600px;
@@ -97,3 +105,78 @@
     }
 </style>
 
+
+</head>
+<body>
+
+<h2>Games of the Day</h2>
+<div id="games-container">
+    <!-- Game cards will be populated here by JavaScript -->
+</div>
+
+<script>
+// Function to fetch the JSON data and display 5 random games of the day
+async function fetchRandomGames() {
+    try {
+        // Fetch the JSON file containing game data
+        const response = await fetch('weed.json');
+        const games = await response.json();
+
+        // Get the current date
+        const currentDate = new Date().toDateString();
+        const lastFetchedDate = localStorage.getItem('lastFetchedDate');
+        const storedGames = JSON.parse(localStorage.getItem('selectedGames'));
+
+        // If the stored games exist and are from today's date, display them
+        if (lastFetchedDate === currentDate && storedGames) {
+            displayGames(storedGames);
+            return;
+        }
+
+        // Select 5 random games from the array
+        const selectedGames = [];
+        while (selectedGames.length < 5) {
+            const randomIndex = Math.floor(Math.random() * games.length);
+            const selectedGame = games[randomIndex];
+            // Avoid duplicates
+            if (!selectedGames.includes(selectedGame)) {
+                selectedGames.push(selectedGame);
+            }
+        }
+
+        // Display the selected games
+        displayGames(selectedGames);
+
+        // Update localStorage with today's date and the selected games
+        localStorage.setItem('lastFetchedDate', currentDate);
+        localStorage.setItem('selectedGames', JSON.stringify(selectedGames));
+    } catch (error) {
+        console.error('Error fetching the games:', error);
+    }
+}
+
+// Function to display the selected games
+function displayGames(games) {
+    const gamesContainer = document.getElementById('games-container');
+    gamesContainer.innerHTML = ''; // Clear previous games
+
+    // Construct the HTML to display each game
+    games.forEach(game => {
+        const gameCard = `
+            <div class="game-card">
+                <img src="${game.banner}" alt="${game.title}">
+                <h3>${game.title}</h3>
+                <p>${game.description}</p>
+                <a href="${game.link}" target="_blank">Play Now</a>
+            </div>
+        `;
+        gamesContainer.innerHTML += gameCard; // Add the game card to the container
+    });
+}
+
+// Fetch and display the random games of the day when the page loads
+window.onload = fetchRandomGames;
+</script>
+
+</body>
+</html>
