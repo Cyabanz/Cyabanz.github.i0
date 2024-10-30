@@ -4,91 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game of the Day</title>
-    <style>
-        /* Global Styles */
-        html {
-            box-sizing: border-box;
-            height: 100%;
-        }
+   <style>
+    /* Global Styles */
+    :root {
+        --container-width: 1600px;
+        --album-width: 200px;
+    }
 
-        *, *:before, *:after {
-            box-sizing: inherit;
-        }
+    html {
+        box-sizing: border-box;
+        height: 100%;
+    }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #e0eafc, #cfdef3); /* Subtle gradient */
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column; /* Stack game cards vertically */
-            height: 100vh; /* Full viewport height */
-        }
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
 
-        /* Game Card Styles */
-        .game-card {
-            background: #ffffff;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
-            max-width: 400px;
-            width: 100%; /* Full width on small screens */
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition */
-            margin: 10px; /* Space between cards */
-        }
-        .game-card:hover {
-            transform: translateY(-5px); /* Elevate card on hover */
-            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3); /* Deeper shadow */
-        }
+    body {
+        font-family: "Inter", sans-serif;
+        background-color: #111;
+        color: white;
+        margin: 0;
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-        /* Image Styles */
-        img {
-            width: 100%; /* Responsive image */
-            height: auto;
-            border-radius: inherit; /* Match card border radius */
-            margin-bottom: 15px; /* Space below image */
-        }
+    /* Title Styles */
+    h2 {
+        font-weight: normal;
+        margin: 0;
+        color: #007BFF; /* Accent color */
+    }
 
-        /* Title and Header Styles */
-        h2 {
-            font-size: 28px; /* Larger main title */
-            margin: 0 0 15px 0; /* Space below */
-            color: #007BFF; /* Accent color */
-        }
-        h3 {
-            font-size: 22px; /* Game title size */
-            margin: 10px 0; /* Space around game title */
-            color: #444; /* Darker text for titles */
-        }
+    /* Game Card Styles */
+    .game-card {
+        background: #1c1c1c; /* Dark background for cards */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+        max-width: var(--album-width);
+        width: 100%;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin: 10px; /* Space between cards */
+    }
 
-        /* Paragraph Styles */
-        p {
-            font-size: 16px; /* Font size for description */
-            margin: 10px 0; /* Space around description */
-            color: #666; /* Lighter description color */
-            line-height: 1.5; /* Improved line height */
-        }
+    .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3);
+    }
 
-        /* Button Styles */
-        a {
-            display: inline-block; /* Block style for button */
-            background-color: #007BFF; /* Button color */
-            color: white;
-            padding: 12px 20px; /* Button padding */
-            border-radius: 5px; /* Rounded button */
-            text-decoration: none; /* Remove underline */
-            font-weight: bold; /* Bold button text */
-            transition: background-color 0.3s, transform 0.2s; /* Transition effects */
-        }
-        a:hover {
-            background-color: #0056b3; /* Darker on hover */
-            transform: scale(1.05); /* Slightly enlarge button */
-        }
-    </style>
+    /* Image Styles */
+    img {
+        max-width: 100%; /* Responsive image */
+        height: auto;
+        border-radius: inherit; /* Match card border radius */
+        margin-bottom: 15px; /* Space below image */
+    }
+
+    /* Paragraph Styles */
+    p {
+        font-size: 16px; /* Font size for description */
+        margin: 10px 0; /* Space around description */
+        color: #ddd; /* Lighter description color */
+        line-height: 1.5; /* Improved line height */
+    }
+
+    /* Button Styles */
+    a {
+        display: inline-block; /* Block style for button */
+        background-color: #007BFF; /* Button color */
+        color: white;
+        padding: 12px 20px; /* Button padding */
+        border-radius: 5px; /* Rounded button */
+        text-decoration: none; /* Remove underline */
+        font-weight: bold; /* Bold button text */
+        transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+    }
+
+    a:hover {
+        background-color: #0056b3; /* Darker on hover */
+        transform: scale(1.05); /* Slightly enlarge button */
+    }
+
+    /* Album List Styles */
+    .album__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(var(--album-width), 1fr));
+        gap: 20px;
+        padding: 20px;
+        background-color: #161616;
+        border-radius: 10px;
+    }
+</style>
+
 </head>
 <body>
 
