@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game of the Day</title>
+    <style>
+        /* Global Styles */
+        html {
+            box-sizing: border-box;
+            height: 100%;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3); /* Subtle gradient */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stack game cards vertically */
+            height: 100vh; /* Full viewport height */
+        }
+
+        /* Game Card Styles */
+        .game-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+            max-width: 400px;
+            width: 100%; /* Full width on small screens */
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition */
+            margin: 10px; /* Space between cards */
+        }
+        .game-card:hover {
+            transform: translateY(-5px); /* Elevate card on hover */
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+        }
+
+        /* Image Styles */
+        img {
+            width: 100%; /* Responsive image */
+            height: auto;
+            border-radius: inherit; /* Match card border radius */
+            margin-bottom: 15px; /* Space below image */
+        }
+
+        /* Title and Header Styles */
+        h2 {
+            font-size: 28px; /* Larger main title */
+            margin: 0 0 15px 0; /* Space below */
+            color: #007BFF; /* Accent color */
+        }
+        h3 {
+            font-size: 22px; /* Game title size */
+            margin: 10px 0; /* Space around game title */
+            color: #444; /* Darker text for titles */
+        }
+
+        /* Paragraph Styles */
+        p {
+            font-size: 16px; /* Font size for description */
+            margin: 10px 0; /* Space around description */
+            color: #666; /* Lighter description color */
+            line-height: 1.5; /* Improved line height */
+        }
+
+        /* Button Styles */
+        a {
+            display: inline-block; /* Block style for button */
+            background-color: #007BFF; /* Button color */
+            color: white;
+            padding: 12px 20px; /* Button padding */
+            border-radius: 5px; /* Rounded button */
+            text-decoration: none; /* Remove underline */
+            font-weight: bold; /* Bold button text */
+            transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+        }
+        a:hover {
+            background-color: #0056b3; /* Darker on hover */
+            transform: scale(1.05); /* Slightly enlarge button */
+        }
+    </style>
+</head>
+<body>
+
+<h2>Games of the Day</h2>
+<div id="games-container">
+    <!-- Game cards will be populated here by JavaScript -->
+</div>
+
+<script>
+// Function to fetch the JSON data and display 5 random games of the day
+async function fetchRandomGames() {
+    try {
+        // Fetch the JSON file containing game data
+        const response = await fetch('weed.json');
+        const games = await response.json();
+
+        // Get the current date
+        const currentDate = new Date().toDateString();
+        const lastFetchedDate = localStorage.getItem('lastFetchedDate');
+        const storedGames = JSON.parse(localStorage.getItem('selectedGames'));
+
+        // If the stored games exist and are from today's date, display them
+        if (lastFetchedDate === currentDate && storedGames) {
+            displayGames(storedGames);
+            return;
+        }
+
+        // Select 5 random games from the array
+        const selectedGames = [];
+        while (selectedGames.length < 5) {
+            const randomIndex = Math.floor(Math.random() * games.length);
+            const selectedGame = games[randomIndex];
+            // Avoid duplicates
+            if (!selectedGames.includes(selectedGame)) {
+                selectedGames.push(selectedGame);
+            }
+        }
+
+        // Display the selected games
+        displayGames(selectedGames);
+
+        // Update localStorage with today's date and the selected games
+        localStorage.setItem('lastFetchedDate', currentDate);
+        localStorage.setItem('selectedGames', JSON.stringify(selectedGames));
+    } catch (error) {
+        console.error('Error fetching the games:', error);
+    }
+}
+
+// Function to display the selected games
+function displayGames(games) {
+    const gamesContainer = document.getElementById('games-container');
+    gamesContainer.innerHTML = ''; // Clear previous games
+
+    // Construct the HTML to display each game
+    games.forEach(game => {
+        const gameCard = `
+            <div class="game-card">
+                <img src="${game.banner}" alt="${game.title}">
+                <h3>${game.title}</h3>
+                <p>${game.description}</p>
+                <a href="${game.link}" target="_blank">Play Now</a>
+            </div>
+        `;
+        gamesContainer.innerHTML += gameCard; // Add the game card to the container
+    });
+}
+
+// Fetch and display the random games of the day when the page loads
+window.onload = fetchRandomGames;
+</script>
+
+</body>
+</html>
