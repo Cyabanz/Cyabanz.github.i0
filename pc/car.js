@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const carouselContainer = document.getElementById('carousel');
     
-    fetch('path/to/your/data.json')  // Update with your JSON file path
+    fetch('data.json')  // Update with your JSON file path
         .then(response => response.json())
         .then(data => createCarousel(data.main.sections[1].lists))
         .catch(error => console.error('Error loading JSON:', error));
