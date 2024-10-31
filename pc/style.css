@@ -174,3 +174,20 @@ section + section {
     display: none;
   }
 }
+
+ul {
+    list-style-type: none; /* Optional: removes bullets */
+    padding: 0; /* Optional: removes default padding */
+}
+
+li {
+    width: 200px; /* Set the desired width for the list item */
+    height: 100px; /* Set the desired height for the list item */
+    overflow: hidden; /* Ensures any overflow is hidden */
+}
+
+li img {
+    width: 100%; /* Makes the image width 100% of the li */
+    height: 100%; /* Makes the image height 100% of the li */
+    object-fit: cover; /* Ensures the image covers the li without distortion */
+}
