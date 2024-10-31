@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display JSON in Two Rows</title>
+</head>
+<body>
+    <main id="main-content">
+        <!-- Dynamic content will be injected here -->
+    </main>
+
+    <script>
+        // Fetch the JSON data
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                const mainContent = document.getElementById('main-content');
+
+                // Display warning message
+                const warningSection = data.main.sections[0];
+                const warningMessage = document.createElement('section');
+                warningMessage.className = warningSection.class;
+                warningMessage.innerHTML = `<p>${warningSection.content}</p>`;
+                mainContent.appendChild(warningMessage);
+
+                // Display lists
+                const lists = data.main.sections[1].lists;
+                lists.forEach(list => {
+                    const listSection = document.createElement('section');
+                    const ul = document.createElement('ul');
+                    ul.setAttribute('role', list.role);
+                    ul.className = list.class;
+
+                    list.items.forEach(item => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = item.link.href;
+                        a.target = "_blank"; // Open link in a new tab
+                        const img = document.createElement('img');
+                        img.src = item.link.img.src;
+                        img.alt = item.link.img.alt;
+
+                        a.appendChild(img);
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+
+                    listSection.appendChild(ul);
+                    mainContent.appendChild(listSection);
+                });
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    </script>
+</body>
+</html>
