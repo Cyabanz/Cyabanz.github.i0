@@ -191,8 +191,3 @@ li img {
     height: 100%; /* Makes the image height 100% of the li */
     object-fit: cover; /* Ensures the image covers the li without distortion */
 }
-
-body {
-  transform: translateY(-25%);
-}
-
