@@ -248,14 +248,12 @@ main {
     display: none;
 }
 
-a.transparent-button {
-    background-color: transparent;
-    border: none;
-    text-decoration: none;
+.transparent-button {
+    background: none; /* Removes the background */
+    border: none;     /* Removes the border */
+    color: inherit;   /* Inherits the text color */
+    padding: 0;       /* Removes any default padding */
+    cursor: pointer;  /* Makes it look clickable */
+    outline: none;    /* Removes the outline on focus */
 }
 
-.transparent-button .material-icons {
-    background-color: transparent;
-    border: none;
-    color: inherit; /* Keeps the icon color as defined or use a specific color */
-}
