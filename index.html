@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <nav>
+    <nav id="navbar">
         <a href="/">
             <button class="material-icons" active="true">
                 home
@@ -40,7 +40,7 @@
         </a>
         <a href="/leaderboard.html">
             <button class="material-icons">
-                diamond 
+                diamond
             </button>
         </a>
         <div class="divider"></div>
@@ -55,6 +55,24 @@
             </button>
         </a>
     </nav>
+    <a href="javascript:void(0);" onclick="toggleNav()">
+        <button class="material-icons">
+            Menu
+        </button>
+    </a>
+
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById("navbar");
+            if (nav.style.display === "none" || nav.style.display === "") {
+                nav.style.display = "block";
+            } else {
+                nav.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
 
     <main id="fusion">
         <h1 style="margin-bottom: 0;">FU<span class="brand-color">SIO</span>N</h1>
