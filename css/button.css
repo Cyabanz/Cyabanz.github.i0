@@ -132,6 +132,12 @@ https://ryanmulligan.dev/blog/css-property-new-style/
 
 .shiny-cta span {
   z-index: 1;
+  color: var(--shiny-cta-fg); /* Style for button text color */
+  font-size: 1.5rem; /* Example font size for button text */
+  font-weight: bold; /* Example font weight for button text */
+  text-align: center; /* Center align text if necessary */
+}
+
 
   &::before {
     --size: calc(100% + 1rem);
