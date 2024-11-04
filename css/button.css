@@ -244,6 +244,6 @@ body {
   height: 100%;
 }
 .shiny-cta {
-  padding: calc(1.25rem * 1.15) calc(2.5rem * 1.15);  /* Keep 115% of the original padding */
-  font-size: calc(1.125rem * 0.8);                      /* Make font size 80% of the original font size */
+  padding: calc(1.25rem * 0.3) calc(2.5rem * 0.3);  /* Reduce padding to 30% of the original */
+  font-size: calc(1.125rem * 0.3);                   /* Reduce font size to 30% of the original */
 }
