@@ -41,19 +41,17 @@ https://ryanmulligan.dev/blog/css-property-new-style/
   --duration: 3s;
   --shadow-size: 2px;
   isolation: isolate;
-  position: relative;
   overflow: hidden;
   cursor: pointer;
   outline-offset: 4px;
-  padding: 1.25rem 2.5rem;
+  padding: calc(1.25rem * 0.4) calc(2.5rem * 0.4); /* Scale padding down by 60% */
+  font-size: calc(1.125rem * 0.4); /* Scale font size down by 60% */
   font-family: inherit;
-  font-size: 1.125rem;
   line-height: 1.2;
   border: 1px solid transparent;
   border-radius: 360px;
   color: var(--shiny-cta-fg);
-  background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg))
-      padding-box,
+  background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg)) padding-box,
     conic-gradient(
         from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
         transparent,
@@ -61,26 +59,16 @@ https://ryanmulligan.dev/blog/css-property-new-style/
         var(--gradient-shine) calc(var(--gradient-percent) * 2),
         var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
         transparent calc(var(--gradient-percent) * 4)
-      )
-      border-box;
+      ) border-box;
   box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
 
-  &::before,
-  &::after,
-  span::before {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    inset-inline-start: 50%;
-    inset-block-start: 50%;
-    translate: -50% -50%;
-    z-index: -1;
-  }
-
-  &:active {
-    translate: 0 1px;
-  }
+  /* Center the text using flexbox */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
+
 
 /* Dots pattern */
 .shiny-cta::before {
