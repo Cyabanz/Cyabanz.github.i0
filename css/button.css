@@ -47,22 +47,20 @@ https://ryanmulligan.dev/blog/css-property-new-style/
   outline-offset: 4px;
   padding: 1.25rem 2.5rem;
   font-family: inherit;
-  font-size: 1.125rem;
+  font-size: 1.125rem; /* This can be adjusted as needed */
   line-height: 1.2;
   border: 1px solid transparent;
   border-radius: 360px;
   color: var(--shiny-cta-fg);
-  background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg))
-      padding-box,
+  background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg)) padding-box,
     conic-gradient(
-        from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
-        transparent,
-        var(--shiny-cta-highlight) var(--gradient-percent),
-        var(--gradient-shine) calc(var(--gradient-percent) * 2),
-        var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
-        transparent calc(var(--gradient-percent) * 4)
-      )
-      border-box;
+      from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+      transparent,
+      var(--shiny-cta-highlight) var(--gradient-percent),
+      var(--gradient-shine) calc(var(--gradient-percent) * 2),
+      var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
+      transparent calc(var(--gradient-percent) * 4)
+    ) border-box;
   box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
 
   &::before,
@@ -81,6 +79,27 @@ https://ryanmulligan.dev/blog/css-property-new-style/
     translate: 0 1px;
   }
 }
+
+.shiny-cta span {
+  z-index: 1;
+  color: var(--shiny-cta-fg); /* Ensure button text color is set without affecting other elements */
+  font-size: 1.5rem; /* Example font size for button text */
+  font-weight: bold; /* Example font weight for button text */
+  text-align: center; /* Center align button text only */
+  display: block; /* Ensures the text takes full width for centering */
+}
+
+/* Ensure button styles do not apply to other elements */
+button {
+  all: unset; /* Resets all inherited and non-inherited properties */
+  display: inline-block; /* Maintain button-like appearance */
+  font-family: inherit; /* Use the inherited font */
+  font-size: inherit; /* Maintain size consistency */
+  line-height: inherit; /* Ensure proper line height */
+  padding: 0; /* Reset padding */
+  cursor: pointer; /* Show pointer cursor */
+}
+
 
 /* Dots pattern */
 .shiny-cta::before {
