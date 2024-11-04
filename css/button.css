@@ -40,7 +40,6 @@ https://ryanmulligan.dev/blog/css-property-new-style/
 /* Add this new CSS for centering text within the button */
 .shiny-cta span {
   display: inline-block; /* Keep it inline but allow text centering */
-  text-align: center; /* Center the text within the span */
   width: 100%; /* Make the span take full width of the button */
 }
 
