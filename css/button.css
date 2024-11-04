@@ -153,8 +153,7 @@ button {
   z-index: 1;
   color: var(--shiny-cta-fg); /* Style for button text color */
   font-size: 1.5rem; /* Example font size for button text */
-  font-weight: bold; /* Example font weight for button text */
-  text-align: center; /* Center align button text only */
+  font-weight: bold; /* Example font weight for button text */ /* Center align button text only */
   display: block; /* Ensures the text takes full width for centering */
 }
 
