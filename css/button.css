@@ -241,3 +241,9 @@ body {
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }
+
+
+.shiny-cta {
+  padding: calc(1.25rem * 0.4) calc(2.5rem * 0.4); /* Scale padding down by 60% */
+  font-size: calc(1.125rem * 0.4); /* Scale font size down by 60% */
+}
