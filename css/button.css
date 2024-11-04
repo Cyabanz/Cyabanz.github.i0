@@ -58,37 +58,50 @@ body {
 }
 
 /* Center the button only */
-.shiny-cta {
-  position: absolute; /* Position it absolutely */
-  top: 20px; /* Adjust top distance from the top */
-  right: 20px; /* Adjust right distance from the right */
-  --animation: gradient-angle linear infinite;
-  --duration: 3s;
-  --shadow-size: 2px;
-  isolation: isolate;
-  overflow: hidden;
-  cursor: pointer;
-  outline-offset: 4px;
-  padding: 1.25rem 2.5rem; /* Keep original padding */
-  font-family: inherit;
-  font-size: 1.125rem; /* Keep original font size */
-  line-height: 1.2;
-  border: 1px solid transparent;
-  border-radius: 360px;
-  color: var(--shiny-cta-fg);
-  background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg))
-      padding-box,
-    conic-gradient(
-        from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
-        transparent,
-        var(--shiny-cta-highlight) var(--gradient-percent),
-        var(--gradient-shine) calc(var(--gradient-percent) * 2),
-        var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
-        transparent calc(var(--gradient-percent) * 4)
-      )
-      border-box;
-  box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
+html,
+body {
+    height: 100%;
+    margin: 0; /* Ensure there's no default margin */
+    color: white;
+    background: #02040c;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    text-align: left; /* Ensure all text is left-aligned */
 }
+
+main {
+    position: relative; /* To position the button relative to the main area */
+}
+
+.shiny-cta {
+    position: absolute; /* Position the button absolutely */
+    bottom: 20px; /* Adjust the bottom distance as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust to center */
+    padding: 1.25rem 2.5rem; /* Keep original padding */
+    font-size: 1.125rem; /* Keep original font size */
+    border: 1px solid transparent;
+    border-radius: 360px;
+    color: var(--shiny-cta-fg);
+    background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg))
+        padding-box,
+        conic-gradient(
+            from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+            transparent,
+            var(--shiny-cta-highlight) var(--gradient-percent),
+            var(--gradient-shine) calc(var(--gradient-percent) * 2),
+            var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
+            transparent calc(var(--gradient-percent) * 4)
+        )
+        border-box;
+    box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
+}
+
+/* Other styles remain unchanged */
+
 
 
 /* Dots pattern */
