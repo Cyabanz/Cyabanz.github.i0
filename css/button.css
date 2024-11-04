@@ -258,3 +258,13 @@ body {
   text-align: center; /* Center align text if necessary */
   /* Add any other specific styles for the button text here */
 }
+
+button {
+  all: unset; /* Resets all inherited and non-inherited properties */
+  display: inline-block; /* Maintain button-like appearance */
+  font-family: inherit; /* Use the inherited font */
+  font-size: inherit; /* Maintain size consistency */
+  line-height: inherit; /* Ensure proper line height */
+  padding: 0; /* Reset padding */
+  cursor: pointer; /* Show pointer cursor */
+}
