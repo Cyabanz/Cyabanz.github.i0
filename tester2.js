@@ -143,7 +143,6 @@ window.onload = function() {
     });
   };
   //The code does not belong to me.//
-
   // Load the game data from the JSON file
 async function fetchGameData() {
   try {
@@ -156,10 +155,20 @@ async function fetchGameData() {
   }
 }
 
-// Function to select a random game
-function getRandomGame(games) {
-  const randomIndex = Math.floor(Math.random() * games.length);
-  return games[randomIndex];
+// Function to select multiple random games
+function getRandomGames(games, count) {
+  const selectedGames = [];
+  const usedIndexes = new Set();
+
+  while (selectedGames.length < count && selectedGames.length < games.length) {
+    const randomIndex = Math.floor(Math.random() * games.length);
+    if (!usedIndexes.has(randomIndex)) {
+      selectedGames.push(games[randomIndex]);
+      usedIndexes.add(randomIndex);
+    }
+  }
+  
+  return selectedGames;
 }
 
 // Function to update the game displayed
@@ -168,33 +177,47 @@ async function updateGameDisplay() {
   
   if (games.length === 0) return; // Exit if no games loaded
 
-  // Check localStorage for saved game and timestamp
-  const savedGame = localStorage.getItem('selectedGame');
+  // Check localStorage for saved games and timestamp
+  const savedGames = localStorage.getItem('selectedGames');
   const savedTimestamp = localStorage.getItem('timestamp');
 
   const now = new Date().getTime();
   const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-  let game;
+  let selectedGames;
 
-  if (savedGame && savedTimestamp && now - savedTimestamp < oneDay) {
-    // Use the saved game if it's been less than 24 hours
-    game = JSON.parse(savedGame);
+  if (savedGames && savedTimestamp && now - savedTimestamp < oneDay) {
+    // Use the saved games if it's been less than 24 hours
+    selectedGames = JSON.parse(savedGames);
   } else {
-    // Select a new game and save it with the current timestamp
-    game = getRandomGame(games);
-    localStorage.setItem('selectedGame', JSON.stringify(game));
+    // Select new games and save them with the current timestamp
+    selectedGames = getRandomGames(games, 4);
+    localStorage.setItem('selectedGames', JSON.stringify(selectedGames));
     localStorage.setItem('timestamp', now);
   }
 
-  // Update the display with the selected game
-  document.getElementById('banner').src = game.banner;
-  document.getElementById('avatar').src = game.avatar;
-  document.getElementById('title').textContent = game.title;
-  document.getElementById('description').textContent = game.description;
-  document.getElementById('game-link').href = game.link; // Set the game link
+  // Update the display with the selected games
+  const gameList = document.getElementById('game-list');
+  gameList.innerHTML = ''; // Clear previous content
+
+  selectedGames.forEach(game => {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
+      <a href="${game.link}" target="_blank">
+        <img class="banner" src="${game.banner}" alt="Game Banner">
+        <div class="game-details">
+          <img class="avatar" src="${game.avatar}" alt="Game Avatar">
+          <h2>${game.title}</h2>
+          <p>${game.description}</p>
+        </div>
+      </a>
+    `;
+    gameList.appendChild(listItem);
+  });
 }
 
 // Call the function to update the game display on page load
 updateGameDisplay();
+
+
 
