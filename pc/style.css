@@ -191,3 +191,92 @@ li img {
     height: 100%; /* Makes the image height 100% of the li */
     object-fit: cover; /* Ensures the image covers the li without distortion */
 }
+
+:root {
+  --space: 1rem;
+  --text: #f8fafc;
+  --surface-1: #020617;
+  --surface-2: #0f172a;
+  --surface-3: #1e293b;
+  --surface-4: #334155;
+  --btn-bg: #1d4ed8;
+  --gradient: linear-gradient(
+    20deg,
+    hsla(0 0% 0% / 0) 20%,
+    hsla(0 0% 100% / 0.065) 120%
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  align-items: center;
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+  line-height: 1.4;
+  color: var(--text);
+  background-color: var(--surface-1);
+  padding-inline: var(--space);
+}
+
+main {
+  margin-block: 2rem;
+  min-width: 0;
+}
+
+h2 {
+  line-height: 1.2;
+}
+
+section {
+  position: relative; /* Set relative positioning for absolute positioned arrow indicator pseudo elements */
+}
+
+.row {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding: var(--space);
+  margin: calc(var(--space) * -1);
+  inline-size: calc(100% + var(--space) * 2);
+  overflow-x: scroll;
+  overscroll-behavior-x: contain;
+}
+
+.row li {
+  flex: 0 0 calc(10rem + 5vw);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--surface-3);
+  background-color: var(--surface-2);
+  background-image: var(--gradient);
+  border-radius: 0.25rem;
+  text-decoration: none;
+}
+
+li img {
+  width: 100%; /* Makes the image width 100% of the li */
+  height: 100%; /* Makes the image height 100% of the li */
+  object-fit: cover; /* Ensures the image covers the li without distortion */
+}
+
+/* Scrollbar styles */
+@supports (scrollbar-color: auto) {
+  .row {
+    scrollbar-color: var(--surface-4) var(--surface-2);
+    scrollbar-width: thin;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .row::-webkit-scrollbar {
+    background: var(--surface-4);
+  }
+  .row::-webkit-scrollbar-thumb {
+    background: var(--surface-2);
+  }
+}
