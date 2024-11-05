@@ -143,3 +143,59 @@ window.onload = function() {
     });
   };
   //The code does not belong to me.//
+
+// Load the game data from the JSON file
+async function fetchGameData() {
+  try {
+    // Fetch the weed.json file from the same directory
+    const response = await fetch('weed.json');
+    const games = await response.json();
+    return games;
+  } catch (error) {
+    // Log an error if the JSON file cannot be loaded
+    console.error("Error loading game data:", error);
+    return [];
+  }
+}
+
+// Function to select a random game from the data
+function getRandomGame(games) {
+  const randomIndex = Math.floor(Math.random() * games.length);
+  return games[randomIndex];
+}
+
+// Function to update the game displayed on the page
+async function updateGameDisplay() {
+  const games = await fetchGameData();
+  
+  if (games.length === 0) return; // Exit if no games are loaded
+
+  // Check if a game and timestamp are stored in localStorage
+  const savedGame = localStorage.getItem('selectedGame');
+  const savedTimestamp = localStorage.getItem('timestamp');
+
+  const now = new Date().getTime();
+  const oneDay = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+  let game;
+
+  // If less than 24 hours have passed, use the saved game
+  if (savedGame && savedTimestamp && now - savedTimestamp < oneDay) {
+    game = JSON.parse(savedGame);
+  } else {
+    // Otherwise, select a new game and save it with the current timestamp
+    game = getRandomGame(games);
+    localStorage.setItem('selectedGame', JSON.stringify(game));
+    localStorage.setItem('timestamp', now);
+  }
+
+  // Update the HTML elements with the selected game's details
+  document.getElementById('banner').src = game.banner;
+  document.getElementById('avatar').src = game.avatar;
+  document.getElementById('title').textContent = game.title;
+  document.getElementById('description').textContent = game.description;
+  document.getElementById('link').href = game.link;
+}
+
+// Call the function to update the game display when the page loads
+updateGameDisplay();
