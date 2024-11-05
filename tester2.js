@@ -144,33 +144,31 @@ window.onload = function() {
   };
   //The code does not belong to me.//
 
-// Load the game data from the JSON file
+  // Load the game data from the JSON file
 async function fetchGameData() {
   try {
-    // Fetch the weed.json file from the same directory
     const response = await fetch('weed.json');
     const games = await response.json();
     return games;
   } catch (error) {
-    // Log an error if the JSON file cannot be loaded
     console.error("Error loading game data:", error);
     return [];
   }
 }
 
-// Function to select a random game from the data
+// Function to select a random game
 function getRandomGame(games) {
   const randomIndex = Math.floor(Math.random() * games.length);
   return games[randomIndex];
 }
 
-// Function to update the game displayed on the page
+// Function to update the game displayed
 async function updateGameDisplay() {
   const games = await fetchGameData();
   
-  if (games.length === 0) return; // Exit if no games are loaded
+  if (games.length === 0) return; // Exit if no games loaded
 
-  // Check if a game and timestamp are stored in localStorage
+  // Check localStorage for saved game and timestamp
   const savedGame = localStorage.getItem('selectedGame');
   const savedTimestamp = localStorage.getItem('timestamp');
 
@@ -179,23 +177,24 @@ async function updateGameDisplay() {
 
   let game;
 
-  // If less than 24 hours have passed, use the saved game
   if (savedGame && savedTimestamp && now - savedTimestamp < oneDay) {
+    // Use the saved game if it's been less than 24 hours
     game = JSON.parse(savedGame);
   } else {
-    // Otherwise, select a new game and save it with the current timestamp
+    // Select a new game and save it with the current timestamp
     game = getRandomGame(games);
     localStorage.setItem('selectedGame', JSON.stringify(game));
     localStorage.setItem('timestamp', now);
   }
 
-  // Update the HTML elements with the selected game's details
+  // Update the display with the selected game
   document.getElementById('banner').src = game.banner;
   document.getElementById('avatar').src = game.avatar;
   document.getElementById('title').textContent = game.title;
   document.getElementById('description').textContent = game.description;
-  document.getElementById('link').href = game.link;
+  document.getElementById('game-link').href = game.link; // Set the game link
 }
 
-// Call the function to update the game display when the page loads
+// Call the function to update the game display on page load
 updateGameDisplay();
+
