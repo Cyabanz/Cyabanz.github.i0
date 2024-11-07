@@ -227,4 +227,4 @@
         ["Twitter", "Twitter is an online social networking site.", "assets/twitter.png", "./proxy.html?url=https://twitter.com", "app"],
         ["FlixHQ", "Online unblocked movies website!", "assets/flixhq.png", "./proxy.html?url=https://flixhq.to/home", "app"]
     ]
-}</body></html>
+}
