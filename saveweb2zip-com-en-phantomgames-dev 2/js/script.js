@@ -114,7 +114,7 @@ if (urlParams.get('category')) {
         document.getElementById('top').style.display = 'none';
         document.getElementById('games').style.marginTop = '6vw';
 
-        fetch('saveweb2zip-com-en-phantomgames-dev 2/js/games.json')
+        fetch('games.json')
             .then(response => response.json())
             .then(gamesData => {
                 console.log("All game categories:", Object.keys(gamesData));
@@ -175,7 +175,7 @@ if (urlParams.get('category')) {
 } else {
 
 if (mobile) {
-    fetch('saveweb2zip-com-en-phantomgames-dev 2/js/games.json')
+    fetch('games.json')
     .then(response => response.json())
     .then(categories => {
         let allGames = [];
