@@ -2,7 +2,7 @@ var mobile = window.innerWidth < 850;
 
 document.addEventListener('DOMContentLoaded', function() {
     var excludedDomains = [
-        'phantomgames.xyz',
+        'https://cyabanz.github.io/saveweb2zip-com-en-phantomgames-dev%202/',
         'utahmath.xyz',
         'englishpaper.cc',
         'iowamath.com',
