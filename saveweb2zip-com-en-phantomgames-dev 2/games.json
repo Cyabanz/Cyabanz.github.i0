@@ -1,4 +1,4 @@
-<html><head></head><body>{ 
+{ 
     "Popular": [
         ["Drive Mad", "Drive Mad is a car game where you drive on a track filled with obstacles.", "./assets/drive-mad.avif", "./game/drive-mad/index.html", "popular"],
         ["Vex 6", "Vex 6 is an awesome online game where you need to pass all the dangerous obstacles!", "./assets/vex-6.avif", "./game/vex6/index.html", "vexsix", "popular"],
