@@ -1,0 +1,50 @@
+[ 
+  {
+    "name": "RetroBowl Token Hack",
+    "creator": "blazer",
+    "target": "retrobowl",
+    "image": "https://play-lh.googleusercontent.com/WRM5Y1xZmzcCP1YtO5zl6G2g7CU5c5ZfjX4UVrgi1bpNgkfy-wuB-bQx3kkeRfaGYQ=w240-h480-rw"
+  },
+  {
+    "name": "Vex 6 Coin Hack",
+    "creator": "blazer",
+    "target": "vexsix",
+    "image": "./assets/vex6.jpeg"
+  },
+  {
+    "name": "Temple Run Coin Hack",
+    "creator": "blazer",
+    "target": "templeruntwo",
+    "image": "./assets/temple-run.png"
+  },
+  {
+    "name": "BobTheRobber Money",
+    "creator": "blazer",
+    "target": "bobtherobbertwo",
+    "image": "./assets/bob-the-robber-2.png"
+  },
+  {
+    "name": "Cookie Clicker Hack",
+    "creator": "hasha2982",
+    "target": "cookieclicker",
+    "image": "./assets/cookie-clicker.png"
+  },
+  {
+    "name": "JetPackJoyride Coins",
+    "creator": "blazer",
+    "target": "jetpackjoyride",
+    "image": "./assets/jetpack-joyride.jpg"
+  },
+  {
+    "name": "Monkey Mart Coins",
+    "creator": "blazer",
+    "target": "monkeymart",
+    "image": "./assets/monkey-mart.png"
+  },
+  {
+    "name": "Eggy Cart Coins",
+    "creator": "blazer",
+    "target": "eggycar",
+    "image": "./assets/eggy-car.png"
+  }
+]
