@@ -1,0 +1,226 @@
+{
+  "stream-content": {
+    "games": {
+      "title": "Popular Games",
+      "games-carousel": [
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/./Animal%20Crossing:%20New%20Horizons-285x380.jpg",
+                "alt": "Animal Crossing"
+              }
+            },
+            "info": {
+              "title": "Animal Crossing: New Horizons",
+              "viewership": "61.1K Views"
+            },
+            "categories": ["Simulation"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/League%20of%20Legends-285x380.jpg",
+                "alt": "League of Legends"
+              }
+            },
+            "info": {
+              "title": "League of Legends",
+              "viewership": "186K Views"
+            },
+            "categories": ["MOBA"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/World%20of%20Warcraft-285x380.jpg",
+                "alt": "World of Warcraft"
+              }
+            },
+            "info": {
+              "title": "World of Warcraft",
+              "viewership": "5.4K Views"
+            },
+            "categories": ["MMORPG", "RPG"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/Overwatch-285x380.jpg",
+                "alt": "Overwatch"
+              }
+            },
+            "info": {
+              "title": "Overwatch",
+              "viewership": "18.6K Views"
+            },
+            "categories": ["FPS", "MOBA"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/Mario%20Kart%208-285x380.jpg",
+                "alt": "Mario Kart 8"
+              }
+            },
+            "info": {
+              "title": "Mario Kart 8",
+              "viewership": "201K Views"
+            },
+            "categories": ["Driving/Racing"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/VALORANT-285x380.jpg",
+                "alt": "Valorant"
+              }
+            },
+            "info": {
+              "title": "VALORANT",
+              "viewership": "6.1K Views"
+            },
+            "categories": ["FPS"]
+          }
+        }
+      ]
+    },
+    "divider": [
+      {
+        "bar": {},
+        "show-more": {
+          "text": "Show more",
+          "icon": "fa-chevron-down"
+        },
+        "bar": {}
+      },
+      {
+        "bar": {},
+        "show-more": {},
+        "bar": {}
+      }
+    ]
+  },
+  "stream-content_2": {
+    "games": {
+      "title": "Popular Games",
+      "games-carousel": [
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/./Animal%20Crossing:%20New%20Horizons-285x380.jpg",
+                "alt": "Animal Crossing"
+              }
+            },
+            "info": {
+              "title": "Animal Crossing: New Horizons",
+              "viewership": "61.1K Views"
+            },
+            "categories": ["Simulation"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/League%20of%20Legends-285x380.jpg",
+                "alt": "League of Legends"
+              }
+            },
+            "info": {
+              "title": "League of Legends",
+              "viewership": "186K Views"
+            },
+            "categories": ["MOBA"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/World%20of%20Warcraft-285x380.jpg",
+                "alt": "World of Warcraft"
+              }
+            },
+            "info": {
+              "title": "World of Warcraft",
+              "viewership": "5.4K Views"
+            },
+            "categories": ["MMORPG", "RPG"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/Overwatch-285x380.jpg",
+                "alt": "Overwatch"
+              }
+            },
+            "info": {
+              "title": "Overwatch",
+              "viewership": "18.6K Views"
+            },
+            "categories": ["FPS", "MOBA"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/Mario%20Kart%208-285x380.jpg",
+                "alt": "Mario Kart 8"
+              }
+            },
+            "info": {
+              "title": "Mario Kart 8",
+              "viewership": "201K Views"
+            },
+            "categories": ["Driving/Racing"]
+          }
+        },
+        {
+          "game": {
+            "cover": {
+              "img": {
+                "src": "https://static-cdn.jtvnw.net/ttv-boxart/VALORANT-285x380.jpg",
+                "alt": "Valorant"
+              }
+            },
+            "info": {
+              "title": "VALORANT",
+              "viewership": "6.1K Views"
+            },
+            "categories": ["FPS"]
+          }
+        }
+      ]
+    },
+    "divider": [
+      {
+        "bar": {},
+        "show-more": {
+          "text": "Show more",
+          "icon": "fa-chevron-down"
+        },
+        "bar": {}
+      },
+      {
+        "bar": {},
+        "show-more": {},
+        "bar": {}
+      }
+    ]
+  }
+}
