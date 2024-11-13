@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Clash Display';
+    src: url('/Fonts/ClashDisplay-Bold.otf') format('otf'),
+         url('/Fonts/ClashDisplay-Semibold.otf') format('otf');
+
+}
+            .message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px;
+            background: #252525;
+            border: 0px solid #ccc;
+            border-left: 5px solid red;
+            border-radius: 5px;
+            z-index: 9999;
+            display: none;
+            font-size: 20px;
+            font-family: 'Clash Display', Arial, sans-serif;
+            color: #ffffff; 
+}
