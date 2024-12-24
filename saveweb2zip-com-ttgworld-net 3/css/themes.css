@@ -1,0 +1,73 @@
+/* Blackout */
+
+body[theme="blackout"] {
+  background-color: rgb(0, 0, 0);
+}
+
+/* Vaporwave */
+
+body[theme="vaporwave"] {
+  background-color: rgb(255, 255, 255);
+  background-image: url("../images/vaporwave.webp");
+  background-color: rgb(255, 255, 255);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Valentines Day */
+
+body[theme="valentine"] {
+  background-color: #aa4466;
+}
+
+/* Cherry */
+
+body[theme="cherry"] {
+  background-color: rgb(211, 87, 87);
+}
+
+/* Violeta */
+
+body[theme="violeta"] {
+  background-color: rgb(140, 18, 177);
+}
+
+/* Skylanders */
+
+body[theme="skylanders"] {
+  background-color: rgb(255, 255, 255);
+  background-image: url("../images/skylanders.jpg");
+  background-color: rgb(255, 255, 255);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Coolmath */
+
+body[theme="coolmath"] {
+  background-color: rgb(255, 255, 255);
+  background-image: url("../images/coolmath.webp");
+  background-color: rgb(255, 255, 255);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Wizard101 */
+
+body[theme="wizard"] {
+  background-color: rgb(255, 255, 255);
+  background-image: url("../images/wizard101.jpg");
+  background-color: rgb(255, 255, 255);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Dragonvale */
+
+body[theme="dragonvale"] {
+  background-color: rgb(255, 255, 255);
+  background-image: url("../images/dragonvale.jpg");
+  background-color: rgb(255, 255, 255);
+  background-size: cover;
+  background-repeat: no-repeat;
+}

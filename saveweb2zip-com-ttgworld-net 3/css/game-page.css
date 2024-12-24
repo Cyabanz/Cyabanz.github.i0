@@ -1,0 +1,229 @@
+@font-face {
+    font-family: Keyute;
+    src: url(assets/fonts/Keyute.ttf);
+  }
+
+#game-frame {
+    width: 60vw;
+    height: 60vh;
+    padding: 7px;
+    background-color: #ff99ff;
+    border-width: 5px;
+    border-color: #000000;
+    border-style: solid;
+    border-bottom-width: 0px;
+    z-index: 2;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+#game-container {
+    margin-top: 110px;
+    text-align: center;
+}
+
+#Game-Info {
+    position: relative;
+    top: -5px;
+    margin: auto;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 7px;
+    display: inline-block;
+    background-color: #ff99ff;
+    width: 60vw;
+    height: 80px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    margin-bottom: 12px;
+    text-align: left;
+    border: #000000;
+    border-width: 5px;
+    border-style: solid;
+    z-index: 1;
+}
+
+#Game-Info h1 {
+    font-family: MarkinLT;
+    text-shadow:
+    -1px -1px 0 #6e406e,
+    1px -1px 0 #6e406e,
+    -1px 1px 0 #6e406e,
+    1px 1px 0 #6e406e;
+    color: #6e406e;
+    font-weight: bolder;
+    font-size: 3em;
+    vertical-align: middle;
+    text-align: left;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    margin-left: 5px;
+}
+
+#Game-Info h2 {
+    transition: all 0.2s ease-in-out;
+    color: #6e406e;
+    font-weight: 900;
+    font-size: 30px;
+    margin-top: 2px;
+    margin-left: 12px;
+    font-family: MarkinLT;
+    text-shadow:
+    -1px -1px 0 #6e406e,
+    1px -1px 0 #6e406e,
+    -1px 1px 0 #6e406e,
+    1px 1px 0 #6e406e;
+}
+
+#Game-Info h2:hover {
+    transform: translate(6px);
+}
+
+#Game-Info p {
+    color: #6e406e;
+    text-align: left;
+    margin-left: 12px;
+    font-size: 18px;
+    font-family: MarkinLT;
+    font-weight: 900;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#Game-Info a {
+    color: #0098ac;
+    text-decoration: none;
+}
+
+#FullScreen {
+    transition: all 0.2s ease-in-out;
+    float: right;
+    border: 0;
+    margin: 0;
+    text-align: left;
+    padding: 0;
+    min-width: 0px;
+    width: auto;
+    position: relative;
+    z-index: 1000;
+    right: 15px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#FullScreen:hover {
+    transform: scale(1.07) rotate(10deg);
+}
+
+#FullScreen img {
+    width: 65px;
+    margin: 0;
+    padding: 0;
+}
+
+#Comments {
+    text-align: left;
+    background-color: transparent;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    margin-left: 0px;
+    padding: 0%;
+    transition: all .15s ease-in-out;
+}
+
+#Comments:hover {
+    transform: rotate(5deg) scale(1.3);
+}
+
+#sharepopup {
+    text-align: center;
+    position: fixed;
+    top: 30vh;
+    width: 40vw;
+    height: 40vh;
+    background-color: #ff99ff;
+    border-radius: 25px;
+    border-width: 7px;
+    border-color: #000000;
+    border-style: solid;
+    display: none;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+#Close {
+    position: absolute;
+    border-color: transparent;
+    float: right;
+    top: -25px;
+    right: -25px;
+    z-index: 1000;
+    background-color: transparent;
+}
+
+#Close img {
+    transition: all .15s ease-in-out;
+}
+
+#Close img:hover {
+    transform: rotate(25deg) scale(1.05);
+}
+
+#sharepopup h1 {
+    text-align: center;
+    font-size: 3em;
+    font-family: MarkinLT;
+    color: #6e406e;
+    font-weight: bolder;
+    text-shadow:
+    -1px -1px 0 #6e406e,
+    1px -1px 0 #6e406e,
+    -1px 1px 0 #6e406e,
+    1px 1px 0 #6e406e;
+  }
+
+  #sharebutton {
+    text-align: center;
+    transition: all .15s ease-in-out;
+    background-color:  #6e406e;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: transparent;
+    margin: 15px;
+    margin-top: 10vh;
+  }
+
+  #sharebutton:hover{
+    transform: rotate(10deg) scale(1.05);
+  }
+
+  #sharebutton img {
+    width: 65px;
+  }
+
+  #Comment-Container {
+    margin: auto;
+    display: none;
+    background-color: #ff99ff;
+    width: 60vw;
+    height: 60vh;
+    border-radius: 25px;
+    z-index: 1000;
+    margin-bottom: 18px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 7px;
+    border: #000000;
+    border-width: 5px;
+    border-style: solid;
+  }
+
+  #Comment-iframe {
+    background-color: transparent;
+    border: none;
+    height: 60vh;
+    width: 60vw;
+  }

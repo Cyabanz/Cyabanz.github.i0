@@ -1,0 +1,545 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: MarkinLT;
+  src: url(../fonts/MarkinLT.ttf);
+}
+
+@font-face {
+  font-family: Keyute;
+  src: url(../fonts/Keyute.ttf);
+}
+
+body {
+  margin: 0;
+  background-image: url("");
+  background-color: #a572a5;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: url("../images/pointer.png"), auto;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+#home-h1 {
+  font-size: 2.5em;
+  color: #000000;
+  text-align: center;
+  font-family: MarkinLT;
+  font-weight: 900;
+}
+
+header {
+  box-sizing: border-box;
+  margin: 0 auto; /* Centers the element horizontally */
+  padding: 40px;
+  border: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  background-image: url("../images/header.png");
+  background-repeat: no-repeat;
+  background-size: contain; /* Ensures the image fits and maintains aspect ratio */
+  background-position: center; /* Centers the image if there is extra space */
+  background-attachment: local;
+  text-align: center;
+  position: relative;
+  top: 7px;
+  width: fit-content;
+  height: 80px;
+  z-index: 1000;
+  left: 0; /* Required to make the horizontal centering work */
+  right: 0; /* Required to make the horizontal centering work */  
+}
+
+#header-container {
+  position: relative;
+  display: flex;
+  max-width: 0px;
+  min-width: 0px;
+  margin: 0%;
+  padding: 0%;
+  border: 0%;
+  width: 1000px;
+  line-height: 1rem;
+  font-size: 1.2em;
+  color: transparent;
+  background-color: transparent;
+}
+
+#header-logo {
+  padding: 0%;
+  border: 0%;
+  margin: 10px;
+  transition: all 0.05s ease-in-out;
+}
+
+#header-logo:hover {
+  transform: scale(1.05);
+}
+
+#header-links {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0 20px;
+  list-style: none;
+  display: inline;
+  transition: all 0.1s ease-in-out;
+}
+
+li:hover {
+  transform: translateY(-4px);
+}
+
+#header-link {
+  color: rgb(0, 0, 0);
+  font-family: MarkinLT;
+  font-weight: 1000;
+  font-size: 20px;
+  transition: all 0.1s ease-in-out;
+  text-decoration: none;
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: black;
+}
+
+#open-settings {
+  margin-top: -5px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  transition: all 0.05s ease-in-out;
+}
+
+#open-settings img {
+  width: 28px;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  border-color: rgb(0, 0, 0);
+  border-width: 3px;
+  border-style: solid;
+}
+
+#open-settings img:hover {
+  transform: rotate(7200deg);
+}
+
+#open-settings:active {
+  transform: scale(1.1);
+}
+
+#popup {
+  transition: none;
+  background-color: #c272c2;
+  padding: 20px;
+  position: fixed;
+  top: -100vh;
+  width: 70vw;
+  height: 70vh;
+  border-radius: 50px;
+  border-width: 12px;
+  border-color: #000000;
+  border-style: solid;
+  display: none; /* Initially hidden */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  overflow: auto;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    top: -100vh; /* start @ top  */
+  }
+  to {
+    top: 8vw; /* final position */
+  }
+}
+
+#loginwindow {
+  transition: none;
+  background-color: #c272c2;
+  padding: 20px;
+  position: fixed;
+  top: -100vh;
+  width: 70vw;
+  height: 70vh;
+  border-radius: 50px;
+  border-width: 12px;
+  border-color: #000000;
+  border-style: solid;
+  display: none; /* defaultlyly hidden */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  overflow: auto;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+#popup::-webkit-scrollbar {
+  display: none;
+}
+
+#popup h2, #loginwindow h2 {
+  text-align: center;
+  font-size: 1.6em;
+  font-family: MarkinLT;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+#popup img {
+  display: block;
+  margin: auto;
+  width: 250px;
+}
+
+
+#settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  margin: 10px;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+#settings-item {
+  background-color: #ff99ff;
+  border-radius: 32px;
+  margin: 12px;
+  font-family: Keyute;
+  padding: 10px;
+  height: 275px;
+  text-align: center;
+}
+
+#settings-item h2 {
+  font-family: MarkinLT;
+  font-weight: 900;
+  color: #000000;
+  text-shadow:
+  -0.5px -0.5px 0 #000000,
+  0.5px -0.5px 0 #000000,
+  -0.5px 0.5px 0 #000000,
+  1px 1px 0 #000000;
+}
+
+#settings-item a {
+  transition: all 0.15s ease-in;
+  position: relative;
+  top: 90px;
+  font-size: 20px;
+  font-weight: 900;
+  font-family: MarkinLT;
+  color: #0098ac;
+  text-decoration: none;
+}
+
+#settings-item a:hover {
+  color: #6e406e;
+}
+
+#settings-item p {
+  transition: all 0.15s ease-in;
+  font-family: MarkinLT;
+  color: white;
+  background-color: #000;
+  width: fit-content;
+  margin: auto;
+  padding: 7px;
+  border-radius: 10px;
+}
+
+#settings-item span {
+  margin: auto;
+}
+
+#custom-cursor, #panic-key, #panic-site, #page-title, #page-favicon, #Game-Category {
+  transition: all 0.15s ease-in;
+  background-color: #ff99ff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../images/hearts.png");
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 3px;
+  border-radius: 12px;
+  font-family: MarkinLT;
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+  outline: none;
+  height: 39px;
+  width: 175px;
+  margin-top: 90px;
+}
+
+#page-title, #page-favicon {
+  margin-top: 15px;
+}
+
+#page-title:hover, #page-favicon:hover {
+  margin-top: 15px;
+  transform: skew(0.1turn, 0deg);
+}
+
+#panic-site {
+  color: black;
+  width: 60px;
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+}
+
+#panic-site::placeholder, #page-title::placeholder, #page-favicon::placeholder, #Find-Games::placeholder {
+  color: black;
+}
+
+#panic-site:hover {
+  width: 150px;
+}
+
+#panic-key {
+  margin-top: 5px;
+}
+
+#custom-cursor:hover {
+  transform: skew(-0.06turn, 18deg);
+}
+
+option:checked {
+  color: rgb(255, 0, 149);
+}
+
+#clickoff {
+  transition: all 0.15s ease-in;
+  margin-top: 85px;
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+  background-color: #ff99ff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../images/hearts.png");
+  border-radius: 10px;
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+}
+
+#clickoff:hover {
+  transform: scale(1.05);
+}
+
+#clickoff input {
+  display: none;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background-color: #6e406e;
+  border-radius: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+#clickoff input:checked + .toggle-slider {
+  transform: translateX(31px);
+}
+
+#cloakTab {
+  transition: all 0.15s ease-in-out;
+  margin-top: 85px;
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+  background-color: #ff99ff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../images/hearts.png");
+  border-radius: 10px;
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 3px;
+}
+
+#cloakTab:hover {
+  transform: rotate(180deg);
+}
+
+.themesbtn {
+  transition: all 0.15s ease-in-out;
+  background-color: #1f1f1f;
+  font-family: MarkinLT;
+  color: #ff99ff;
+  width: 150px;
+  border-radius: 12px;
+  min-width: 100px;
+  max-width: 100px;
+  margin-bottom: 7px;
+  padding: 10px;
+}
+
+.themesbtn:hover {
+  transform: rotate(360deg);
+}
+
+#home-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  top: -80px;
+  text-align: center;
+}
+
+#home-div h2 {
+  transition: all 0.15s ease-in-out;
+  font-family: MarkinLT;
+  position: relative;
+  color: #000000;
+  padding-bottom: 10px;
+}
+
+#home-div h2:hover {
+transform: scale(1.05);
+}
+
+#home-div img {
+  transition: all 0.15s ease-in-out;
+  position: relative;
+  width: 20%;
+}
+
+#home-div img:hover {
+  transform: rotate(180deg);
+}
+
+#Close2 {
+  position: absolute;
+  border-color: transparent;
+  float: right;
+  top:20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: transparent;
+  z-index: 300;
+}
+
+#Close2 img {
+  transition: all .15s ease-in-out;
+}
+
+#Close2 img:hover {
+  transform: rotate(25deg) scale(1.05);
+}
+
+#carousel {
+  max-width: 1000px;
+  position: relative;
+  text-align: center;
+  margin: auto;
+}
+
+#carousel .slide,
+#carousel .slide--hidden {
+  display: none;
+}
+
+#carousel .slide img {
+  min-width: 215px;
+  max-width: 215px;
+  border-radius: 25px;
+  border-width: 4px;
+  border-bottom-width: 7px;
+  border-color: #000000;
+  border-style: solid;
+}
+
+#carousel .slide--visible {
+  display: inline-block;
+  animation: fadeIn 0.5s;
+}
+
+#carousel .controls {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#carousel .controls button {
+  border-radius: 50%;
+  border: none;
+  color: #000000;
+  font-family: 'MarkinLT';
+  background-color: transparent;
+  font-weight: bold;
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+  transition: 0.3s ease-in-out;
+}
+
+#carousel .controls button:hover {
+  transform: scale(1.05);
+}
+
+#carousel .controls .prev-button {
+  margin-left: 60px;
+}
+
+#carousel .controls .next-button {
+  margin-right: 60px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.slide a {
+  transition: 0.2s ease-in-out;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 20px 10px;
+  color: #000000;
+  font-family: 'MarkinLT';
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.slide a p {
+  padding-top: 10px;
+}
+
+.slide a:hover {
+  transform: scale(1.05);
+}

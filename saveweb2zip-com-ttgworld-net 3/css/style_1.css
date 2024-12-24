@@ -1,0 +1,201 @@
+@font-face {
+  font-family: MarkinLT;
+  src: url(../fonts/MarkinLT.ttf);
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+* {
+  font-family: MarkinLT;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+#app {
+  font-family: Fredoka;
+  display: block;
+  justify-content: center;
+}
+
+.comments {
+  width: 100vw;
+  max-width: 80%;
+  min-width: 300px;
+  background: transparent;
+  border-radius: 20px;
+}
+.comments h2 {
+  font-size: 2.3em;
+  margin-bottom: 0;
+}
+
+.comments-form ul {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  list-style: none;
+  margin: auto;
+  padding: 0px;
+  height: 60px;
+}
+.comments-form ul li {
+  vertical-align: middle;
+  padding: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
+ }
+ .comments-form ul li input[type=submit] {
+  border: 0;
+  margin-top: 5px;
+  border-radius: 30px;
+  padding: 7px 16px;
+  background:  #ffc0ff;
+  color: #fff;
+  font-family: "Rubik", sans-serif;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.comments-form ul li input[type=text], .comments-form ul li textarea {
+  width: 194px;
+  height: 18px;
+  padding: 10px;
+  border: 0;
+  border-radius: 15px;
+  font-family: MarkinLT;
+  font-weight: 900;
+  
+  background: #ffc0ff;
+}
+.comments-form ul li input[type=text]::-moz-placeholder, .comments-form ul li textarea::-moz-placeholder {
+  font-family: MarkinLT;
+  font-weight: 900;
+}
+.comments-form ul li input[type=text]:-ms-input-placeholder, .comments-form ul li textarea:-ms-input-placeholder {
+  font-family: MarkinLT;
+  font-weight: 900;
+}
+.comments-form ul li input[type=text]::placeholder, .comments-form ul li textarea::placeholder {
+  font-family: MarkinLT;
+  font-weight: 900;
+}
+.comments-form ul li input[type=text]:focus, .comments-form ul li textarea:focus {
+  background: #fff;
+}
+.comments-form ul li textarea {
+  width: 194px;
+  height: 18px;
+  resize: none;
+}
+
+.comments-list {
+  margin-top: 20px;
+  margin: auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,-0%);
+  width: 90vw;
+  padding-bottom: 60px;
+  padding-top: 15px;
+}
+
+.comment {
+  transition: all .15s ease-in-out;
+  position: relative;
+  padding: 10px 20px;
+  background: #ffc0ff;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  border: #d69fd6;
+  border-width: 3px;
+  border-style: solid;
+}
+.comment:hover {
+  background: #d69fd6;
+}
+
+.comment .timestamp {
+  color: #777;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+.comment h4, .comment p {
+  font-weight: 900;
+  margin: 10px;
+}
+
+footer {
+  float: right;
+  color: #777;
+  font-size: 0.8em;
+  margin-top: 15px;
+}
+
+form {
+  padding: 0px;
+  display: inline-block;
+  position: fixed;
+  width: 100vw;
+  bottom: 0;
+  background-color: #ff99ff;
+  color: white;
+  text-align: center;
+  z-index: 1000;
+}
+
+.name {
+  width: 50px !important;
+  font-family: Fredoka;
+}
+
+img {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+/* Hide the default file input appearance */
+input[type="file"] {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Style the custom file input icon */
+.file-input-label img {
+  background-color:#ffc0ff;
+  margin-top: 1px;
+  width: 35px; /* Adjust the width of the icon */
+  height: 35px; /* Adjust the height of the icon */
+  border-radius: 10px;
+}
+
+.file-input-label img:hover {
+opacity: .35;
+}
+
+#toggle-sound {
+  margin-right: 3px;
+  width: 40px; /* Adjust the width of the icon */
+  height: 40px; /* Adjust the height of the icon */
+  border-radius: 10px;
+}
+
+
+
+video {
+  max-width: 400px;
+  max-height: 400px;
+}
