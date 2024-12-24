@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game-page.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <title>1942 on TTG</title>
+    <meta name="description" content="TTG has thousands of free browser games, animations, scripts, and more!">
+    <link id="favicon" rel="icon" href="" type="image/x-icon">
+    <script src="js/script.js" defer=""></script>
+    <script src="js/games.js"></script>
+</head>
+
+<body>
+    <header>
+        <!-- Header content -->
+        <a id="open-settings">
+            <img onclick="togglePopupLOGIN();" src="images/login.png" alt="Login">
+        </a>
+        <ul id="header-links">
+            <li><a id="header-link" href="/play">games</a></li>
+            <li><a id="header-link" href="">movies</a></li>
+            <li><a id="header-link" href="">our content</a></li>
+        </ul>
+        <a id="header-logo" title="Hover for fun" href="/">
+            <img style="width: 70px;padding-left: 50px;padding-right: 50px;" src="images/header-logo.png" alt="TTG Logo">
+        </a>
+        <!-- Other links -->
+    </header>
+
+    <div id="game-container">
+        <!-- Dynamically added iframe -->
+        <iframe referrerpolicy="origin" allowfullscreen="" id="game-frame" src="" style="width: 100%; height: 500px; border: none;"></iframe>
+    </div>
+
+    <div id="Comment-Container">
+        <iframe id="Comment-iframe" style="background-color:transparent;overflow:auto;border-radius:20px;margin:0px;" src="index_2.html"></iframe>
+    </div>
+
+    <div style="Border-Radius:25px;height: fit-content;padding-top: 10px;" id="Game-Info">
+        <h2>CATEGORY</h2>
+        <p><a href="/play?category=emulated">Emulated Games</a></p>        
+        <h2>DEVELOPER</h2>
+        <p>Capcom</p>
+        <h2>INSTRUCTIONS</h2>
+        <p>Use Arrow Keys to move, Use X to fire the cannons</p>
+        <h2>GAME WIKI / SUBREDDIT</h2>
+        <p><a href="https://video-games.fandom.com/wiki/1942" target="_blank">Visit Wiki</a></p>
+    </div>
+
+    <script>
+        // Function to get query parameter value from URL
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get the iframe URL from the query parameter
+        window.onload = function() {
+            const iframeUrl = getQueryParameter('iframe'); // Get the 'iframe' query parameter
+            if (iframeUrl) {
+                // Set the iframe src to the provided URL
+                document.getElementById('game-frame').src = iframeUrl;
+            }
+        }
+    </script>
+</body>
+</html>
