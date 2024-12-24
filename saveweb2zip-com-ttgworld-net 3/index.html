@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game-page.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <title>1942 on TTG</title>
+    <meta name="description" content="TTG has thousands of free browser games, animations, scripts, and more!">
+    
+    <link id="favicon" rel="icon" href="" type="image/x-icon">
+    <script src="js/script.js" defer=""></script>
+    <script src="js/games.js"></script>
+</head>
+
+
+
+    <div id="sharepopup">
+        <button id="Close" onclick="document.getElementById('sharepopup').style.display = 'none';explode();"><img style="width: 50px;" src="images/x.png"></button><br>
+        <h1>SHARE GAMELINK</h1>
+        <button title="Share TTG on X" id="sharebutton" onclick="shareOnTwitter()"><img src="images/Twitter.png"></button>
+        <button title="Share TTG on Facebook" id="sharebutton" onclick="shareOnFacebook()"><img src="images/Facebook.png"></button>
+        <button title="Share TTG on Tiktok" id="sharebutton" onclick="shareOnTikTok()"><img src="images/Tiktok.png"></button>
+        <button title="Share TTG on Reddit" id="sharebutton" onclick="shareOnReddit()"><img src="images/Reddit.png"></button>
+    </div> 
+
+    <div id="game-container">
+    <iframe referrerpolicy="origin" allowfullscreen="" id="game-frame" src="index_1.html"></iframe>
+    <div id="Game-Info" style="border-top-width: 0px;">
+        <h1>1942</h1>
+        <button style="bottom:52px;" id="FullScreen" onclick="toggleFullscreen();"><img src="images/Fullscreen.png"></button>
+        <button style="bottom:52px;padding-right: 15px;" id="FullScreen" onclick="document.getElementById('sharepopup').style.display = 'block';start();"><img src="images/Share.png"></button>
+        <button title="Open Chatroom" style="margin-left:15px;padding:0;width:20px;min-width:0px;" id="Comments" onclick="openComments();"><img width="22px" src="images/Message.png"></button>
+        <button title="Open About:Blank" style="margin-left:8px;padding:0;width:20px;min-width:0px;" id="Comments" onclick="openBLANK('/games/files/1942/index.html');"><img width="22px" src="images/OpenBLANK.png"></button>
+    </div>
+    
+    <div id="Comment-Container">
+        <iframe id="Comment-iframe" style="background-color:transparent;overflow:auto;border-radius:20px;margin:0px;" src="index_2.html"></iframe>
+    </div>
+    
+    <div style="Border-Radius:25px;height: fit-content;padding-top: 10px;" id="Game-Info">
+        <h2>CATEGORY</h2>
+        <p><a href="/play?category=emulated">Emulated Games</a></p>        
+        <h2>DEVELOPER</h2>
+        <p>Capcom</p>
+        <h2>INSTRUCTIONS</h2>
+        <p>Use Arrow Keys to move, Use X to fire the cannons</p>
+        <h2>GAME WIKI / SUBREDDIT</h2>
+        <p><a href="https://video-games.fandom.com/wiki/1942" target="_blank">Visit Wiki</a></p>
+    </div>
+    </div>
+    
+
+
+
+
+</body></html><!-- MADE BY TT AKA INFRAY AKA DYSLECSIK AKA INFRAY0420 | IF YOU REMEMBER THE OLD GAMES SITE IRUNBLOCKED I MADE THAT TOO AND THIS IS THE SPIRITUAL SUCCESSOR+++-->
