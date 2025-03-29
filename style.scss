@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap");
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #080a0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+nav {
+  background-color: #1a2030;
+  border: 1px solid #252e45;
+  border-radius: 100px;
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "ff-chambers-sans-web", sans-serif;
+    font-weight: 500;
+    font-size: 2.5rem;
+    text-decoration: none;
+    position: relative;
+    margin: 8px 8px 8px 0;
+    padding: 22px 22px;
+    overflow: hidden;
+
+    &:first-child {
+      margin-left: 8px;
+    }
+
+    &:hover {
+      .label {
+        bottom: 7px;
+        opacity: 1;
+      }
+    }
+
+    .icon {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      mix-blend-mode: exclusion;
+    }
+
+    .label {
+      color: #fff;
+      position: absolute;
+      bottom: -14px;
+      font-family: "PT Sans Narrow", serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 1rem;
+      mix-blend-mode: exclusion;
+      opacity: 0;
+      z-index: 1;
+      transition: bottom 200ms ease, opacity 200ms ease;
+      text-transform: lowercase;
+    }
+
+    svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: box-shadow 25ms 25ms;
+
+      rect {
+        shape-rendering: crispEdges;
+        z-index: 0;
+      }
+
+      .blue rect {
+        fill: #05eafa;
+        mix-blend-mode: color-dodge;
+      }
+
+      .pink rect {
+        fill: #ff6bd3;
+      }
+    }
+
+    &.active {
+      .label {
+        bottom: 7px;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  nav {
+    flex-direction: column;
+
+    a {
+      margin: 8px;
+    }
+  }
+}
